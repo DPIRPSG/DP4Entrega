@@ -1083,9 +1083,8 @@
 	
 	<bean id="order1" class="domain.Order">
 		<property name="ticker" value="123456-FH8J"/>
-		<property name="placementMoment" value="2015/09/27 17:55"/>
+		<property name="placementMoment" value="2015/11/01 09:15"/>
 		<property name="address" value="calle Zaragoza nº8"/>
-		<property name="cancelMoment" value="2015/10/02 10:15"/>
 		<property name="creditCard" ref="creditCard1"/>
 		<property name="consumer" ref="consumer1"/>
 		<property name="clerk" ref="clerk1"/>
@@ -1094,13 +1093,14 @@
 				<ref bean="orderItem1"/>
 			</list>
 		</property>
+		<property name="amount" value="3.98" />
 	</bean>
 	
 	<bean id="order2" class="domain.Order">
 		<property name="ticker" value="654321-FH8J"/>
-		<property name="placementMoment" value="2015/10/28 17:55"/>
+		<property name="placementMoment" value="2015/11/28 17:55"/>
 		<property name="address" value="calle Sevilla nº8"/>
-		<property name="deliveryMoment" value="2015/10/29 10:00"/>
+		<property name="deliveryMoment" value="2015/11/29 10:00"/>
 		<property name="creditCard" ref="creditCard2"/>
 		<property name="consumer" ref="consumer2"/>
 		<property name="clerk" ref="clerk2"/>
@@ -1109,13 +1109,14 @@
 				<ref bean="orderItem2"/>
 			</list>
 		</property>
+		<property name="amount" value="699.99" />
 	</bean>
 	
 	<bean id="order3" class="domain.Order">
 		<property name="ticker" value="654721-FPKJ"/>
-		<property name="placementMoment" value="2015/09/24 17:55"/>
+		<property name="placementMoment" value="2015/11/01 06:55"/>
 		<property name="address" value="calle Cádiz nº8"/>
-		<property name="cancelMoment" value="2015/10/06 19:45"/>
+		<property name="cancelMoment" value="2015/11/01 09:45"/>
 		<property name="creditCard" ref="creditCard3"/>
 		<property name="consumer" ref="consumer3"/>
 		<property name="clerk" ref="clerk3"/>
@@ -1124,13 +1125,14 @@
 				<ref bean="orderItem3"/>
 			</list>
 		</property>
+		<property name="amount" value="32.7" />
 	</bean>
 	
 	<bean id="order4" class="domain.Order">
 		<property name="ticker" value="854911-LH8J"/>
 		<property name="placementMoment" value="2015/10/27 17:55"/>
 		<property name="address" value="calle Sevilla nº8"/>
-		<property name="cancelMoment" value="2015/10/28 19:45"/>
+		<property name="cancelMoment" value="2015/11/28 19:45"/>
 		<property name="creditCard" ref="creditCard2"/>
 		<property name="consumer" ref="consumer2"/>
 		<property name="clerk" ref="clerk2"/>
@@ -1139,6 +1141,7 @@
 				<ref bean="orderItem4"/>
 			</list>
 		</property>
+		<property name="amount" value="10.5" />
 	</bean>
 	
 	<bean id="order5" class="domain.Order">
@@ -1154,6 +1157,7 @@
 				<ref bean="orderItem5"/>
 			</list>
 		</property>
+		<property name="amount" value="699.99" />
 	</bean>
 	
 	<bean id="order6" class="domain.Order">
@@ -1169,6 +1173,7 @@
 				<ref bean="orderItem6"/>
 			</list>
 		</property>
+		<property name="amount" value="9.95" />
 	</bean>
 	
 	<bean id="order7" class="domain.Order">
@@ -1184,6 +1189,7 @@
 				<ref bean="orderItem7"/>
 			</list>
 		</property>
+		<property name="amount" value="21.8" />
 	</bean>
 	
 	<bean id="order8" class="domain.Order">
@@ -1199,6 +1205,7 @@
 				<ref bean="orderItem8"/>
 			</list>
 		</property>
+		<property name="amount" value="3.5" />
 	</bean>
 	
 	<bean id="order9" class="domain.Order">
@@ -1214,6 +1221,7 @@
 				<ref bean="orderItem9"/>
 			</list>
 		</property>
+		<property name="amount" value="9.95" />
 	</bean>
 	
 	<!-- OrderItem -->

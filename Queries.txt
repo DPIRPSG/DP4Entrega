@@ -1,0 +1,241 @@
+Query C/1
+Especificación: The consumer/s who has/have placed more orders.
+JPQL Query: select c from Consumer c join c.orders o group by c having count(c.orders.size) = (select max(c.orders.size) from Consumer c);
+Descripción textual: En esta consulta hacemos un join de los consumers con sus orders y los agrupamos por los propios consumers. Luego realizamos un filtro en el que comprobamos que el número de orders del consumer que estamos analizando sea igual al número de orders del consumer que más orders ha realizado.
+Resultado:
+Object #0 = domain.Consumer{
+	id=13
+	version=1
+	name="Ruben"
+	surname="Sanchez"
+	email="ruben@mail.com"
+	phone="612342289"
+	folders=[domain.Folder@20, domain.Folder@21, domain.Folder@22]
+	sent=[]
+	received=[domain.Message@16]
+	userAccount=security.UserAccount@5
+	shoppingCart=domain.ShoppingCart@e
+	orders=[domain.Order@4e, domain.Order@50, domain.Order@53]
+} 
+Object #1 = domain.Consumer{
+	id=15
+	version=1
+	name="Guillermo"
+	surname="Alcala"
+	email="guillermo@mail.com"
+	phone="633422897"
+	folders=[domain.Folder@23, domain.Folder@24, domain.Folder@25]
+	sent=[]
+	received=[domain.Message@16]
+	userAccount=security.UserAccount@6
+	shoppingCart=domain.ShoppingCart@10
+	orders=[domain.Order@4f, domain.Order@51, domain.Order@52]
+} 
+
+Query C/2
+Especificación: The consumer/s who has/have spent more money on their orders.
+JPQL Query: select c from Consumer c join c.orders o where o.cancelMoment is null group by c having max(o.amount) = (select max(o.amount) from Order o);
+Descripción textual: En esta consulta hacemos un join de los consumers con sus orders que no tengan fecha de cancelación y los agrupamos por los propios consumers. Luego realizamos un filtro para quedarnos con el consumer que tenga el order con la cantidad igual a la del order con mayor cantidad.
+Resultado:
+Object #0 = domain.Consumer{
+	id=13
+	version=1
+	name="Ruben"
+	surname="Sanchez"
+	email="ruben@mail.com"
+	phone="612342289"
+	folders=[domain.Folder@20, domain.Folder@21, domain.Folder@22]
+	sent=[]
+	received=[domain.Message@16]
+	userAccount=security.UserAccount@5
+	shoppingCart=domain.ShoppingCart@e
+	orders=[domain.Order@4e, domain.Order@50, domain.Order@53]
+} 
+
+Query C/3
+Especificación: The best-selling item/s in the inventory.
+JPQL Query: select i from Item i where i.deleted is false and i.sku IN (select oi.sku from OrderItem oi join oi.order o where o.deliveryMoment is not null group by oi.sku having max(oi.units) = (select max(oi.units) from OrderItem oi));
+Descripción textual: En esta consulta discriminamos los items que hayan sido borrados y cuyo sku sea igual al resultado de una consulta secundaria. Esta consulta realiza un join entre los OrderItems y sus orders que tengas una fecha de entrega, agrupándolos por el sku. Luego realizamos un filtro para quedarnos con el OrderItem que tenga su número de unidades igual al del OrderItem con más unidades.
+Resultado:
+Object #0 = domain.Item{
+	id=52
+	version=0
+	sku="AB-H6GH"
+	name="Turrón de chocolate"
+	description="se acerca la navidad, compra el mejor turron de chocolate"
+	price=1.99
+	tags=[Dulce, Turron, Chocolate]
+	picture=<null>
+	deleted=<<false>>
+	category=domain.Category@31
+	comments=[domain.Comment@39]
+	storages=[domain.Storage@43]
+}
+
+Query C/4
+Especificación: The worst-selling item/s in the inventory.
+JPQL Query: select i from Item i where i.deleted is false and i.sku IN (select oi.sku from OrderItem oi join oi.order o where o.deliveryMoment is not null group by oi.sku having min(oi.units) = (select min(oi.units) from OrderItem oi));
+Descripción textual: En esta consulta discriminamos los items que hayan sido borrados y cuyo sku sea igual al resultado de una consulta secundaria. Esta consulta realiza un join entre los OrderItems y sus orders que tengas una fecha de entrega, agrupándolos por el sku. Luego realizamos un filtro para quedarnos con el OrderItem que tenga su número de unidades igual al del OrderItem con menos unidades.
+
+Resultado:
+Object #0 = domain.Item{
+	id=53
+	version=0
+	sku="CJ-C8JW"
+	name="Televisor"
+	description="El mejor televisor para las mejores series"
+	price=699.99
+	tags=[TV, Full-HD, Smart-TV]
+	picture=<null>
+	deleted=<<false>>
+	category=domain.Category@32
+	comments=[domain.Comment@3a]
+	storages=[domain.Storage@44]
+} 
+Object #1 = domain.Item{
+	id=55
+	version=0
+	sku="Vl-3H95"
+	name="Filete de cerdo"
+	description="Filete bueno y barato"
+	price=3.5
+	tags=[Filete, Cerdo, Carne]
+	picture=<null>
+	deleted=<<false>>
+	category=domain.Category@31
+	comments=[domain.Comment@3d, domain.Comment@3e]
+	storages=[domain.Storage@46]
+} 
+
+Query B/1
+Especificación: The clerk/s who has/have served and delivered more orders.
+JPQL Query: select c1 from Order o1 join o1.clerk c1 where o1.deliveryMoment is not null group by c1 having count(o1) >= all(select count(o2) from Clerk c2 join c2.orders o2 where o2.deliveryMoment is not null group by c2);
+Descripción textual: En esta consulta hacemos un join entre los orders y los clerks que las administran discriminando los orders que no tengan una fecha de entrega, y agrupando por los propios clerks. Luego realizamos un filtro para tomar sólo aquellos clerks cuyo número de orders servidos, y que hayan sido entregados, sea mayor o igual al número de orders servidos y entregados de cada clerk por separado, obteniendo el máximo de ellos y por lo tanto el/los clerk/s que cumplen ese máximo.
+Resultado:
+Object #0 = domain.Clerk{
+	id=20
+	version=0
+	name="Ana"
+	surname="pozo"
+	email="ana@mail.com"
+	phone="633946087"
+	folders=[domain.Folder@26, domain.Folder@27, domain.Folder@28]
+	sent=[]
+	received=[domain.Message@16]
+	userAccount=security.UserAccount@7
+	orders=[domain.Order@4e, domain.Order@50, domain.Order@52, domain.Order@55]
+} 
+
+Query B/2
+Especificación: The clerk/s who has/have served and delivered less orders.
+JPQL Query: select c1 from Order o1 join o1.clerk c1 where o1.deliveryMoment is not null group by c1 having count(o1) <= all(select count(o2) from Clerk c2 join c2.orders o2 where o2.deliveryMoment is not null group by c2);
+Descripción textual: En esta consulta hacemos un join entre los orders y los clerks que las administran discriminando los orders que no tengan una fecha de entrega, y agrupando por los propios clerks. Luego realizamos un filtro para tomar sólo aquellos clerks cuyo número de orders servidos, y que hayan sido entregados, sea menor o igual al número de orders servidos y entregados de cada clerk por separado, obteniendo el mínimo de ellos y por lo tanto el/los clerk/s que cumplen ese mínimo.
+
+Resultado:
+Object #0 = domain.Clerk{
+	id=19
+	version=0
+	name="Carlos"
+	surname="Mata"
+	email="carlos@mail.com"
+	phone="633449087"
+	folders=[domain.Folder@1d, domain.Folder@1e, domain.Folder@1f]
+	sent=[]
+	received=[domain.Message@16]
+	userAccount=security.UserAccount@4
+	orders=[domain.Order@4d, domain.Order@51, domain.Order@54]
+} 
+Object #1 = domain.Clerk{
+	id=21
+	version=0
+	name="Alberto"
+	surname="Rodriguez"
+	email="alberto@mail.com"
+	phone="633940257"
+	folders=[domain.Folder@29, domain.Folder@2a, domain.Folder@2b]
+	sent=[]
+	received=[domain.Message@16]
+	userAccount=security.UserAccount@8
+	orders=[domain.Order@4f, domain.Order@53]
+}
+
+Query B/3
+Especificación: The consumer/s who has/have cancelled more orders.
+JPQL Query: select c1 from Order o1 join o1.consumer c1 where o1.cancelMoment is not null group by c1 having count(o1) >= all(select count(o2) from Consumer c2 join c2.orders o2 where o2.cancelMoment is not null group by c2);
+Descripción textual: En esta consulta hacemos un join entre los orders y los consumers que los realizan, discriminando los orders que no tengan una fecha de cancelación, y agrupando por los propios consumers. Luego realizamos un filtro para tomar sólo aquellos consumer cuyo número de orders canceladas sea mayor o igual al número de orders canceladas de cada consumer por separado, obteniendo el máximo de ellos y por lo tanto el/los consumer/s que cumplen ese máximo.
+Resultado:
+Object #0 = domain.Consumer{
+	id=15
+	version=1
+	name="Guillermo"
+	surname="Alcala"
+	email="guillermo@mail.com"
+	phone="633422897"
+	folders=[domain.Folder@23, domain.Folder@24, domain.Folder@25]
+	sent=[]
+	received=[domain.Message@16]
+	userAccount=security.UserAccount@6
+	shoppingCart=domain.ShoppingCart@10
+	orders=[domain.Order@4f, domain.Order@51, domain.Order@52]
+} 
+
+Query B/4
+Especificación: Display a dashboard with the following information: The consumer/s who has/have cancelled less orders.
+JPQL Query: select c1 from Order o1 join o1.consumer c1 where o1.cancelMoment is not null group by c1 having count(o1) <= all(select count(o2) from Consumer c2 join c2.orders o2 where o2.cancelMoment is not null group by c2);
+Descripción textual: En esta consulta hacemos un join entre los orders y los consumers que los realizan, discriminando los orders que no tengan una fecha de cancelación, y agrupando por los propios consumers. Luego realizamos un filtro para tomar sólo aquellos consumer cuyo número de orders canceladas sea menor o igual al número de orders canceladas de cada consumer por separado, obteniendo el mínimo de ellos y por lo tanto el/los consumer/s que cumplen ese mínimo.
+Resultado:
+Object #0 = domain.Consumer{
+	id=13
+	version=1
+	name="Ruben"
+	surname="Sanchez"
+	email="ruben@mail.com"
+	phone="612342289"
+	folders=[domain.Folder@20, domain.Folder@21, domain.Folder@22]
+	sent=[]
+	received=[domain.Message@16]
+	userAccount=security.UserAccount@5
+	shoppingCart=domain.ShoppingCart@e
+	orders=[domain.Order@4e, domain.Order@50, domain.Order@53]
+} 
+
+Query B/5
+Especificación: Display a dashboard with the following information: The ratio of orders that have been cancelled during the current month.
+JPQL Query: select (count(distinct o1)*1.0)/(count(distinct o2)*1.0) from Order o1, Order o2 where month(o1.cancelMoment) = month(CURRENT_DATE) and year(o1.cancelMoment) = year(CURRENT_DATE) and month(o2.placementMoment) = month(CURRENT_DATE) and year(o2.placementMoment) = year(CURRENT_DATE);
+Descripción textual: En esta consulta obtenemos el resultado de la división entre los orders que se hayan cancelado este mes y los que se hayan creado/realizado en el mismo. Para ello, discriminamos los orders que no hayan sido canceladas ni creadas/realizadas en el mes y año. Además realizamos una multiplicación por 1.0 para evitar que se trunque el resultado en caso de que éste sea decimal.
+Resultado:
+Object #0 = java.lang.Double{0.66667} 
+
+Query A/1
+Especificación: Display a dashboard with the following information: The item/s that has/have more comments.
+JPQL Query: select i from Item i where i.deleted is false and i.comments.size = (select max(i.comments.size) from Item i where i.deleted is false) group by i;
+Descripción textual: En esta consulta tomamos el item que no haya sido borrado y que tenga como número de comentarios el del item con mayor número de comentarios. Finalmente agrupamos los resultados por su item.
+Resultado:
+Object #0 = domain.Item{
+	id=54
+	version=0
+	sku="9G-H58D"
+	name="Colonia"
+	description="Colonia de mujer"
+	price=10.9
+	tags=[Colonia]
+	picture=<null>
+	deleted=<<false>>
+	category=domain.Category@33
+	comments=[domain.Comment@3b, domain.Comment@3c]
+	storages=[domain.Storage@45]
+} 
+Object #1 = domain.Item{
+	id=55
+	version=0
+	sku="Vl-3H95"
+	name="Filete de cerdo"
+	description="Filete bueno y barato"
+	price=3.5
+	tags=[Filete, Cerdo, Carne]
+	picture=<null>
+	deleted=<<false>>
+	category=domain.Category@31
+	comments=[domain.Comment@3d, domain.Comment@3e]
+	storages=[domain.Storage@46]
+}
