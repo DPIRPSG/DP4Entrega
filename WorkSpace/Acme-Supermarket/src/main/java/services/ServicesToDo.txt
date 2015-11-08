@@ -1,0 +1,81 @@
+----------	Items			----
+ + findAllNotDeleted
+ + findAllNotDeletedByCategory. No cumple exactamente el requisito 10.2
+ + findAllBySHoppingCart. No es el nombre, 11.2.
+ + 12.2 -> create, update, delete (ojo con delete)
+ + 12.7
+ + 17.2 -> ¿findAllByWarehouse?
+ + 25.2
+
+----------	ShoppingCart		----
+ + 11.2. -> ¿findOne (debe buscarla por el usuario del sistema)?
+ + create
+ + 11.4 -> ModifyItemQuantity(shoppingCartID, itemId, quantity). Si la cantidad anterior era cero lo añade, si la nueva cantidad se quedará en 0 lo elimina.
+ + 11.3 -> AddItem(shoppingCartID, itemId) --> llama al método de arriba pero antes pregunta la cantidad
+ + 11.5 -> DeleteItem(shoppingCartID, itemId) --> llama al método de arriba
+ + 11.6 -> ¿update?
+ + delete. Utilizar solo para vaciar el carrito no para hacer un order 
+
+----------	Categories		----
+ + findAll
+ + findOne
+ + 12.4 -> Create, update, delete
+
+----------	Tax			----
+ + findOne
+ + findAll
+ + 12.3 -> create, update, delete. Ojo con delete
+
+----------	Order			----
+ + 11.7 -> create?¿ debe copiar lo que hay en el carrito y borrarlo
+ + findAll
+ + findOne
+ + 12.7
+ + 16.1 -> ?¿
+ + 17.6
+ + findAllNotAssigned. Las que no están asignadas a ningún clerk
+
+---------	OrderItem		----
+
+
+---------	UserAccount		----
+ + create
+ + findAll
+ + findAllByAuthority
+
+---------	Warehouse		----
+ + findAll
+ + findOne
+ + 17.3 y 17.4
+ + 17.5 --> ModifyItemQuantity(warehouseID, itemId, quantity). Si la cantidad anterior era cero lo añade, si la nueva cantidad se queda en 0 lo elimina.
+ + 18.2 -> findByItem
+
+---------	Clerk			----
+ + 17.6
+ + 18.3 -> ?¿
+
+---------	Consumer		----
+ + 17.6
+
+---------	Comment			----
+ + findAll
+ + findOne
+ + 23.1 -> findByItem
+ + create and delete
+
+--------	Folder			----
+ + findAll
+ + findOne
+ + ¿findByUserAccountId?
+
+--------	Message			----
+ + findAll
+ + findOne
+ + 24.4 --> findByFolder
+
+
+----------	A estudiar		----
+ + 10.3
+
+----------	Para Hacer Migue	----
+ + 11.3 y 11.4 --> ¿Cantidad?
