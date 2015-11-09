@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Category;
 import domain.Item;
 
 import repositories.ItemRepository;
@@ -54,6 +55,14 @@ public class ItemService {
 		item.setDeleted(true);
 	}
 	
+	public boolean exists(Item item){
+		boolean result;
+		
+		result = itemRepository.exists(item.getId());
+		
+		return result;
+	}
+	
 	//crete
 	//update
 
@@ -66,6 +75,23 @@ public class ItemService {
 			result = itemRepository.findAll();
 			
 			return result;
+	}
+	
+	public Collection<Item> findAllByCategory(Category category){
+		Collection<Item> result;
+		
+		result = itemRepository.findAllByCategoryId(category.getId());
+		
+		return result;
+	}
+	
+	public Collection<Item> findByKeyword(String keyword){
+		Collection<Item> result;
+		
+		result = null;
+		System.out.println("El método findByKeyword de ItemService no está implementado");
+		
+		return result;
 	}
 
 	public Collection<Item> findItemBestSelling(){

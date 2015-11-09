@@ -25,6 +25,15 @@ public class ConsumerService {
 	}
 	
 	//Simple CRUD methods ----------------------------------------------------
+	
+	public Consumer create(){
+		Consumer result;
+		
+		result = new Consumer();
+		// Crear UserAccount y carpetas para asociarselo
+		
+		return result;
+	}
 
 	//Other business methods -------------------------------------------------
 
