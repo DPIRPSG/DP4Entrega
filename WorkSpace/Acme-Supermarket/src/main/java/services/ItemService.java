@@ -30,6 +30,15 @@ public class ItemService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 	
+	public Item create(){
+		Item result;
+		
+		result = null;
+		System.out.println("El método create dentro de ItemService no está finalizado");
+		
+		return result;
+	}
+	
  	public Item findOne(int itemId) {
 		Item result;
 		
@@ -50,9 +59,17 @@ public class ItemService {
 	public void delete(Item item){
 		Assert.notNull(item);
 		Assert.isTrue(item.getId() != 0);
-		Assert.isTrue(itemRepository.exists(item.getId()));
+		Assert.isTrue(this.exists(item));
 		
 		item.setDeleted(true);
+		
+	}
+	
+	public void save(Item item){
+		Assert.notNull(item);
+		Assert.isTrue(this.exists(item));
+		
+		itemRepository.save(item);
 	}
 	
 	public boolean exists(Item item){

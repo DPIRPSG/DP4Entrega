@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 
 import domain.Content;
 import domain.Item;
+import domain.Order;
 import domain.ShoppingCart;
 
 import repositories.ShoppingCartRepository;
@@ -47,6 +48,16 @@ public class ShoppingCartService {
 	}
 	//Other business methods -------------------------------------------------
  
+	public Order checkOut(ShoppingCart shoppingCart){
+		Order result;
+		
+		result = null;
+		
+		System.out.println("El método checkOut dentro de ShoppingCartService no está finalizado");
+		
+		return result;
+	}
+	
 	public Collection<Item> ListAllContain(ShoppingCart shoppingCart){
 		Assert.notNull(shoppingCart);
 		

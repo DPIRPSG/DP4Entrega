@@ -25,6 +25,15 @@ public class ClerkService {
 	}
 	
 	//Simple CRUD methods ----------------------------------------------------
+	
+	public Clerk create(){
+		Clerk result;
+		
+		result = null;
+		System.out.println("El método create en ClerkService está incompleto");
+		
+		return result;
+	}
 
 	//Other business methods -------------------------------------------------
 

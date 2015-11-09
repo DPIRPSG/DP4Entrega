@@ -34,6 +34,14 @@ public class ConsumerService {
 		
 		return result;
 	}
+	
+	public Collection<Consumer> findAll(){
+		Collection<Consumer> result;
+		
+		result = consumerRepository.findAll();
+		
+		return result;
+	}
 
 	//Other business methods -------------------------------------------------
 

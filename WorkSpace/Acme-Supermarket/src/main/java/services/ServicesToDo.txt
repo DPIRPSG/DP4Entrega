@@ -82,7 +82,9 @@
 
 ----------	Para Hacer Migue	----
  + 11.3 y 11.4 --> ¿Cantidad?
- 
+
+@Service
+@Transactional 
  
  	//Managed repository -----------------------------------------------------
 
