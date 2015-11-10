@@ -82,6 +82,13 @@
 
 ----------	Para Hacer Migue	----
  + 11.3 y 11.4 --> ¿Cantidad?
+ 
+----------	Apuntes				----
+ + Dentro del create no se guarda.
+ + Cuando se devuelve del create se intenta devolver rellenos el mayor número de parametros posibles
+ + Restarle una unidad de tiempo mínima a la hora de guardar.
+ + Habría que comprobar que cuando se guarda algo lo hace al mismo usuario que la ha creado (que es suya) (usar el findByprincipal).
+ 
 
 @Service
 @Transactional 

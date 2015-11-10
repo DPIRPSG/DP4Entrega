@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 
 import domain.Category;
 import domain.Item;
+import domain.WareHouse;
 
 import repositories.ItemRepository;
 
@@ -22,6 +23,9 @@ public class ItemService {
 	
 	//Supporting services ----------------------------------------------------
 
+	@Autowired
+	private WareHouseService wareHouseService;
+	
 	//Constructors -----------------------------------------------------------
 	
 	public ItemService(){
@@ -98,6 +102,17 @@ public class ItemService {
 		Collection<Item> result;
 		
 		result = itemRepository.findAllByCategoryId(category.getId());
+		
+		return result;
+	}
+	
+	public Collection<Item> findAllByWareHouse(WareHouse wareHouse){
+		Assert.isTrue(wareHouseService.exists(wareHouse));
+		
+		Collection<Item> result;
+		
+		//si lo necesitas se puede cambiar el codigo para que se ejecute desde content y facilitar el trabajo
+		result = itemRepository.findAllByWareHouse(wareHouse.getId());
 		
 		return result;
 	}

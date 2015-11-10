@@ -2,10 +2,12 @@ package services;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Clerk;
 import domain.Order;
 
 import repositories.OrderRepository;
@@ -20,6 +22,9 @@ public class OrderService {
 	
 	//Supporting services ----------------------------------------------------
 
+	@Autowired
+	private ClerkService clerkService;
+	
 	//Constructors -----------------------------------------------------------
 	
 	public OrderService(){
@@ -45,6 +50,12 @@ public class OrderService {
 		
 		return result;
 	}
+	
+	public void save(Order order){
+		Assert.isTrue(this.exists(order));
+		
+		orderRepository.save(order);
+	}
 
 	//Other business methods -------------------------------------------------
 	
@@ -59,6 +70,21 @@ public class OrderService {
 		return result;
 	}
 	
+	public Order assignToClerk(Clerk clerk){
+		Assert.isTrue(clerkService.exists(clerk));
+		
+		Order result;
+		
+		result = this.findAllNotAssigned().iterator().next();
+		
+		result.setClerk(clerk);
+		
+		this.save(result);
+		
+		return result;
+		
+	}
+	
 	public double rateOrderCancelled(){
 		double result;
 		
@@ -70,6 +96,7 @@ public class OrderService {
 	public Collection<Order> findAllNotAssigned(){
 		Collection<Order> result;
 		
+		//deben estar ordenadas siendo la primera la más antigua
 		result = orderRepository.findAllNotAssigned();
 		
 		return result;

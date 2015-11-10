@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import domain.Clerk;
 
@@ -31,6 +32,16 @@ public class ClerkService {
 		
 		result = null;
 		System.out.println("El método create en ClerkService está incompleto");
+		
+		return result;
+	}
+	
+	public boolean exists(Clerk clerk){
+		Assert.isNull(clerk);
+		
+		boolean result;
+		
+		result = clerkRepository.exists(clerk.getId());
 		
 		return result;
 	}
