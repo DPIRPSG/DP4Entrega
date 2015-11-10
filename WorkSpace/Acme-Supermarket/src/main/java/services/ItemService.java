@@ -112,7 +112,7 @@ public class ItemService {
 		Collection<Item> result;
 		
 		//si lo necesitas se puede cambiar el codigo para que se ejecute desde content y facilitar el trabajo
-		result = itemRepository.findAllByWareHouse(wareHouse.getId());
+		result = itemRepository.findAllByWareHouseId(wareHouse.getId());
 		
 		return result;
 	}
