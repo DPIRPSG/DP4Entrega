@@ -11,12 +11,21 @@ import domain.Item;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Integer> {
 
-	@Query("select i from Item i where i.deleted is false and i.sku IN (select oi.sku from OrderItem oi join oi.order o where o.deliveryMoment is not null group by oi.sku having max(oi.units) = (select max(oi.units) from OrderItem oi));")
+	@Query("select i from Item i where i.deleted is false and i.sku IN (select oi.sku from OrderItem oi join oi.order o where o.deliveryMoment is not null group by oi.sku having max(oi.units) = (select max(oi.units) from OrderItem oi))")
 	Collection<Item> findItemBestSelling();
 	
-	@Query("select i from Item i where i.deleted is false and i.sku IN (select oi.sku from OrderItem oi join oi.order o where o.deliveryMoment is not null group by oi.sku having min(oi.units) = (select min(oi.units) from OrderItem oi));")
+	@Query("select i from Item i where i.deleted is false and i.sku IN (select oi.sku from OrderItem oi join oi.order o where o.deliveryMoment is not null group by oi.sku having min(oi.units) = (select min(oi.units) from OrderItem oi))")
 	Collection<Item> findItemWorstSelling();
 	
-	@Query("select i from Item i where i.deleted is false and i.comments.size = (select max(i.comments.size) from Item i where i.deleted is false) group by i;")
+	@Query("select i from Item i where i.deleted is false and i.comments.size = (select max(i.comments.size) from Item i where i.deleted is false) group by i")
 	Collection<Item> findItemMoreComments();
+	
+	@Query("select i from Item i where i.deleted = false")
+	Collection<Item> findAllNotDeleted();
+	
+	@Query("select i from Item i where i.category = ?1")
+	Collection<Item> findAllByCategoryId(int categoryId);
+	
+	@Query("select i from Item i join i.storages s where s.wareHouse.id = ?1")
+	Collection<Item> findAllByWareHouseId(int wareHouseId);
 }

@@ -11,6 +11,7 @@
 package security;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
@@ -18,5 +19,8 @@ import org.springframework.stereotype.Repository;
 public interface UserAccountRepository extends JpaRepository<UserAccount, Integer> {
 
 	UserAccount findByUsername(String username);
+	
+	/*@Query("select u from UserAccount u where u.actor.id = ?1")
+	UserAccount findByActorId(int ActorId);*/
 
 }
