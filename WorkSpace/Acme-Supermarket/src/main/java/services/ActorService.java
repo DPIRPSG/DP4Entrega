@@ -61,6 +61,16 @@ public class ActorService {
 		actorRepository.save(actor);
 	}
 	
+	public boolean exists(Actor actor){
+		Assert.notNull(actor);
+		
+		boolean result;
+		
+		result = actorRepository.exists(actor.getId());
+		
+		return result;
+	}
+	
 	// Other business methods -------------------------------------------------
 	
 	public UserAccount findUserAccount(Actor actor){
@@ -72,4 +82,5 @@ public class ActorService {
 		
 		return result;
 	}
+	
 }
