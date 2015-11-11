@@ -30,15 +30,17 @@ public class CategoryService {
 	public Category create(){
 		Category result;
 		
-		result = null;
-		System.out.println("El método create en CategoryService está incompleto");
+		result = new Category();
 		
 		return result;
 	}
 	
+	// Save solo debe usarse para guardar el objeto por primera vez
 	public void save(Category category){
-		Assert.isTrue(this.exists(category));
+		Assert.isTrue(!this.exists(category));
 		
+		System.out.println("El método save en CategoryService no tiene en cuenta la concurrencia");
+		categoryRepository.save(category);
 	}
 	
 	public boolean exists(Category category){
@@ -47,6 +49,17 @@ public class CategoryService {
 		boolean result;
 		
 		result = categoryRepository.exists(category.getId());
+		
+		return result;
+	}
+	
+	public Category update(Category category){
+		Assert.isTrue(this.exists(category));
+		
+		Category result;
+		
+		System.out.println("El método update en CategoryService no tiene en cuenta la concurrencia");
+		result = categoryRepository.save(category);
 		
 		return result;
 	}

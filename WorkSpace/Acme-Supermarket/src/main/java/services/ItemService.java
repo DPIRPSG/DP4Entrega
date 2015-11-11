@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 
 import domain.Category;
 import domain.Item;
+import domain.ShoppingCart;
 import domain.WareHouse;
 
 import repositories.ItemRepository;
@@ -26,6 +27,9 @@ public class ItemService {
 	@Autowired
 	private WareHouseService wareHouseService;
 	
+	@Autowired
+	private ShoppingCartService shoppingCartService;
+	
 	//Constructors -----------------------------------------------------------
 	
 	public ItemService(){
@@ -37,8 +41,38 @@ public class ItemService {
 	public Item create(){
 		Item result;
 		
-		result = null;
+		result = new Item();
 		System.out.println("El método create dentro de ItemService no está finalizado");
+		
+		return result;
+	}
+	
+	public void delete(Item item){
+		Assert.isTrue(this.exists(item));
+		
+		item.setDeleted(true);
+		this.update(item);
+		
+	}
+	
+	public Item save(Item item){
+		Assert.isTrue(!this.exists(item));
+		
+		Item result;
+		
+		System.out.println("El método save en ItemService no tiene en cuenta la concurrencia");
+		result = itemRepository.save(item);
+		
+		return result;
+	}
+	
+	public Item update(Item item){
+		Assert.isTrue(this.exists(item));
+		
+		Item result;
+		
+		System.out.println("El método update en ItemService no tiene en cuenta la concurrencia");
+		result = itemRepository.save(item);
 		
 		return result;
 	}
@@ -60,32 +94,17 @@ public class ItemService {
 		return result;		
 	}
 
-	public void delete(Item item){
-		Assert.notNull(item);
-		Assert.isTrue(item.getId() != 0);
-		Assert.isTrue(this.exists(item));
-		
-		item.setDeleted(true);
-		
-	}
-	
-	public void save(Item item){
-		Assert.notNull(item);
-		Assert.isTrue(this.exists(item));
-		
-		itemRepository.save(item);
-	}
+
 	
 	public boolean exists(Item item){
+		Assert.isNull(item);
+		
 		boolean result;
 		
 		result = itemRepository.exists(item.getId());
 		
 		return result;
 	}
-	
-	//crete
-	//update
 
 	
 	//Other business methods -------------------------------------------------
@@ -96,6 +115,16 @@ public class ItemService {
 			result = itemRepository.findAll();
 			
 			return result;
+	}
+	
+	public Collection<Item> findAllByShoppingCart(ShoppingCart shoppingCart){
+		Assert.isTrue(shoppingCartService.exists(shoppingCart));
+		
+		Collection<Item> result;
+		
+		result = itemRepository.findAllByShoppingCartId(shoppingCart.getId());
+		
+		return result;
 	}
 	
 	public Collection<Item> findAllByCategory(Category category){

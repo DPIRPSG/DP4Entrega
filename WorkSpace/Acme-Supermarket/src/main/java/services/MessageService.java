@@ -32,6 +32,45 @@ public class MessageService {
 	}
 	
 	//Simple CRUD methods ----------------------------------------------------
+	
+	public Message create(){
+		Message result;
+		
+		result = new Message();
+		
+		return result;	
+	}
+	
+	public Message save(Message message){
+		Assert.isTrue(!this.exists(message));
+		
+		Message result;
+		
+		System.out.println("El método save en MessageService no tiene en cuenta la concurrencia");
+		result = messageRepository.save(message);
+		
+		return result;
+	}
+	
+	public Message update(Message message){
+		Assert.isTrue(this.exists(message));
+		
+		Message result;
+		
+		System.out.println("El método update en MessageService no tiene en cuenta la concurrencia");
+		result = messageRepository.save(message);
+		
+		return result;	}
+	
+	public boolean exists(Message message){
+		Assert.isNull(message);
+		
+		boolean result;
+		
+		result = messageRepository.exists(message.getId());
+		
+		return result;
+	}
 
 	//Other business methods -------------------------------------------------
 	

@@ -33,6 +33,42 @@ public class FolderService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 
+	public Folder create(){
+		Folder result;
+		
+		result = new Folder();
+		
+		return result;
+	}
+	
+	public Folder save(Folder folder){
+		Assert.isTrue(!this.exists(folder));
+		
+		Folder result;
+		
+		System.out.println("El método save en FolderService no comprueba la concurrencia");
+		result = folderRepository.save(folder);
+		
+		return result;
+	}
+	
+	public Folder update(Folder folder){
+		Assert.isTrue(this.exists(folder));
+		
+		Folder result;
+		
+		System.out.println("El método update en FolderService no comprueba la concurrencia");
+		result = folderRepository.save(folder);
+		
+		return result;
+	}
+	
+	public void delete(Folder folder){
+		Assert.isTrue(this.exists(folder));
+		
+		System.out.println("El método delete en FolderService NO ESTA implementado");
+	}
+	
 	public boolean exists(Folder folder){
 		Assert.isNull(folder);
 		

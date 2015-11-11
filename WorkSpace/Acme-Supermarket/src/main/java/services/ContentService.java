@@ -1,7 +1,6 @@
 package services;
 
-import java.util.Collection;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -18,10 +17,12 @@ public class ContentService {
 
  	//Managed repository -----------------------------------------------------
 
+	@Autowired
 	private ContentRepository contentRepository;
 	
 	//Supporting services ----------------------------------------------------
 
+	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
 	//Constructors -----------------------------------------------------------
@@ -32,10 +33,46 @@ public class ContentService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 
-	public void save(Content content){
+	public Content create(){
+		Content result;
+		
+		result = new Content();
+		System.out.println("El método create dentro de ContentService no está implementado");
+		
+		return result;
+	}
+	
+	
+	public Content save(Content content){
+		Assert.isTrue(!this.exists(content));
+		
+		Content result;
+		
+		System.out.println("El método save en ContentService no comprueba la concurrencia");
+		result = contentRepository.save(content);
+		
+		return result;
+	}
+	
+	public Content update(Content content){
+		Assert.isTrue(this.exists(content));
+		
+		Content result;
+		
+		System.out.println("El método update en ContentService no comprueba la concurrencia");
+		result = contentRepository.save(content);
+		
+		return result;
+	}
+	
+	public boolean exists(Content content){
 		Assert.isNull(content);
 		
-		contentRepository.save(content);
+		boolean result;
+		
+		result = contentRepository.exists(content.getId());
+		
+		return result;
 	}
 	//Other business methods -------------------------------------------------
  

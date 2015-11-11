@@ -30,7 +30,7 @@ public class ClerkService {
 	public Clerk create(){
 		Clerk result;
 		
-		result = null;
+		result = new Clerk();
 		System.out.println("El método create en ClerkService está incompleto");
 		
 		return result;
@@ -44,6 +44,14 @@ public class ClerkService {
 		result = clerkRepository.exists(clerk.getId());
 		
 		return result;
+	}
+
+	// Save solo debe usarse para guardar el objeto por primera vez
+	public void save(Clerk clerk){
+		Assert.isTrue(!this.exists(clerk));
+		
+		System.out.println("El método save en ClerkService no tiene en cuenta la concurrencia");
+		clerkRepository.save(clerk);
 	}
 
 	//Other business methods -------------------------------------------------

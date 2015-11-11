@@ -50,11 +50,23 @@ public class ExchangeRateService {
 	}
 	
 	public ExchangeRate save(ExchangeRate input){
-		Assert.isTrue(this.exists(input));
+		Assert.isTrue(!this.exists(input));
 		
 		ExchangeRate result;
 		
+		System.out.println("El método save en ExchangeRate no comprueba la concurrencia");
 		result = exchangeRateRepository.save(input);
+		
+		return result;
+	}
+	
+	public ExchangeRate update(ExchangeRate exchangeRate){
+		Assert.isTrue(this.exists(exchangeRate));
+		
+		ExchangeRate result;
+		
+		System.out.println("El método update en ExchangeRate no comprueba la concurrencia");
+		result = exchangeRateRepository.save(exchangeRate);
 		
 		return result;
 	}

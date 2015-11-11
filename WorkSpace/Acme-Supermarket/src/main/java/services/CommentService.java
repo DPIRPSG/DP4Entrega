@@ -42,32 +42,33 @@ public class CommentService {
 		
 		return result;
 	}
-	
+
 	public Comment create(){
 		Comment result;
 		
-		result = null;
-		System.out.println("El método create de CommentService no está finalizado");
+		result = new Comment();
 		
 		return result;
 	}
 	
+	// Save solo debe usarse para guardar el objeto por primera vez	
 	public void save(Comment comment){
-		Assert.isTrue(this.exists(comment));
-		
+		Assert.isTrue(!this.exists(comment));
+
+		System.out.println("El método save en CommentService no tiene en cuenta la concurrencia");
 		commentRepository.save(comment);
 	}
 	
 	public void delete(Comment comment){
 		Assert.isTrue(this.exists(comment));
-		
+
 		commentRepository.delete(comment.getId());
 	}
 	
 	//Other business methods -------------------------------------------------
 
 	public Collection<Comment> findAllByItem(Item item){
-		Assert.isNull(item);
+		Assert.isTrue(itemService.exists(item));
 		
 		Collection<Comment> result;
 		

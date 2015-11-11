@@ -58,16 +58,6 @@ public class ShoppingCartService {
 		return result;
 	}
 	
-	public Collection<Item> ListAllContain(ShoppingCart shoppingCart){
-		Assert.notNull(shoppingCart);
-		
-		Collection<Item> result;
-		
-		result = shoppingCartRepository.findAllContainByShoppingCartId(shoppingCart.getId());
-		
-		return result;
-	}
-	
 	public void AddItem(ShoppingCart shoppingCart, Item item){
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCartRepository.exists(shoppingCart.getId()));
