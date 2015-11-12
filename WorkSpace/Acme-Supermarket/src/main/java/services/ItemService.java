@@ -43,39 +43,23 @@ public class ItemService {
 
 		result = new Item();
 		
-		System.out.println("El método create dentro de ItemService no está finalizado");
-		
 		return result;
 	}
 	
 	public void delete(Item item){
-		Assert.isTrue(this.exists(item));
+		Assert.notNull(item);
+		Assert.isTrue(item.getId() != 0);
 		
 		item.setDeleted(true);
-		this.update(item);
-		
+		this.save(item);
 	}
 	
-	public Item save(Item item){
-		Assert.isTrue(!this.exists(item));
-		
-		Item result;
-		
-		System.out.println("El método save en ItemService no tiene en cuenta la concurrencia");
-		result = itemRepository.save(item);
-		
-		return result;
-	}
+	// De aquí para abajo no ha sido necesario
 	
-	public Item update(Item item){
-		Assert.isTrue(this.exists(item));
+	public void save(Item item){
+		Assert.notNull(item);
 		
-		Item result;
-		
-		System.out.println("El método update en ItemService no tiene en cuenta la concurrencia");
-		result = itemRepository.save(item);
-		
-		return result;
+		itemRepository.save(item);
 	}
 	
  	public Item findOne(int itemId) {
@@ -109,6 +93,31 @@ public class ItemService {
 
 	
 	//Other business methods -------------------------------------------------
+
+	public Collection<Item> findAllByCategory(Category category){
+		Assert.notNull(category);
+		
+		Collection<Item> result;
+		
+		result = itemRepository.findAllByCategoryId(category.getId());
+		
+		return result;
+	}
+	
+	public Collection<Item> findAllByShoppingCart(ShoppingCart shoppingCart){
+		Assert.notNull(shoppingCart);
+		
+		Collection<Item> result;
+		
+		result = itemRepository.findAllByShoppingCartId(shoppingCart.getId());
+		
+		return result;
+	}	
+
+	
+	// De aquí para abajo no ha sido necesario
+	
+	
 	
 	public Collection<Item> findAllDeleted(){
 			Collection<Item> result;
@@ -116,24 +125,6 @@ public class ItemService {
 			result = itemRepository.findAll();
 			
 			return result;
-	}
-	
-	public Collection<Item> findAllByShoppingCart(ShoppingCart shoppingCart){
-		Assert.isTrue(shoppingCartService.exists(shoppingCart));
-		
-		Collection<Item> result;
-		
-		result = itemRepository.findAllByShoppingCartId(shoppingCart.getId());
-		
-		return result;
-	}
-	
-	public Collection<Item> findAllByCategory(Category category){
-		Collection<Item> result;
-		
-		result = itemRepository.findAllByCategoryId(category.getId());
-		
-		return result;
 	}
 	
 	public Collection<Item> findAllByWareHouse(WareHouse wareHouse){

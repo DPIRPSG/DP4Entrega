@@ -22,8 +22,8 @@ public class ContentService {
 	
 	//Supporting services ----------------------------------------------------
 
-	@Autowired
-	private ShoppingCartService shoppingCartService;
+	/*@Autowired
+	private ShoppingCartService shoppingCartService;*/
 	
 	//Constructors -----------------------------------------------------------
 
@@ -37,48 +37,36 @@ public class ContentService {
 		Content result;
 		
 		result = new Content();
-		System.out.println("El método create dentro de ContentService no está implementado");
+		result.setUnits(1);
 		
 		return result;
 	}
 	
 	
-	public Content save(Content content){
-		Assert.isTrue(!this.exists(content));
-		
-		Content result;
-		
-		System.out.println("El método save en ContentService no comprueba la concurrencia");
-		result = contentRepository.save(content);
-		
-		return result;
+	public void save(Content content){
+		Assert.notNull(content);
+	
+		if(content.getUnits() == 0){
+			this.delete(content);
+		}else{
+			contentRepository.save(content);
+		}
 	}
 	
-	public Content update(Content content){
-		Assert.isTrue(this.exists(content));
+	public void delete(Content content){
+		Assert.notNull(content);
+		Assert.isTrue(content.getId() != 0);
 		
-		Content result;
-		
-		System.out.println("El método update en ContentService no comprueba la concurrencia");
-		result = contentRepository.save(content);
-		
-		return result;
+		contentRepository.delete(content.getId());
 	}
 	
-	public boolean exists(Content content){
-		Assert.isNull(content);
-		
-		boolean result;
-		
-		result = contentRepository.exists(content.getId());
-		
-		return result;
-	}
 	//Other business methods -------------------------------------------------
  
 	public Content findByShoppingCartAndItem(ShoppingCart shoppingCart, Item item){
-		Assert.isNull(shoppingCart);
-		Assert.isTrue(shoppingCartService.exists(shoppingCart));
+		Assert.notNull(shoppingCart);
+		Assert.isTrue(shoppingCart.getId() != 0);
+		Assert.notNull(item);
+		Assert.isTrue(item.getId() != 0);
 		
 		Content result;
 		
@@ -86,4 +74,31 @@ public class ContentService {
 		
 		return result;
 	}
+	
+	public void updateQuantityByShoppingCartAndItem(ShoppingCart shoppingCart, Item item, int quantity){
+		Assert.notNull(shoppingCart);
+		Assert.isTrue(shoppingCart.getId() != 0);
+		Assert.notNull(item);
+		Assert.isTrue(item.getId() != 0);
+		
+		Content content;
+		
+		content = this.findByShoppingCartAndItem(shoppingCart, item);
+		
+		if(content == null){
+			content = this.create();
+			content.setShoppingCart(shoppingCart);
+			content.setItem(item);
+		}
+		
+		content.setUnits(quantity);
+		
+		this.save(content);
+	}
+	
+	public void createByShoppingCartAndItem(ShoppingCart shoppingCart, Item item){
+		this.updateQuantityByShoppingCartAndItem(shoppingCart, item, 1);
+	}
+	
+	
 }

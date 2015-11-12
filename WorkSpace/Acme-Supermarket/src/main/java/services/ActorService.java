@@ -24,27 +24,28 @@ public class ActorService {
 	
 	// Supporting services ----------------------------------------------------
 
-	@Autowired
-	private UserAccountService userAccountService;
+	/*@Autowired
+	private UserAccountService userAccountService;*/
 	
 	// Constructors -----------------------------------------------------------
 	
 	public ActorService(){
 		super();
-		System.out.println("La clase ActorService no está terminada, faltarían los mensajes y todo eso");
 	}
 	// Simple CRUD methods ----------------------------------------------------
 
-	public Collection<Actor> findAll(){
+		//Copiado de Acme-Supermarket
+	/*public Collection<Actor> findAll(){
 		Collection<Actor> result;
 		
 		result = actorRepository.findAll();
 		Assert.notNull(result);
 		
 		return result;
-	}
+	}*/
 	
-	public Actor findOne(int actorId){
+		//Copiado de Acme-Supermarket
+	/*public Actor findOne(int actorId){
 		Assert.isTrue(actorId != 0);
 		
 		Actor result;
@@ -53,27 +54,28 @@ public class ActorService {
 		Assert.notNull(result);
 		
 		return result;
-	}
+	}*/
 	
-	public void save(Actor actor){
+		//Copiado de Acme-Supermarket
+	/*public void save(Actor actor){
 		Assert.notNull(actor);
 		
 		actorRepository.save(actor);
-	}
+	}*/
 	
-	public boolean exists(Actor actor){
+		//Copiado de Acme-Supermarket
+	/*public void delete(Actor actor){
 		Assert.notNull(actor);
+		Assert.isTrue(actor.getId() != 0);
+		Assert.isTrue(actorRepository.exists(actor.getId()));
 		
-		boolean result;
-		
-		result = actorRepository.exists(actor.getId());
-		
-		return result;
-	}
+		actorRepository.delete(actor);
+	}*/
 	
 	// Other business methods -------------------------------------------------
 	
-	public UserAccount findUserAccount(Actor actor){
+		//Copiado de Acme-Supermarket
+	/*public UserAccount findUserAccount(Actor actor){
 		Assert.notNull(actor);
 		
 		UserAccount result;
@@ -81,6 +83,6 @@ public class ActorService {
 		result = userAccountService.findByActor(actor);
 		
 		return result;
-	}
+	}*/
 	
 }

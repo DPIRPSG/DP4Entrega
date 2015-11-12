@@ -59,6 +59,11 @@ public class OrderService {
 
 	//Other business methods -------------------------------------------------
 	
+	public Order createFromShoppingCart(){
+		
+	}
+	
+	//No usados
 	public boolean cancelOrder(Order order){
 		Assert.isTrue(this.exists(order));
 		

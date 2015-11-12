@@ -31,6 +31,9 @@ public class ShoppingCartService {
 	@Autowired
 	private ContentService contentService;
 	
+	@Autowired
+	private OrderService orderService;
+	
 	//Constructors -----------------------------------------------------------
 
 	public ShoppingCartService(){
@@ -58,37 +61,42 @@ public class ShoppingCartService {
 		return result;
 	}
 	
-	public void AddItem(ShoppingCart shoppingCart, Item item){
-		Assert.notNull(shoppingCart);
-		Assert.isTrue(shoppingCartRepository.exists(shoppingCart.getId()));
-		Assert.notNull(item);
-		Assert.isTrue(itemService.exists(item));
-		
-		Content content;
-		
-		content = contentService.findByShoppingCartAndItem(shoppingCart, item);
-		
-		System.out.println("Crear content dentro de ShoppingCart no realizado");
-		if (content == null) {
-			// Crear content
-		}else{
-			int units = content.getUnits();
-			content.setUnits(units + 1);
-		}
-		contentService.save(content);
-		// Añadir a un shoppingCart el item
-		System.out.println("El método AddItem de ShoppingCartItem no está implementado");
+	public void AddItemQuantity(ShoppingCart shoppingCart, Item item){
+		contentService.createByShoppingCartAndItem(shoppingCart, item);
 	}
 	
 	public void ChangeItemQuantity(ShoppingCart shoppingCart, Item item, int quantity){
+		contentService.updateQuantityByShoppingCartAndItem(shoppingCart, item, quantity);
+	}
+	
+	public void DeleteItemQuantity(ShoppingCart shoppingCart, Item item){
+		contentService.updateQuantityByShoppingCartAndItem(shoppingCart, item, 0);
+	}
+	
+	public void AddComment(ShoppingCart shoppingCart, String comment){
 		Assert.notNull(shoppingCart);
-		Assert.isTrue(shoppingCartRepository.exists(shoppingCart.getId()));
-		Assert.notNull(item);
-		Assert.isTrue(itemService.exists(item));
+		Assert.isTrue(shoppingCart.getId() != 0);
 		
-		Content content;
-		System.out.println("El método AddItem de ChangeItemQuantity no está implementado");
-
+		shoppingCart.addComment(comment);
+		shoppingCartRepository.save(shoppingCart);
+	}
+	
+	public void deleteComment(ShoppingCart shoppingCart, String comment){
+		Assert.notNull(shoppingCart);
+		System.out.println("El método deleteComment en ShoppingCartService no está implementado");
+	}
+	
+	public Order checkOut(ShoppingCart shoppingCart){
+		Assert.notNull(shoppingCart);
+		Assert.isTrue(shoppingCart.getId() != 0);
+		
+		Order result;
+		
+		result = orderService.createFromShoppingCart(shoppingCart);
+		
+		orderService.save(result);
+		
+		return result;
 		
 	}
 }
