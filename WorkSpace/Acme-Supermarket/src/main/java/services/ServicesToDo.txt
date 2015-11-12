@@ -88,6 +88,10 @@
  + Cuando se devuelve del create se intenta devolver rellenos el mayor número de parametros posibles
  + Restarle una unidad de tiempo mínima a la hora de guardar.
  + Habría que comprobar que cuando se guarda algo lo hace al mismo usuario que la ha creado (que es suya) (usar el findByprincipal).
+
+---------	Recordatorios a hacer		----
+ + El método save debe devolver el objeto resultante después de haberlo guardado ya que tendrá un número de versión distinto.
+ + Usar el findByPrincipal.
  
 
 @Service
@@ -95,6 +99,8 @@
  
  	//Managed repository -----------------------------------------------------
 
+	@Autowired
+	
 	//Supporting services ----------------------------------------------------
 
 	//Constructors -----------------------------------------------------------

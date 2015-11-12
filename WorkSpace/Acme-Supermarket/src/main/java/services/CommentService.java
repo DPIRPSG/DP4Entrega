@@ -58,6 +58,12 @@ public class CommentService {
 		commentRepository.save(comment);
 	}
 	
+	public void delete(Comment comment){
+		Assert.isTrue(this.exists(comment));
+		
+		commentRepository.delete(comment.getId());
+	}
+	
 	//Other business methods -------------------------------------------------
 
 	public Collection<Comment> findAllByItem(Item item){
