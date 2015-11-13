@@ -41,48 +41,26 @@ public class FolderService {
 		return result;
 	}
 	
-	public Folder save(Folder folder){
-		Assert.isTrue(!this.exists(folder));
+	public void save(Folder folder){
+		Assert.notNull(folder);
 		
-		Folder result;
-		
-		System.out.println("El método save en FolderService no comprueba la concurrencia");
-		result = folderRepository.save(folder);
-		
-		return result;
-	}
-	
-	public Folder update(Folder folder){
-		Assert.isTrue(this.exists(folder));
-		
-		Folder result;
-		
-		System.out.println("El método update en FolderService no comprueba la concurrencia");
-		result = folderRepository.save(folder);
-		
-		return result;
+		folderRepository.save(folder);
 	}
 	
 	public void delete(Folder folder){
-		Assert.isTrue(this.exists(folder));
+		Assert.notNull(folder);
+		Assert.isTrue(folder.getId() != 0);
 		
-		System.out.println("El método delete en FolderService NO ESTA implementado");
-	}
-	
-	public boolean exists(Folder folder){
-		Assert.isNull(folder);
+		// Si es del sistema no debe poder borrarse
+		Assert.isTrue(!folder.getIsSystem());
 		
-		boolean result;
-		
-		result = folderRepository.exists(folder.getId());
-		
-		return result;
+		folderRepository.delete(folder);
 	}
 	
 	//Other business methods -------------------------------------------------
 	
 	public Collection<Folder> findAllByActor(Actor actor){
-		Assert.isTrue(actorService.exists(actor));
+		Assert.notNull(actor);
 		
 		Collection<Folder> result;
 		

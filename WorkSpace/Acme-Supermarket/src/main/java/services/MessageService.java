@@ -21,9 +21,6 @@ public class MessageService {
 	private MessageRepository messageRepository;
 	
 	//Supporting services ----------------------------------------------------
-	
-	@Autowired
-	private FolderService folderService;
 
 	//Constructors -----------------------------------------------------------
 
@@ -41,44 +38,16 @@ public class MessageService {
 		return result;	
 	}
 	
-	public Message save(Message message){
-		Assert.isTrue(!this.exists(message));
+	public void save(Message message){
+		Assert.notNull(message);
 		
-		Message result;
-		
-		System.out.println("El método save en MessageService no tiene en cuenta la concurrencia");
-		result = messageRepository.save(message);
-		
-		return result;
-	}
-	
-	public Message update(Message message){
-		Assert.isTrue(this.exists(message));
-		
-		Message result;
-		
-		System.out.println("El método update en MessageService no tiene en cuenta la concurrencia");
-		result = messageRepository.save(message);
-		
-		return result;	}
-	
-	public boolean exists(Message message){
-		Assert.isNull(message);
-		
-		boolean result;
-		
-		result = messageRepository.exists(message.getId());
-		
-		return result;
+		messageRepository.save(message);
 	}
 
 	//Other business methods -------------------------------------------------
 	
-/*
- * Sería interesante buscar quien lo envía y quienes lo reciben	
- */
 	public Collection<Message> findAllByFolder(Folder folder){
-		Assert.isTrue(folderService.exists(folder));
+		Assert.notNull(folder);
 		
 		Collection<Message> result;
 		

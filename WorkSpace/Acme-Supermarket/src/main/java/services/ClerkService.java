@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Clerk;
+import domain.Order;
 
 import repositories.ClerkRepository;
 
@@ -31,7 +32,6 @@ public class ClerkService {
 		Clerk result;
 		
 		result = new Clerk();
-		System.out.println("El método create en ClerkService está incompleto");
 		
 		return result;
 	}
@@ -56,6 +56,17 @@ public class ClerkService {
 
 	//Other business methods -------------------------------------------------
 
+	public Clerk findByOrder(Order order){
+		Assert.notNull(order);
+		
+		Clerk result;
+		
+		result = clerkRepository.findByOrderId(order.getId());
+		
+		return result;
+	}
+	
+	
 	public Collection<Clerk> findClerkServerMoreOrders(){
 		Collection<Clerk> result;
 		

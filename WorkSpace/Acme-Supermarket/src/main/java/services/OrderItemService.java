@@ -2,9 +2,6 @@ package services;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +16,6 @@ import domain.ShoppingCart;
 import domain.Tax;
 
 import repositories.OrderItemRepository;
-import repositories.OrderRepository;
 
 @Service
 @Transactional

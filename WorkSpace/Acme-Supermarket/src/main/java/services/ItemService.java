@@ -123,7 +123,17 @@ public class ItemService {
 		
 		return result;
 	}
-
+	
+	public Collection<Item> findAllByWareHouse(WareHouse wareHouse){
+		Assert.isNull(wareHouse);
+		
+		Collection<Item> result;
+		
+		//si lo necesitas se puede cambiar el codigo para que se ejecute desde storage y facilitar el trabajo
+		result = itemRepository.findAllByWareHouseId(wareHouse.getId());
+		
+		return result;
+	}
 	
 	// De aquí para abajo no ha sido necesario
 	
@@ -136,17 +146,7 @@ public class ItemService {
 			
 			return result;
 	}
-	
-	public Collection<Item> findAllByWareHouse(WareHouse wareHouse){
-		Assert.isTrue(wareHouseService.exists(wareHouse));
-		
-		Collection<Item> result;
-		
-		//si lo necesitas se puede cambiar el codigo para que se ejecute desde content y facilitar el trabajo
-		result = itemRepository.findAllByWareHouseId(wareHouse.getId());
-		
-		return result;
-	}
+
 	
 	public Collection<Item> findByKeyword(String keyword){
 		Collection<Item> result;

@@ -102,6 +102,9 @@
 
 ---------	Pendientes implementación 	----
  + Folder
+ 
+ 
+ + Comprobar todo con Assert para que si algo no se cumple permita no ejecutar la operación
 
 
 

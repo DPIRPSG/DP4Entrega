@@ -22,9 +22,6 @@ public class CommentService {
 	
 	//Supporting services ----------------------------------------------------
 
-	@Autowired
-	private ItemService itemService;
-	
 	//Constructors -----------------------------------------------------------
 	
 	public CommentService(){
@@ -33,16 +30,6 @@ public class CommentService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 	
-	public boolean exists(Comment comment){
-		Assert.isNull(comment);
-		
-		boolean result;
-		
-		result = commentRepository.exists(comment.getId());
-		
-		return result;
-	}
-
 	public Comment create(){
 		Comment result;
 		
@@ -51,16 +38,15 @@ public class CommentService {
 		return result;
 	}
 	
-	// Save solo debe usarse para guardar el objeto por primera vez	
 	public void save(Comment comment){
-		Assert.isTrue(!this.exists(comment));
+		Assert.notNull(comment);
 
-		System.out.println("El método save en CommentService no tiene en cuenta la concurrencia");
 		commentRepository.save(comment);
 	}
 	
 	public void delete(Comment comment){
-		Assert.isTrue(this.exists(comment));
+		Assert.notNull(comment);
+		Assert.isTrue(comment.getId() != 0);
 
 		commentRepository.delete(comment.getId());
 	}
@@ -68,7 +54,7 @@ public class CommentService {
 	//Other business methods -------------------------------------------------
 
 	public Collection<Comment> findAllByItem(Item item){
-		Assert.isTrue(itemService.exists(item));
+		Assert.notNull(item);
 		
 		Collection<Comment> result;
 		

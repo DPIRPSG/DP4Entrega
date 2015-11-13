@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Item;
-import domain.Storage;
 import domain.WareHouse;
 
 import repositories.WareHouseRepository;
@@ -40,29 +39,51 @@ public class WareHouseService {
 		return result;
 	}
 	
-	public boolean exists(WareHouse wareHouse){
-		Assert.isNull(wareHouse);
+	public WareHouse create(){
+		WareHouse result;
 		
-		boolean result;
-		
-		result = wareHouseRepository.exists(wareHouse.getId());
+		result = new WareHouse();
 		
 		return result;
 	}
 	
+	public void save(WareHouse wareHouse){
+		Assert.notNull(wareHouse);
+		
+		wareHouseRepository.save(wareHouse);
+	}
+	
+	public void delete(WareHouse wareHouse){
+		Assert.notNull(wareHouse);
+		
+		Collection<Item> items;
+		
+		items = itemService.findAllByWareHouse(wareHouse);
+		
+		if (items.isEmpty()){
+			wareHouseRepository.delete(wareHouse);
+		}else{
+			// No se puede borrar ya que todavía contiene algún item
+		}
+	}
+	
 	//Other business methods -------------------------------------------------
 	
-	public void UpdateItemQuantity(WareHouse wareHouse, Item item, int quantity){
-		Assert.isTrue(this.exists(wareHouse));
-		Assert.isTrue(itemService.exists(item));
+	public void changeItemQuantity(WareHouse wareHouse, Item item, int quantity){
+		storageService.updateQuantityByWareHouseAndItem(wareHouse, item, quantity);
+	}
+	
+	public void removeItemQuantity(WareHouse wareHouse, Item item, int quantityToEliminate){
+		int actualQuantity;
+		Integer finalQuantity;
 		
-		Storage storage;
+		actualQuantity = storageService.quantityByWareHouseAndItem(wareHouse, item);
+		finalQuantity = actualQuantity - quantityToEliminate;
 		
-		storage = storageService.findByWareHouseAndItem(wareHouse, item);
+		// Intenta eliminar más de los Items que hay
+		Assert.isTrue(finalQuantity >= 0);
 		
-		// Si devuelve null se debe crear
-		// si la cantidad entrante es 0 se debe borrar
-		System.out.println("El método UpdateItemQuantity en WareHouseService no está finalizado");
+		storageService.updateQuantityByWareHouseAndItem(wareHouse, item, finalQuantity);
 	}
 	
 	public Collection<WareHouse> findAllByItem(Item item){
@@ -74,5 +95,4 @@ public class WareHouseService {
 		
 		return result;
 	}
- 
 }

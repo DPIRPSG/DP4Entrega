@@ -127,33 +127,51 @@ public class OrderService {
 		return result;
 	}
 	
-	//No usados
-	
-	public boolean cancelOrder(Order order){
+	public void cancelOrder(Order order){
 		Assert.isNull(order);
 		Assert.isTrue(order.getId() != 0);
 		
-		boolean result;
+		Clerk clerk;
 		
-		result = false;
+		clerk = clerkService.findByOrder(order);
+		
+		if(clerk == null){
+			order.setCancelMoment(new Date());
+			this.save(order);
+		}else{
+			// No puede borrarse una order que está asignada a un Clerk
+		}
 		System.out.println("El método cancelOrder en OrderService está incompleto");
-		
-		return result;
 	}
 	
-	public Order assignToClerk(Clerk clerk){
-		Assert.isTrue(clerkService.exists(clerk));
+	public Order assignToClerkAutomatically(Clerk clerk){
+		Assert.notNull(clerk);
 		
 		Order result;
 		
 		result = this.findAllNotAssigned().iterator().next();
 		
-		result.setClerk(clerk);
-		
-		this.save(result);
+		this.assignToClerkManual(clerk, result);
 		
 		return result;
+	}
+	
+	public void assignToClerkManual(Clerk clerk, Order order){
+		Assert.notNull(clerk);
+		Assert.notNull(order);
 		
+		order.setClerk(clerk);
+		
+		this.save(order);
+	}
+	
+	private Collection<Order> findAllNotAssigned(){
+		Collection<Order> result;
+		
+		//deben estar ordenadas siendo la primera la más antigua
+		result = orderRepository.findAllNotAssigned();
+		
+		return result;
 	}
 	
 	public double rateOrderCancelled(){
@@ -164,14 +182,6 @@ public class OrderService {
 		return result;
 	}
 
-	public Collection<Order> findAllNotAssigned(){
-		Collection<Order> result;
-		
-		//deben estar ordenadas siendo la primera la más antigua
-		result = orderRepository.findAllNotAssigned();
-		
-		return result;
-	}
-	
+
 	
 }
