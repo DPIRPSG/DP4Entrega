@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,7 +64,7 @@ public class ContentService {
 	
 	//Other business methods -------------------------------------------------
  
-	public Content findByShoppingCartAndItem(ShoppingCart shoppingCart, Item item){
+	private Content findByShoppingCartAndItem(ShoppingCart shoppingCart, Item item){
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCart.getId() != 0);
 		Assert.notNull(item);
@@ -71,6 +73,24 @@ public class ContentService {
 		Content result;
 		
 		result = contentRepository.findByShoppingCartIdAndItemId(shoppingCart.getId(), item.getId());
+		
+		return result;
+	}
+	
+	public void emptyByShoppingCart(ShoppingCart shoppingCart){
+		Collection<Content> contents;
+		
+		contents = this.findByShoppingCart(shoppingCart);
+		
+		for (Content content : contents) {
+			this.delete(content);
+		}
+	}
+	
+	private Collection<Content> findByShoppingCart(ShoppingCart shoppingCart){
+		Collection<Content> result;
+		
+		result = contentRepository.findByShoppingCartID(shoppingCart.getId());
 		
 		return result;
 	}

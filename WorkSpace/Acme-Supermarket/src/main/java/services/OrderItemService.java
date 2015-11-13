@@ -64,6 +64,10 @@ public class OrderItemService {
 		
 		orderItemRepository.save(orderItem);
 	}
+	
+	public void save(Collection<OrderItem> orderItems){
+		orderItemRepository.save(orderItems);
+	}
 
 	//Other business methods -------------------------------------------------
 	
@@ -108,9 +112,11 @@ public class OrderItemService {
 		result.setUnits(units);
 		result.setOrder(order);
 		
-		this.save(result);
+		// this.save(result);
 		
 		return result;
 	}
+	
+
 	
 }

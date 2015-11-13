@@ -42,8 +42,6 @@ public class ConsumerService {
 		consumerRepository.save(consumer);
 	}
 	
-	//Don't use hacia abajo
-
 	public Collection<Consumer> findAll(){
 		Collection<Consumer> result;
 		

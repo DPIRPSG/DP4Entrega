@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 import domain.Category;
 import domain.Item;
 import domain.ShoppingCart;
+import domain.Tax;
 import domain.WareHouse;
 
 import repositories.ItemRepository;
@@ -54,13 +55,13 @@ public class ItemService {
 		this.save(item);
 	}
 	
-	// De aquí para abajo no ha sido necesario
-	
 	public void save(Item item){
 		Assert.notNull(item);
 		
 		itemRepository.save(item);
 	}
+	
+	// De aquí para abajo no ha sido necesario
 	
  	public Item findOne(int itemId) {
 		Item result;
@@ -112,7 +113,16 @@ public class ItemService {
 		result = itemRepository.findAllByShoppingCartId(shoppingCart.getId());
 		
 		return result;
-	}	
+	}
+	
+	public Collection<Item> findByTax(Tax tax){
+		Collection<Item> result;
+		
+		// No ignorar los eliminados
+		result = itemRepository.findByTaxId(tax.getId());
+		
+		return result;
+	}
 
 	
 	// De aquí para abajo no ha sido necesario

@@ -1,7 +1,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ public class OrderService {
 
 	//Managed repository -----------------------------------------------------
 
+	@Autowired
 	private OrderRepository orderRepository;
 	
 	//Supporting services ----------------------------------------------------
@@ -61,11 +61,14 @@ public class OrderService {
 	public void save(Order order){
 		Assert.notNull(order);
 		
+		Collection<OrderItem> orderItems;
+		
 		orderRepository.save(order);
+		
+		orderItems = order.getOrderItems();
+		orderItemService.save(orderItems);
 	}
 	
-	
-	//No necesario hacia abajo
 	
 	public Collection<Order> findAll(){
 		Collection<Order> result;
@@ -75,15 +78,6 @@ public class OrderService {
 		return result;
 	}
 	
-	public boolean exists(Order order){
-		Assert.isNull(order);
-		
-		boolean result;
-		
-		result = orderRepository.exists(order.getId());
-		
-		return result;
-	}
 
 	//Other business methods -------------------------------------------------
 	
@@ -136,7 +130,8 @@ public class OrderService {
 	//No usados
 	
 	public boolean cancelOrder(Order order){
-		Assert.isTrue(this.exists(order));
+		Assert.isNull(order);
+		Assert.isTrue(order.getId() != 0);
 		
 		boolean result;
 		

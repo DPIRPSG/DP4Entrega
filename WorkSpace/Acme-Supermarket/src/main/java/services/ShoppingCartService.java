@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,11 @@ public class ShoppingCartService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 
+	private void save(ShoppingCart shoppingCart){
+		Assert.notNull(shoppingCart);
+		
+		shoppingCartRepository.save(shoppingCart);
+	}
 	
 	//No usados
 	
@@ -59,6 +65,11 @@ public class ShoppingCartService {
 	
 	//Other business methods -------------------------------------------------
  
+	/**
+	 * Crea un Order al que solo se le deben añadir los últimos datos y guardarse en la base de datos.
+	 * 
+	 * Ninguno de los elementos creados son persistidos en la base de datos
+	 */
 	public Order createCheckOut(Consumer consumer){
 		Assert.notNull(consumer);
 		Assert.isTrue(consumer.getId() != 0);
@@ -66,19 +77,40 @@ public class ShoppingCartService {
 		Order result;
 		ShoppingCart shoppingCart;
 		
-		System.out.println("El método checkOut dentro de ShoppingCartService no está finalizado");
-		
 		shoppingCart = this.findByConsumer(consumer);		
 		
 			// Create a order with their orderItems (doesn't save the order) 
 		result = orderService.createFromShoppingCart(shoppingCart, consumer);
-		
-		orderService.save(result);
+
 		return result;
 	}
 	
-	public void saveCheckOut(Order order, Consumer consumer, String address, CreditCard creditCard){
-		System.out.println("El método saveCheckOut en ShoppingCartService no está finalizado");
+	/**
+	 * Guarda el objeto creado con createCheckOut
+	 */
+	public void saveCheckOut(Order order, Consumer consumer){
+		Assert.notNull(order);
+		
+		orderService.save(order);
+		this.emptyShoppingCart(consumer);
+	}
+	
+	/**
+	 * Vacia el carrito
+	 * 
+	 */
+	private void emptyShoppingCart(Consumer consumer){
+		Assert.notNull(consumer);
+		Assert.isTrue(consumer.getId() != 0);
+		
+		ShoppingCart shoppingCart;
+		
+		shoppingCart = this.findByConsumer(consumer);
+		
+		shoppingCart.emptyComments();
+		contentService.emptyByShoppingCart(shoppingCart);
+		
+		this.save(shoppingCart);
 	}
 
 	

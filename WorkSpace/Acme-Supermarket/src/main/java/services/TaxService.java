@@ -1,10 +1,14 @@
 package services;
 
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Category;
+import domain.Item;
 import domain.Tax;
 
 import repositories.TaxRepository;
@@ -14,10 +18,14 @@ import repositories.TaxRepository;
 public class TaxService {
 	//Managed repository -----------------------------------------------------
 
+	@Autowired
 	private TaxRepository taxRepository;
 	
 	//Supporting services ----------------------------------------------------
 
+	@Autowired
+	private ItemService itemService;
+	
 	//Constructors -----------------------------------------------------------
 	
 	public TaxService(){
@@ -30,29 +38,35 @@ public class TaxService {
 		Tax result;
 		
 		result = null;
-		System.out.println("El método create dentro de la clase TaxService está incompleto");
 		
 		return result;
 	}
 	
 	public void save(Tax tax){
 		Assert.isNull(tax);
-		Assert.isTrue(this.exists(tax));
 		
 		taxRepository.save(tax);
 	}
 	
 	public void delete(Tax tax){
 		Assert.isNull(tax);
-		Assert.isTrue(this.exists(tax));
+		Assert.isTrue(tax.getId() != 0);
 		
-		System.out.println("El método delete dentro de TaxService esta incompleto");
+		Collection<Item> itemsWithTax;
+		
+		itemsWithTax = itemService.findByTax(tax);
+		
+		if(itemsWithTax.isEmpty()){
+			taxRepository.delete(tax);
+		}else{
+			// Ha sido usado por lo que no debe ser eliminado
+		}
 	}
 	
-	public boolean exists(Tax tax){
-		boolean result;
+	public Collection<Tax> findAll(){
+		Collection<Tax> result;
 		
-		result = taxRepository.exists(tax.getId());
+		result = taxRepository.findAll();
 		
 		return result;
 	}
