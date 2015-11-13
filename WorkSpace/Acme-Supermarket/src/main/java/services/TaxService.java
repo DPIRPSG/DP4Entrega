@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Category;
 import domain.Tax;
 
 import repositories.TaxRepository;
@@ -57,5 +58,15 @@ public class TaxService {
 	}
 	
 	//Other business methods -------------------------------------------------
+	
+	public Tax findByCategory(Category category){
+		Assert.notNull(category);
+		
+		Tax result;
+		
+		result = taxRepository.findByCategoryId(category.getId());
+		
+		return result;
+	}
  
 }

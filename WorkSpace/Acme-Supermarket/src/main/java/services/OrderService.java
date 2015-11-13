@@ -1,6 +1,8 @@
 package services;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Clerk;
+import domain.Consumer;
 import domain.Order;
+import domain.OrderItem;
+import domain.ShoppingCart;
 
 import repositories.OrderRepository;
 
@@ -25,6 +30,12 @@ public class OrderService {
 	@Autowired
 	private ClerkService clerkService;
 	
+	@Autowired
+	private OrderItemService orderItemService;
+	
+	@Autowired
+	private ConsumerService consumerService;
+	
 	//Constructors -----------------------------------------------------------
 	
 	public OrderService(){
@@ -32,6 +43,29 @@ public class OrderService {
 	}
 	
 	//Simple CRUD methods ----------------------------------------------------
+	
+	public Order create(){
+		Order result;
+		String ticker;
+		
+		result = new Order();
+		
+		ticker = this.tickerGenerate();
+		
+		result.setPlacementMoment(new Date());
+		result.setTicker(ticker);
+		
+		return result;
+	}
+	
+	public void save(Order order){
+		Assert.notNull(order);
+		
+		orderRepository.save(order);
+	}
+	
+	
+	//No necesario hacia abajo
 	
 	public Collection<Order> findAll(){
 		Collection<Order> result;
@@ -50,20 +84,57 @@ public class OrderService {
 		
 		return result;
 	}
-	
-	public void save(Order order){
-		Assert.isTrue(this.exists(order));
-		
-		orderRepository.save(order);
-	}
 
 	//Other business methods -------------------------------------------------
 	
-	public Order createFromShoppingCart(){
+	public Order createFromShoppingCart(ShoppingCart shoppingCart, Consumer consumer){
+		Assert.notNull(shoppingCart);
+		Assert.isTrue(shoppingCart.getId() != 0);
 		
+		Order result;
+		Collection<OrderItem> orderItems;
+		double amount;
+		
+		result = this.create();
+		
+			// Adding OrderItems
+		orderItems = orderItemService.createByShoppingCart(shoppingCart, result);
+		result.setOrderItems(orderItems);
+		
+			// Calculate amount
+		amount = this.amountCalculate(orderItems);
+		result.setAmount(amount);
+		
+			// Adding Order to Consumer
+		consumer.addOrder(result);
+		
+		consumerService.save(consumer);
+		return result;
+	}
+	
+	private String tickerGenerate(){
+		String result;
+		
+		System.out.println("El método tickerGenerate en OrderService no está completado");
+		result = "unknown";
+		
+		return result;
+	}
+	
+	private double amountCalculate(Collection<OrderItem> orderItems){
+		double result;
+		
+		result = 0.0;
+		
+		for (OrderItem orderItem : orderItems) {
+			result += orderItem.getPrice() * orderItem.getUnits();
+		}
+		
+		return result;
 	}
 	
 	//No usados
+	
 	public boolean cancelOrder(Order order){
 		Assert.isTrue(this.exists(order));
 		

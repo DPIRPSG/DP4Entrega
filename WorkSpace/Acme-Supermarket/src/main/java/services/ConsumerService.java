@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Consumer;
+import domain.Order;
 
 import repositories.ConsumerRepository;
 
@@ -52,7 +53,7 @@ public class ConsumerService {
 	}
 
 	//Other business methods -------------------------------------------------
-
+	
 	
 	//No usado hacia abajo
 	

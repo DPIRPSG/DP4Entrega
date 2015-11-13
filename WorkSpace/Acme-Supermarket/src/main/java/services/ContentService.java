@@ -75,6 +75,16 @@ public class ContentService {
 		return result;
 	}
 	
+	public int contentByShoppingCartAndItem(ShoppingCart shoppingCart, Item item){
+		int result;
+		Content content;
+		
+		content = this.findByShoppingCartAndItem(shoppingCart, item);
+		result = content.getUnits();
+		
+		return result;
+	}
+	
 	public void updateQuantityByShoppingCartAndItem(ShoppingCart shoppingCart, Item item, int quantity){
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCart.getId() != 0);

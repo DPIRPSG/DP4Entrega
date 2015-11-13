@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Category;
+import domain.Item;
 
 import repositories.CategoryRepository;
 
@@ -80,4 +81,13 @@ public class CategoryService {
 
 	//Other business methods -------------------------------------------------
  
+	public Category findByItem(Item item){
+		Category result;
+		
+		result = categoryRepository.findByItemId(item.getId());
+		
+		return result;
+	}
+	
+	
 }

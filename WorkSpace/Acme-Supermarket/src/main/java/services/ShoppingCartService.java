@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Consumer;
 import domain.Content;
+import domain.CreditCard;
 import domain.Item;
 import domain.Order;
 import domain.ShoppingCart;
@@ -42,6 +44,9 @@ public class ShoppingCartService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 
+	
+	//No usados
+	
 	public boolean exists(ShoppingCart shoppingCart){
 		boolean result;
 		
@@ -49,14 +54,38 @@ public class ShoppingCartService {
 		
 		return result;
 	}
+	
+	
+	
 	//Other business methods -------------------------------------------------
  
-	public Order checkOut(ShoppingCart shoppingCart){
-		Order result;
+	public Order createCheckOut(Consumer consumer){
+		Assert.notNull(consumer);
+		Assert.isTrue(consumer.getId() != 0);
 		
-		result = null;
+		Order result;
+		ShoppingCart shoppingCart;
 		
 		System.out.println("El método checkOut dentro de ShoppingCartService no está finalizado");
+		
+		shoppingCart = this.findByConsumer(consumer);		
+		
+			// Create a order with their orderItems (doesn't save the order) 
+		result = orderService.createFromShoppingCart(shoppingCart, consumer);
+		
+		orderService.save(result);
+		return result;
+	}
+	
+	public void saveCheckOut(Order order, Consumer consumer, String address, CreditCard creditCard){
+		System.out.println("El método saveCheckOut en ShoppingCartService no está finalizado");
+	}
+
+	
+	public ShoppingCart findByConsumer(Consumer consumer){
+		ShoppingCart result;
+		
+		result = shoppingCartRepository.findByConsumerId(consumer.getId());
 		
 		return result;
 	}
