@@ -74,8 +74,10 @@ public class ShoppingCartService {
 	/**
 	 * Guarda el objeto creado con createCheckOut
 	 */
+	//req: 11.7
 	public void saveCheckOut(Order order, Consumer consumer){
 		Assert.notNull(order);
+		Assert.notNull(consumer);
 		
 		orderService.save(order);
 		this.emptyShoppingCart(consumer);
@@ -85,6 +87,7 @@ public class ShoppingCartService {
 	 * Vacia el carrito
 	 * 
 	 */
+	//req: 11.7
 	private void emptyShoppingCart(Consumer consumer){
 		Assert.notNull(consumer);
 		Assert.isTrue(consumer.getId() != 0);

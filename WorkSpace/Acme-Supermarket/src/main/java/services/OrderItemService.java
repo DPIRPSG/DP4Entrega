@@ -65,6 +65,10 @@ public class OrderItemService {
 		orderItemRepository.save(orderItem);
 	}
 	
+	/**
+	 * Guarda o actualiza muchos orderItems
+	 */
+	//req: 11.7
 	public void save(Collection<OrderItem> orderItems){
 		Assert.notNull(orderItems);
 

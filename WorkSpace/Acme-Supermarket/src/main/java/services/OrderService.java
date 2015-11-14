@@ -61,16 +61,19 @@ public class OrderService {
 		
 		return result;
 	}
-	
+	/**
+	 * Guarda o actualiza una order
+	 */
+	//req: 11.7
 	public void save(Order order){
 		Assert.notNull(order);
 		
 		Collection<OrderItem> orderItems;
 		
-		orderRepository.save(order);
-		
 		orderItems = order.getOrderItems();
 		orderItemService.save(orderItems);
+		
+		orderRepository.save(order);
 	}
 	
 	/**

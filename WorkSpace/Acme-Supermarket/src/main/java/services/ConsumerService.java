@@ -9,6 +9,8 @@ import org.springframework.util.Assert;
 import domain.Consumer;
 
 import repositories.ConsumerRepository;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -62,6 +64,22 @@ public class ConsumerService {
 	}
 
 	//Other business methods -------------------------------------------------
+
+	/**
+	 * Devuelve el consumer que está realizando la operación
+	 */
+	//req: x
+	public Consumer findByPrincipal(){
+		Consumer result;
+		UserAccount userAccount;
+		
+		userAccount = LoginService.getPrincipal();
+		Assert.notNull(userAccount);
+		result = consumerRepository.findByUserAccount(userAccount);
+		Assert.notNull(result);
+		
+		return result;
+	}
 	
 	/**
 	 * Lista el consumers con más orders. En caso de igualdad devuelve varios. 
