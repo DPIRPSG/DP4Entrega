@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import domain.Consumer;
 
@@ -30,9 +31,14 @@ public class ConsumerService {
 		Consumer result;
 		
 		result = new Consumer();
-		// Crear UserAccount y carpetas para asociarselo
-		
+
 		return result;
+	}
+	
+	public void save(Consumer consumer){
+		Assert.isNull(consumer);
+		
+		consumerRepository.save(consumer);
 	}
 	
 	public Collection<Consumer> findAll(){
@@ -44,7 +50,10 @@ public class ConsumerService {
 	}
 
 	//Other business methods -------------------------------------------------
-
+	
+	
+	//No usado hacia abajo
+	
 	public Collection<Consumer> findConsumerMoreOrders(){
 		Collection<Consumer> result;
 		

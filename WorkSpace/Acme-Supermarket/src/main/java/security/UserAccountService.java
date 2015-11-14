@@ -24,6 +24,8 @@ public class UserAccountService {
 	}
 	// Simple CRUD methods ----------------------------------------------------
 
+	
+	
 	public UserAccount findByActor(Actor actor){
 		Assert.notNull(actor);
 		

@@ -93,6 +93,21 @@
  + El método save debe devolver el objeto resultante después de haberlo guardado ya que tendrá un número de versión distinto.
  + Usar el findByPrincipal.
  
+----------	To Ask						----
+ + Save y update comprobando que exista en la base de datos o no hay que comprobar que exista?
+ + Concurrencia
+ + 10.2 -> agrupados por categorías hemos pedido independiente.
+ + 11.2 -> 
+ + 
+
+---------	Pendientes implementación 	----
+ + Folder
+ 
+ 
+ + Comprobar todo con Assert para que si algo no se cumple permita no ejecutar la operación
+
+
+
 
 @Service
 @Transactional 

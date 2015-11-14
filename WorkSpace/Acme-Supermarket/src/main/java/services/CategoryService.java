@@ -2,11 +2,14 @@ package services;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Category;
+import domain.Item;
+import domain.Tax;
 
 import repositories.CategoryRepository;
 
@@ -15,10 +18,14 @@ import repositories.CategoryRepository;
 public class CategoryService {
 	//Managed repository -----------------------------------------------------
 
+	@Autowired
 	private CategoryRepository categoryRepository;
 	
 	//Supporting services ----------------------------------------------------
 
+	@Autowired
+	private TaxService taxService;
+	
 	//Constructors -----------------------------------------------------------
 	
 	public CategoryService(){
@@ -30,31 +37,30 @@ public class CategoryService {
 	public Category create(){
 		Category result;
 		
-		result = null;
-		System.out.println("El método create en CategoryService está incompleto");
+		result = new Category();
 		
 		return result;
 	}
 	
+	// Save solo debe usarse para guardar el objeto por primera vez
 	public void save(Category category){
-		Assert.isTrue(this.exists(category));
+		Assert.notNull(category);
 		
-	}
-	
-	public boolean exists(Category category){
-		Assert.isNull(category);
-		
-		boolean result;
-		
-		result = categoryRepository.exists(category.getId());
-		
-		return result;
+		categoryRepository.save(category);
 	}
 	
 	public void delete(Category category){
-		Assert.isTrue(this.exists(category));
+		Assert.notNull(category);
 		
-		System.out.println("El método delete dentro de CategoryService está incompleto");
+		Tax tax;
+		
+		tax = taxService.findByCategory(category);
+		
+		if (tax == null){
+			categoryRepository.delete(category);
+		}else{
+			// No se puede borrar ya que está asociado a una tasa
+		}
 	}
 	
 	public Collection<Category> findAll(){
@@ -67,4 +73,13 @@ public class CategoryService {
 
 	//Other business methods -------------------------------------------------
  
+	public Category findByItem(Item item){
+		Category result;
+		
+		result = categoryRepository.findByItemId(item.getId());
+		
+		return result;
+	}
+	
+	
 }

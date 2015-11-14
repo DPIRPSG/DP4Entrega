@@ -21,9 +21,6 @@ public class MessageService {
 	private MessageRepository messageRepository;
 	
 	//Supporting services ----------------------------------------------------
-	
-	@Autowired
-	private FolderService folderService;
 
 	//Constructors -----------------------------------------------------------
 
@@ -32,14 +29,25 @@ public class MessageService {
 	}
 	
 	//Simple CRUD methods ----------------------------------------------------
+	
+	public Message create(){
+		Message result;
+		
+		result = new Message();
+		
+		return result;	
+	}
+	
+	public void save(Message message){
+		Assert.notNull(message);
+		
+		messageRepository.save(message);
+	}
 
 	//Other business methods -------------------------------------------------
 	
-/*
- * Sería interesante buscar quien lo envía y quienes lo reciben	
- */
 	public Collection<Message> findAllByFolder(Folder folder){
-		Assert.isTrue(folderService.exists(folder));
+		Assert.notNull(folder);
 		
 		Collection<Message> result;
 		

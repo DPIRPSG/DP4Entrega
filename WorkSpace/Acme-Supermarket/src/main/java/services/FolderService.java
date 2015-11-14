@@ -33,20 +33,34 @@ public class FolderService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 
-	public boolean exists(Folder folder){
-		Assert.isNull(folder);
+	public Folder create(){
+		Folder result;
 		
-		boolean result;
-		
-		result = folderRepository.exists(folder.getId());
+		result = new Folder();
 		
 		return result;
+	}
+	
+	public void save(Folder folder){
+		Assert.notNull(folder);
+		
+		folderRepository.save(folder);
+	}
+	
+	public void delete(Folder folder){
+		Assert.notNull(folder);
+		Assert.isTrue(folder.getId() != 0);
+		
+		// Si es del sistema no debe poder borrarse
+		Assert.isTrue(!folder.getIsSystem());
+		
+		folderRepository.delete(folder);
 	}
 	
 	//Other business methods -------------------------------------------------
 	
 	public Collection<Folder> findAllByActor(Actor actor){
-		Assert.isTrue(actorService.exists(actor));
+		Assert.notNull(actor);
 		
 		Collection<Folder> result;
 		

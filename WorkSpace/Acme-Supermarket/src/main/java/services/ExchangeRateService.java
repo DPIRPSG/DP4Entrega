@@ -39,28 +39,14 @@ public class ExchangeRateService {
 		return result;
 	}
 	
-	public boolean exists(ExchangeRate exchangeRate){
-		Assert.isNull(exchangeRate);
+	public void save(ExchangeRate exchangeRate){
+		Assert.notNull(exchangeRate);
 		
-		boolean result;
-		
-		result = exchangeRateRepository.exists(exchangeRate.getId());
-		
-		return result;
-	}
-	
-	public ExchangeRate save(ExchangeRate input){
-		Assert.isTrue(this.exists(input));
-		
-		ExchangeRate result;
-		
-		result = exchangeRateRepository.save(input);
-		
-		return result;
+		exchangeRateRepository.save(exchangeRate);
 	}
 	
 	public void delete(ExchangeRate exchangeRate){
-		Assert.isTrue(this.exists(exchangeRate));
+		Assert.notNull(exchangeRate);
 		
 		exchangeRateRepository.delete(exchangeRate.getId());
 	}
