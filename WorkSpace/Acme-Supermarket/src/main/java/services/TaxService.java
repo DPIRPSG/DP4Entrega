@@ -34,20 +34,32 @@ public class TaxService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 	
+	/**
+	 * Devuelve un tax preparado para ser modificado. Necesita usar save para que persista en la base de datos
+	 */
+	//req: 12.3
 	public Tax create(){
 		Tax result;
 		
-		result = null;
+		result = new Tax();
 		
 		return result;
 	}
-	
+
+	/**
+	 * Guarda un tax creado o modificado
+	 */
+	//req: 12.3
 	public void save(Tax tax){
-		Assert.isNull(tax);
+		Assert.notNull(tax);
 		
 		taxRepository.save(tax);
 	}
-	
+
+	/**
+	 * Elimina un tax
+	 */
+	//req: 12.3
 	public void delete(Tax tax){
 		Assert.isNull(tax);
 		Assert.isTrue(tax.getId() != 0);
@@ -56,11 +68,9 @@ public class TaxService {
 		
 		itemsWithTax = itemService.findByTax(tax);
 		
-		if(itemsWithTax.isEmpty()){
-			taxRepository.delete(tax);
-		}else{
-			// Ha sido usado por lo que no debe ser eliminado
-		}
+		Assert.isTrue(itemsWithTax.isEmpty(), "Only the tax without items (deleted or not) could be deleted");
+		
+		taxRepository.delete(tax);
 	}
 	
 	public Collection<Tax> findAll(){

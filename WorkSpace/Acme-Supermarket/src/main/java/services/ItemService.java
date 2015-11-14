@@ -24,12 +24,6 @@ public class ItemService {
 	private ItemRepository itemRepository;
 	
 	//Supporting services ----------------------------------------------------
-
-	@Autowired
-	private WareHouseService wareHouseService;
-	
-	@Autowired
-	private ShoppingCartService shoppingCartService;
 	
 	//Constructors -----------------------------------------------------------
 	
@@ -38,15 +32,24 @@ public class ItemService {
 	}
 	
 	//Simple CRUD methods ----------------------------------------------------
-	
+
+	/** Devuelve Item preparado para ser modificado. Necesita usar save para que persista en la base de datos
+	 * 
+	 */	
+	//req: 12.2
 	public Item create(){
 		Item result;
 
 		result = new Item();
+		result.setDeleted(false);
 		
 		return result;
 	}
 	
+	/**
+	 * Marca como eliminado un item
+	 */
+	//req: 12.2
 	public void delete(Item item){
 		Assert.notNull(item);
 		Assert.isTrue(item.getId() != 0);
@@ -55,6 +58,10 @@ public class ItemService {
 		this.save(item);
 	}
 	
+	/**
+	 * Guarda un item creado o modificado
+	 */
+	//req: 12.2
 	public void save(Item item){
 		Assert.notNull(item);
 		
@@ -80,21 +87,12 @@ public class ItemService {
 		return result;		
 	}
 
-
-	
-	public boolean exists(Item item){
-		Assert.isNull(item);
-		
-		boolean result;
-		
-		result = itemRepository.exists(item.getId());
-		
-		return result;
-	}
-
-	
 	//Other business methods -------------------------------------------------
 
+	/**
+	 * Devuelve los Items de una categoría dada.
+	 */
+	//req: 10.2, 12.4
 	public Collection<Item> findAllByCategory(Category category){
 		Assert.notNull(category);
 		
@@ -105,6 +103,24 @@ public class ItemService {
 		return result;
 	}
 	
+	/**
+	 * Devuelve los Items de una categoría dada. DEVUELVE LOS ELIMINADOS
+	 */
+	//req: 12.4
+	public Collection<Item> findAllNotDeletedByCategory(Category category){
+		Assert.notNull(category);
+		
+		Collection<Item> result;
+		
+		result = itemRepository.findAllNotDeletedByCategoryId(category.getId());
+		
+		return result;
+	}
+	
+	/**
+	 * Devuelve los items no eliminados pertenecientes a un shoppingCart.
+	 */
+	// req: 11.2
 	public Collection<Item> findAllByShoppingCart(ShoppingCart shoppingCart){
 		Assert.notNull(shoppingCart);
 		
@@ -115,10 +131,13 @@ public class ItemService {
 		return result;
 	}
 	
+	/**
+	 * Devuelve los items que aplican la tax independientemente de si un item está borrado
+	 */
+	//req: 12.3
 	public Collection<Item> findByTax(Tax tax){
 		Collection<Item> result;
 		
-		// No ignorar los eliminados
 		result = itemRepository.findByTaxId(tax.getId());
 		
 		return result;
@@ -135,10 +154,25 @@ public class ItemService {
 		return result;
 	}
 	
+	/**
+	 * Encuentra un item a partir de un texto. Dicho texto puede estar en su sku, su nombre o su descripción.
+	 */
+	// req: 10.3	
+	public Collection<Item> findBySingleKeyword(String keyword){
+		Assert.notNull(keyword);
+		Assert.isTrue(!keyword.isEmpty());
+		
+		Collection<Item> result;
+		
+		result = itemRepository.findBySingleKeyword(keyword);
+		
+		return result;
+	}
+	
+	
+	
 	// De aquí para abajo no ha sido necesario
-	
-	
-	
+		
 	public Collection<Item> findAllDeleted(){
 			Collection<Item> result;
 			
@@ -147,16 +181,11 @@ public class ItemService {
 			return result;
 	}
 
-	
-	public Collection<Item> findByKeyword(String keyword){
-		Collection<Item> result;
-		
-		result = null;
-		System.out.println("El método findByKeyword de ItemService no está implementado");
-		
-		return result;
-	}
-
+	/**
+	 * Lista el item mejor vendido. En caso de igualdad devuelve varios. 
+	 * Considera las orders canceladas y no canceladas
+	 */
+	//req: 12.7.3
 	public Collection<Item> findItemBestSelling(){
 		Collection<Item> result;
 		
@@ -165,6 +194,11 @@ public class ItemService {
 		return result;
 	}
 	
+	/**
+	 * Lista el item peor vendido. En caso de igualdad devuelve varios. 
+	 * Considera las orders canceladas y no canceladas.
+	 */
+	//req: 12.7.4	
 	public Collection<Item> findItemWorstSelling(){
 		Collection<Item> result;
 		

@@ -31,13 +31,13 @@ public class OrderItemService {
 	private ItemService itemService;
 	
 	@Autowired
-	private ContentService contentService;
-	
-	@Autowired
 	private CategoryService categoryService;
 	
 	@Autowired
 	private TaxService taxService;
+	
+	@Autowired
+	private ShoppingCartService shoppingCartService;
 
 	//Constructors -----------------------------------------------------------
 
@@ -47,6 +47,10 @@ public class OrderItemService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 	
+	/** Devuelve OrderItem preparado para ser modificado. Necesita usar save para que persista en la base de datos
+	 * 
+	 */	
+	//req: 11.7
 	public OrderItem create(){
 		OrderItem result;
 		
@@ -62,14 +66,22 @@ public class OrderItemService {
 	}
 	
 	public void save(Collection<OrderItem> orderItems){
+		Assert.notNull(orderItems);
+
 		orderItemRepository.save(orderItems);
 	}
 
 	//Other business methods -------------------------------------------------
 	
+	/**
+	 * NO USAR. Usar desde ShoppingCartService.createCheckOut. Devuelve los orders items creados pero no alamacenados.
+	 */
+	// req: 11.7
 	public Collection<OrderItem> createByShoppingCart(ShoppingCart shoppingCart, Order order){
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCart.getId() != 0);
+		Assert.notNull(order);
+		Assert.isTrue(order.getId() != 0);
 		
 		Collection<OrderItem> result;
 		Collection<Item> items;
@@ -77,10 +89,13 @@ public class OrderItemService {
 		int units;
 		
 		result = Collections.emptySet();
+			// Debe devolver los items no borrados del sistema
 		items = itemService.findAllByShoppingCart(shoppingCart);
 		
+		Assert.notEmpty(items, "Can't create OrderItems if the shoppingCart is empty");
+		
 		for (Item item : items) {
-			units = contentService.contentByShoppingCartAndItem(shoppingCart, item);			
+			units = shoppingCartService.consultItemQuantity(shoppingCart, item);			
 			orderItem = this.createByShoppingCart(item, order, units);
 			result.add(orderItem);
 		}	
@@ -88,6 +103,10 @@ public class OrderItemService {
 		return result;
 	}
 	
+	/**
+	 * Crea un OrderItem dado un item. No se almacena.
+	 */
+	//req: 11.7
 	private OrderItem createByShoppingCart(Item item, Order order, int units){
 		OrderItem result;
 		Tax tax;
@@ -96,7 +115,7 @@ public class OrderItemService {
 		category = categoryService.findByItem(item);
 		tax = taxService.findByCategory(category);
 		
-		result = create();
+		result = this.create();
 		result.setSku(item.getSku());
 		result.setName(item.getName());
 		result.setDescription(item.getDescription());
@@ -107,8 +126,6 @@ public class OrderItemService {
 		result.setNameCategory(category.getName());
 		result.setUnits(units);
 		result.setOrder(order);
-		
-		// this.save(result);
 		
 		return result;
 	}

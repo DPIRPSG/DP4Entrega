@@ -27,6 +27,10 @@ public class ConsumerService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 	
+	/** Devuelve consumer preparado para ser modificado. Necesita usar save para que persista en la base de datos
+	 * 
+	 */
+	// req: 10.1
 	public Consumer create(){
 		Consumer result;
 		
@@ -35,12 +39,20 @@ public class ConsumerService {
 		return result;
 	}
 	
+	/**
+	 * Almacena en la base de datos el cambio
+	 */
+	// req: 10.1
 	public void save(Consumer consumer){
 		Assert.isNull(consumer);
 		
 		consumerRepository.save(consumer);
 	}
 	
+	/**
+	 * Lista los consumers registrados
+	 */
+	// req: 12.5
 	public Collection<Consumer> findAll(){
 		Collection<Consumer> result;
 		
@@ -51,9 +63,11 @@ public class ConsumerService {
 
 	//Other business methods -------------------------------------------------
 	
-	
-	//No usado hacia abajo
-	
+	/**
+	 * Lista el consumers con más orders. En caso de igualdad devuelve varios. 
+	 * Cuenta las orders canceladas y las no canceladas
+	 */
+	//req: 12.7.1
 	public Collection<Consumer> findConsumerMoreOrders(){
 		Collection<Consumer> result;
 		
@@ -61,7 +75,12 @@ public class ConsumerService {
 		
 		return result;
 	}
-	
+
+	/**
+	 * Lista el consumers que ha gastado más dinero. En caso de igualdad devuelve varios. 
+	 * Solo considera las orders no canceladas
+	 */
+	//req: 12.7.2
 	public Collection<Consumer> findConsumerSpentMoreMoney(){
 		Collection<Consumer> result;
 		

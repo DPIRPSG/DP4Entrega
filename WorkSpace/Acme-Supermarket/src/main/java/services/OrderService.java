@@ -44,7 +44,11 @@ public class OrderService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 	
-	public Order create(){
+	/** Devuelve Order solo con ticker. Necesita añadir OrderItems y usar save para que persista en la base de datos.
+	 * 
+	 */	
+	//req: 11.7
+	private Order create(){
 		Order result;
 		String ticker;
 		
@@ -69,7 +73,10 @@ public class OrderService {
 		orderItemService.save(orderItems);
 	}
 	
-	
+	/**
+	 * Lista todas las orders guardadas en el sistema.
+	 */
+	//req: 12.6
 	public Collection<Order> findAll(){
 		Collection<Order> result;
 		
@@ -81,9 +88,15 @@ public class OrderService {
 
 	//Other business methods -------------------------------------------------
 	
+	/**
+	 * Crea una Order desde ShoppingCart. NO USAR. Usar desde ShoppingCartService.createCheckOut.
+	 */
+	//req: 11.7
 	public Order createFromShoppingCart(ShoppingCart shoppingCart, Consumer consumer){
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCart.getId() != 0);
+		Assert.notNull(consumer);
+		Assert.isTrue(consumer.getId() != 0);
 		
 		Order result;
 		Collection<OrderItem> orderItems;
@@ -106,16 +119,41 @@ public class OrderService {
 		return result;
 	}
 	
+	/**
+	 * 	Genera un ticker cumpliendo el Pattern
+	 */
+	//req: 11.7
 	private String tickerGenerate(){
 		String result;
+		/*UUID codeUUID;
+		String code;
+		String[] ticker;
+		String definitedTicker;
+		UUIDGenerator generator;
+		Pattern pattern;
 		
+		pattern = Pattern.compile("regular expresion here");
+		
+		
+		
+		generator.
+		codeUUID = UUIDGenerator.randomUUID();
+		code = codeUUID.toString();
+		ticker = code.split("-");
+		definitedTicker = ticker[0]+"-"+ticker[1];*/
 		System.out.println("El método tickerGenerate en OrderService no está completado");
-		result = "unknown";
+		result = "000000-unkn";
 		
 		return result;
 	}
 	
+	/**
+	 * Calcula el precio de los orders
+	 */
+	// req: 11.7
 	private double amountCalculate(Collection<OrderItem> orderItems){
+		Assert.notEmpty(orderItems);
+		
 		double result;
 		
 		result = 0.0;

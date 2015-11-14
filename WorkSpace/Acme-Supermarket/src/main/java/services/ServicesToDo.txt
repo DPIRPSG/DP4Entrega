@@ -106,7 +106,7 @@
  
  + Comprobar todo con Assert para que si algo no se cumple permita no ejecutar la operación
 
-
+ + ¿findByPrincipal?: Está en ConsumerService de dp_2014-15
 
 
 @Service
