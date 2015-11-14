@@ -26,6 +26,7 @@ public class ItemServiceTest extends AbstractTest{
 	// Service under test -------------------------
 	@Autowired
 	private ItemService itemService;
+	@Autowired
 	private CategoryService categoryService;
 	
 	// Test ---------------------------------------
@@ -33,12 +34,14 @@ public class ItemServiceTest extends AbstractTest{
 	// Requisito 10.2
 	@Test
 	public void testFindAllByCategory1(){
+		System.out.println("Requisito 10.2 - List the catalogue of items grouped by their categories.");
 		System.out.println("ItemServiceTest - testFindAllByCategory1 - StartPoint");
-		
+
 		Collection<Item> all;
 		Category category;
-		
+
 		category = categoryService.findAll().iterator().next();
+		//Peta aquí
 		all = itemService.findAllByCategory(category);
 		
 		for(Item i:all){
@@ -51,6 +54,7 @@ public class ItemServiceTest extends AbstractTest{
 	// Requisito 10.3
 	@Test
 	public void testFindByKeyword1(){
+		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
 		System.out.println("ItemServiceTest - testFindByKeyword1 - StartPoint");
 		
 		Collection<Item> all;
@@ -68,6 +72,7 @@ public class ItemServiceTest extends AbstractTest{
 	
 	@Test
 	public void testFindByKeyword2(){
+		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
 		System.out.println("ItemServiceTest - testFindByKeyword2 - StartPoint");
 		
 		Collection<Item> all;
@@ -85,6 +90,7 @@ public class ItemServiceTest extends AbstractTest{
 	
 	@Test
 	public void testFindByKeyword3(){
+		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
 		System.out.println("ItemServiceTest - testFindByKeyword3 - StartPoint");
 		
 		Collection<Item> all;
@@ -103,12 +109,14 @@ public class ItemServiceTest extends AbstractTest{
 	// Requisito 11.1
 	@Test
 	public void testFindAllByCategory2(){
+		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
 		System.out.println("ItemServiceTest - testFindAllByCategory2 - StartPoint");
 		
 		Collection<Item> all;
 		Category category;
 		
 		authenticate("consumer1");
+		
 		category = categoryService.findAll().iterator().next();
 		all = itemService.findAllByCategory(category);
 		
@@ -123,12 +131,14 @@ public class ItemServiceTest extends AbstractTest{
 	
 	@Test
 	public void testFindByKeyword4(){
+		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
 		System.out.println("ItemServiceTest - testFindByKeyword4 - StartPoint");
 		
 		Collection<Item> all;
 		String singleKeyword;
 		
 		authenticate("consumer1");
+		
 		singleKeyword = "B-H6";
 		all = itemService.findByKeyword(singleKeyword);
 		
@@ -143,12 +153,14 @@ public class ItemServiceTest extends AbstractTest{
 	
 	@Test
 	public void testFindByKeyword5(){
+		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
 		System.out.println("ItemServiceTest - testFindByKeyword5 - StartPoint");
 		
 		Collection<Item> all;
 		String singleKeyword;
 		
 		authenticate("consumer1");
+		
 		singleKeyword = "cer";
 		all = itemService.findByKeyword(singleKeyword);
 		
@@ -163,6 +175,7 @@ public class ItemServiceTest extends AbstractTest{
 	
 	@Test
 	public void testFindByKeyword6(){
+		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
 		System.out.println("ItemServiceTest - testFindByKeyword6 - StartPoint");
 		
 		Collection<Item> all;
