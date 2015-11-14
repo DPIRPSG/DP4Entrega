@@ -15,6 +15,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	double rateOrderCancelled();
 	
 	//deben estar ordenadas siendo la primera la más antigua
-	@Query("select o from Order o where o.clerk = null order by o.placementMoment")
+	@Query("select o from Order o where o.clerk is null and o.cancelMoment is null order by o.placementMoment")
 	Collection<Order> findAllNotAssigned();
 }

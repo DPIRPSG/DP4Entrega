@@ -28,4 +28,13 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	
 	@Query("select i from Item i join i.storages s where s.wareHouse.id = ?1")
 	Collection<Item> findAllByWareHouseId(int wareHouseId);
+	
+	@Query("select i from Item i where i.category.tax = ?1")
+	Collection<Item> findByTaxId(int taxId);
+	
+	@Query("select i from Item i where i.sku like '%?1%' or i.name like '%?1%' or i.description like '%?1%'")
+	Collection<Item> findBySingleKeyword(String keyword);
+	
+	@Query("select c.item from ShoppingCart s join s.contents c where s.id = ?1")
+	Collection<Item> findAllByShoppingCartId(int shoppingCartId);
 }
