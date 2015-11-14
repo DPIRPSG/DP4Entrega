@@ -122,19 +122,19 @@ public class ShoppingCartService {
 		return result;
 	}
 	
-	public void AddItemQuantity(ShoppingCart shoppingCart, Item item){
+	public void addItem(ShoppingCart shoppingCart, Item item){
 		contentService.createByShoppingCartAndItem(shoppingCart, item);
 	}
 	
-	public void ChangeItemQuantity(ShoppingCart shoppingCart, Item item, int quantity){
+	public void changeItemQuantity(ShoppingCart shoppingCart, Item item, int quantity){
 		contentService.updateQuantityByShoppingCartAndItem(shoppingCart, item, quantity);
 	}
 	
-	public void DeleteItemQuantity(ShoppingCart shoppingCart, Item item){
+	public void deleteItemQuantity(ShoppingCart shoppingCart, Item item){
 		contentService.updateQuantityByShoppingCartAndItem(shoppingCart, item, 0);
 	}
 	
-	public void AddComment(ShoppingCart shoppingCart, String comment){
+	public void addComment(ShoppingCart shoppingCart, String comment){
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCart.getId() != 0);
 		
