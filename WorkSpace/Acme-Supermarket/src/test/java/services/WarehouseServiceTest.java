@@ -20,7 +20,7 @@ public class WarehouseServiceTest extends AbstractTest{
 
 	// Service under test -------------------------
 	@Autowired
-	private WareHouseService warehouseService;
+	private WarehouseService warehouseService;
 	
 	// Test ---------------------------------------
 	@Test
