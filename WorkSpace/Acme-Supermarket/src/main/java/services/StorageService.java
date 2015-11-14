@@ -30,6 +30,10 @@ public class StorageService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 
+	/**
+	 * USAR EN WareHouse. Devuelve WareHouse preparado para ser modificado. Necesita usar save para que persista en la base de datos
+	 */
+	//req: 17.5
 	private Storage create(){
 		Storage result;
 		
@@ -38,16 +42,24 @@ public class StorageService {
 		return result;
 	}
 	
+	/**
+	 * Guarda un storage creado o modificado
+	 */
+	//req: 17.5
 	private void save(Storage storage){
 		Assert.notNull(storage);
 		
-		if(storage.getUnits() == 0){
+		if(storage.getUnits() <= 0){
 			this.delete(storage);
 		}else{
 			storageRepository.save(storage);
 		}
 	}
 	
+	/**
+	 * Elimina un storage
+	 */
+	//req: 17.5
 	private void delete(Storage storage){
 		Assert.notNull(storage);
 		Assert.isTrue(storage.getId() != 0);
@@ -57,6 +69,10 @@ public class StorageService {
 
 	//Other business methods -------------------------------------------------
 	
+	/**
+	 * Dado un wareHouse y un item, busca el storage
+	 */
+	//req: 17.5
 	private Storage findByWareHouseAndItem(WareHouse wareHouse, Item item){
 		Assert.notNull(wareHouse);
 		Assert.notNull(item);
@@ -68,6 +84,10 @@ public class StorageService {
 		return result;
 	}
 	
+	/**
+	 * USAR EN wareHouseService. Dado un wareHouse y un item, actualiza la cantidad
+	 */
+	//req: 17.5
 	public void updateQuantityByWareHouseAndItem(WareHouse wareHouse, Item item, int units){
 		Assert.notNull(wareHouse);
 		Assert.isTrue(wareHouse.getId() != 0);
@@ -90,6 +110,10 @@ public class StorageService {
 		this.save(storage);
 	}
 	
+	/**
+	 * Cantidad de Item en un warehouse
+	 */
+	//ref: 18.4
 	public int quantityByWareHouseAndItem(WareHouse wareHouse, Item item){
 		int result;
 		Storage storage;

@@ -143,12 +143,15 @@ public class ItemService {
 		return result;
 	}
 	
+	/**
+	 * Lista todos los items de un warehouse
+	 */
+	//req: 17.3
 	public Collection<Item> findAllByWareHouse(WareHouse wareHouse){
 		Assert.isNull(wareHouse);
 		
 		Collection<Item> result;
 		
-		//si lo necesitas se puede cambiar el codigo para que se ejecute desde storage y facilitar el trabajo
 		result = itemRepository.findAllByWareHouseId(wareHouse.getId());
 		
 		return result;

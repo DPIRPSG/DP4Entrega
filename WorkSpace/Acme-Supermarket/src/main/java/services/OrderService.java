@@ -168,6 +168,10 @@ public class OrderService {
 		return result;
 	}
 	
+	/**
+	 * Marca como cancelada una order
+	 */
+	//req: 16.1
 	public void cancelOrder(Order order){
 		Assert.isNull(order);
 		Assert.isTrue(order.getId() != 0);
@@ -176,15 +180,16 @@ public class OrderService {
 		
 		clerk = clerkService.findByOrder(order);
 		
-		if(clerk == null){
-			order.setCancelMoment(new Date());
-			this.save(order);
-		}else{
-			// No puede borrarse una order que está asignada a un Clerk
-		}
-		System.out.println("El método cancelOrder en OrderService está incompleto");
+		Assert.notNull(clerk, "Can't remove a order when a clerk has assigned");
+		
+		order.setCancelMoment(new Date());
+		this.save(order);
 	}
 	
+	/**
+	 * Asigna la order mas antigua a un clerk
+	 */
+	//ref: 18.3
 	public Order assignToClerkAutomatically(Clerk clerk){
 		Assert.notNull(clerk);
 		
@@ -196,16 +201,26 @@ public class OrderService {
 		
 		return result;
 	}
-	
+
+	/**
+	 * Asigna la order a un clerk
+	 */
+	//ref: 18.3
 	public void assignToClerkManual(Clerk clerk, Order order){
 		Assert.notNull(clerk);
+		Assert.isTrue(clerk.getId() != 0);
 		Assert.notNull(order);
+		Assert.isTrue(order.getId() != 0);
 		
 		order.setClerk(clerk);
 		
 		this.save(order);
 	}
 	
+	/**
+	 * Devuelven las orders no asignadas a ningún clerk siendo la primera la más antigua
+	 */
+	//ref: 18.3
 	private Collection<Order> findAllNotAssigned(){
 		Collection<Order> result;
 		
@@ -215,6 +230,10 @@ public class OrderService {
 		return result;
 	}
 	
+	/**
+	 * El ratio de orders canceladas durante el mes actual
+	 */
+	//ref: 17.6.5
 	public double rateOrderCancelled(){
 		double result;
 		

@@ -2,6 +2,7 @@ package services;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,6 +18,7 @@ import security.UserAccount;
 public class ConsumerService {
 	//Managed repository -----------------------------------------------------
 	
+	@Autowired
 	private ConsumerRepository consumerRepository;
 	
 	//Supporting services ----------------------------------------------------
@@ -107,6 +109,10 @@ public class ConsumerService {
 		return result;
 	}
 
+	/**
+	 * Lista el/los consumer con más order canceladas
+	 */
+	//req: 17.6.3
 	public Collection<Consumer> findConsumerMoreOrdersCancelled(){
 		Collection<Consumer> result;
 		
@@ -115,6 +121,10 @@ public class ConsumerService {
 		return result;
 	}
 	
+	/**
+	 * Lista el/los consumer con menos order canceladas
+	 */
+	//req: 17.6.4
 	public Collection<Consumer> findConsumerLessOrdersCancelled(){
 		Collection<Consumer> result;
 		

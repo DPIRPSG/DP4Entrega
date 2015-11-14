@@ -2,6 +2,7 @@ package services;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -16,6 +17,7 @@ import repositories.ClerkRepository;
 public class ClerkService {
 	//Managed repository -----------------------------------------------------
 
+	@Autowired
 	private ClerkRepository clerkRepository;
 	
 	//Supporting services ----------------------------------------------------
@@ -28,6 +30,10 @@ public class ClerkService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 	
+	/** Devuelve create preparado para ser modificado. Necesita usar save para que persista en la base de datos
+	 * 
+	 */	
+	//req: 17.1
 	public Clerk create(){
 		Clerk result;
 		
@@ -35,27 +41,23 @@ public class ClerkService {
 		
 		return result;
 	}
-	
-	public boolean exists(Clerk clerk){
-		Assert.isNull(clerk);
-		
-		boolean result;
-		
-		result = clerkRepository.exists(clerk.getId());
-		
-		return result;
-	}
 
-	// Save solo debe usarse para guardar el objeto por primera vez
+	/** 
+	 * Guarda un clerk creado o modificado
+	 */	
+	//req: 17.1
 	public void save(Clerk clerk){
-		Assert.isTrue(!this.exists(clerk));
+		Assert.notNull(clerk);
 		
-		System.out.println("El método save en ClerkService no tiene en cuenta la concurrencia");
 		clerkRepository.save(clerk);
 	}
 
 	//Other business methods -------------------------------------------------
 
+	/**
+	 * Encuentra un clerk dada la order
+	 */
+	//req: 16.1
 	public Clerk findByOrder(Order order){
 		Assert.notNull(order);
 		
@@ -66,7 +68,10 @@ public class ClerkService {
 		return result;
 	}
 	
-	
+	/**
+	 * Encuentra el/los clerk con más order
+	 */
+	//req: 17.6.1
 	public Collection<Clerk> findClerkServerMoreOrders(){
 		Collection<Clerk> result;
 		
@@ -75,6 +80,10 @@ public class ClerkService {
 		return result;
 	}
 	
+	/**
+	 * Encuentra el/los clerk con menos order
+	 */
+	//req: 17.6.2
 	public Collection<Clerk> findClerkServerLessOrders(){
 		Collection<Clerk> result;
 		
