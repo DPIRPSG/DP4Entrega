@@ -23,18 +23,6 @@ public class UserAccountService {
 		super();
 	}
 	// Simple CRUD methods ----------------------------------------------------
-
-	
-	
-	public UserAccount findByActor(Actor actor){
-		Assert.notNull(actor);
-		
-		UserAccount result;
-		
-		result = userAccountRepository.findByActorId(actor.getId());
-		
-		return result;
-	}
 	
 	// Other business methods -------------------------------------------------
 

@@ -9,7 +9,6 @@ import org.springframework.util.Assert;
 
 import domain.Category;
 import domain.Item;
-import domain.Tax;
 
 import repositories.CategoryRepository;
 
@@ -22,9 +21,9 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 	
 	//Supporting services ----------------------------------------------------
-
+	
 	@Autowired
-	private TaxService taxService;
+	private ItemService itemService;
 	
 	//Constructors -----------------------------------------------------------
 	
@@ -34,6 +33,10 @@ public class CategoryService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 
+	/** Devuelve Category preparada para ser modificada. Necesita usar save para que persista en la base de datos
+	 * 
+	 */	
+	//req: 12.4
 	public Category create(){
 		Category result;
 		
@@ -42,27 +45,36 @@ public class CategoryService {
 		return result;
 	}
 	
-	// Save solo debe usarse para guardar el objeto por primera vez
+	/**
+	 * Guarda una Category creada o modificada
+	 */
+	//req: 12.4
 	public void save(Category category){
 		Assert.notNull(category);
 		
 		categoryRepository.save(category);
 	}
-	
+
+	/**
+	 * Elimina una category
+	 */
+	//req: 12.4
 	public void delete(Category category){
 		Assert.notNull(category);
 		
-		Tax tax;
+		Collection<Item> items;
 		
-		tax = taxService.findByCategory(category);
+		items = itemService.findAllNotDeletedByCategory(category);
 		
-		if (tax == null){
-			categoryRepository.delete(category);
-		}else{
-			// No se puede borrar ya que está asociado a una tasa
-		}
+		Assert.isTrue(items.isEmpty(), "Only the categories without items (deleted or not) could be deleted");
+		
+		categoryRepository.delete(category);
 	}
 	
+	/**
+	 * Lista todas las categories
+	 */
+	//req: 12.4
 	public Collection<Category> findAll(){
 		Collection<Category> result;
 		

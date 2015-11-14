@@ -106,7 +106,8 @@
  
  + Comprobar todo con Assert para que si algo no se cumple permita no ejecutar la operación
 
-
+ + findByPrincipal: Va en Consumer Service, Administrator y clerk
+ + 
 
 
 @Service

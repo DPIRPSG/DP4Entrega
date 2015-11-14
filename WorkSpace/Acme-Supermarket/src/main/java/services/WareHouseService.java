@@ -87,7 +87,7 @@ public class WareHouseService {
 	}
 	
 	public Collection<WareHouse> findAllByItem(Item item){
-		Assert.isTrue(itemService.exists(item));
+		Assert.notNull(item);
 		
 		Collection<WareHouse> result;
 		
