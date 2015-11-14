@@ -64,7 +64,7 @@ public class FolderService {
 		
 		Collection<Folder> result;
 		
-		result = folderRepository.findAllByActorId();
+		result = folderRepository.findAllByActorId(actor.getId());
 		
 		return result;
 	}
