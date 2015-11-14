@@ -147,13 +147,16 @@ public class ShoppingCartService {
 		System.out.println("El método deleteComment en ShoppingCartService no está implementado");
 	}
 	
-	public Order checkOut(ShoppingCart shoppingCart){
-		Assert.notNull(shoppingCart);
-		Assert.isTrue(shoppingCart.getId() != 0);
+	public Order checkOut(Consumer consumer){
+		Assert.notNull(consumer);
+		Assert.isTrue(consumer.getId() != 0);
 		
 		Order result;
+		ShoppingCart shoppingCart;
 		
-		result = orderService.createFromShoppingCart(shoppingCart);
+		shoppingCart = this.findByConsumer(consumer);
+		
+		result = orderService.createFromShoppingCart(shoppingCart, consumer);
 		
 		orderService.save(result);
 		
