@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import domain.Category;
 import domain.Item;
+import domain.Tax;
 
 import utilities.AbstractTest;
 
@@ -28,6 +29,8 @@ public class ItemServiceTest extends AbstractTest{
 	private ItemService itemService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private TaxService taxService;
 	
 	// Test ---------------------------------------
 	
@@ -39,240 +42,243 @@ public class ItemServiceTest extends AbstractTest{
 
 		Collection<Item> all;
 		Category category;
-
-		category = categoryService.findAll().iterator().next();
-		//Peta aquí
-		all = itemService.findAllByCategory(category);
 		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		System.out.println("ItemServiceTest - testFindAllByCategory1 - FinishPoint");
-	}
-	
-	// Requisito 10.3
-	@Test
-	public void testFindByKeyword1(){
-		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
-		System.out.println("ItemServiceTest - testFindByKeyword1 - StartPoint");
-		
-		Collection<Item> all;
-		String singleKeyword;
-		
-		singleKeyword = "B-H6";
-		all = itemService.findByKeyword(singleKeyword);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		System.out.println("ItemServiceTest - testFindByKeyword1 - FinishPoint");
-	}
-	
-	@Test
-	public void testFindByKeyword2(){
-		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
-		System.out.println("ItemServiceTest - testFindByKeyword2 - StartPoint");
-		
-		Collection<Item> all;
-		String singleKeyword;
-		
-		singleKeyword = "cer";
-		all = itemService.findByKeyword(singleKeyword);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		System.out.println("ItemServiceTest - testFindByKeyword2 - FinishPoint");
-	}
-	
-	@Test
-	public void testFindByKeyword3(){
-		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
-		System.out.println("ItemServiceTest - testFindByKeyword3 - StartPoint");
-		
-		Collection<Item> all;
-		String singleKeyword;
-		
-		singleKeyword = "jor";
-		all = itemService.findByKeyword(singleKeyword);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		System.out.println("ItemServiceTest - testFindByKeyword3 - FinishPoint");
-	}
-	
-	// Requisito 11.1
-	@Test
-	public void testFindAllByCategory2(){
-		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
-		System.out.println("ItemServiceTest - testFindAllByCategory2 - StartPoint");
-		
-		Collection<Item> all;
-		Category category;
-		
-		authenticate("consumer1");
+		all = null;
+		category = null;
 		
 		category = categoryService.findAll().iterator().next();
+		//Peta aquí con algo de las Collections
 		all = itemService.findAllByCategory(category);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		authenticate(null);
-		
-		System.out.println("ItemServiceTest - testFindAllByCategory2 - FinishPoint");
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		System.out.println("ItemServiceTest - testFindAllByCategory1 - FinishPoint");
 	}
 	
-	@Test
-	public void testFindByKeyword4(){
-		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
-		System.out.println("ItemServiceTest - testFindByKeyword4 - StartPoint");
-		
-		Collection<Item> all;
-		String singleKeyword;
-		
-		authenticate("consumer1");
-		
-		singleKeyword = "B-H6";
-		all = itemService.findByKeyword(singleKeyword);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		authenticate(null);
-		
-		System.out.println("ItemServiceTest - testFindByKeyword4 - FinishPoint");
-	}
-	
-	@Test
-	public void testFindByKeyword5(){
-		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
-		System.out.println("ItemServiceTest - testFindByKeyword5 - StartPoint");
-		
-		Collection<Item> all;
-		String singleKeyword;
-		
-		authenticate("consumer1");
-		
-		singleKeyword = "cer";
-		all = itemService.findByKeyword(singleKeyword);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		authenticate(null);
-
-		System.out.println("ItemServiceTest - testFindByKeyword5 - FinishPoint");
-	}
-	
-	@Test
-	public void testFindByKeyword6(){
-		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
-		System.out.println("ItemServiceTest - testFindByKeyword6 - StartPoint");
-		
-		Collection<Item> all;
-		String singleKeyword;
-		
-		authenticate("consumer1");
-		singleKeyword = "jor";
-		all = itemService.findByKeyword(singleKeyword);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		authenticate(null);
-		
-		System.out.println("ItemServiceTest - testFindByKeyword6 - FinishPoint");
-	}
-
-	
-	// Requisito 12.1
-	@Test
-	public void testFindAllByCategory3(){
-		System.out.println("ItemServiceTest - testFindAllByCategory3 - StartPoint");
-		
-		Collection<Item> all;
-		Category category;
-		
-		authenticate("admin");
-		category = categoryService.findAll().iterator().next();
-		all = itemService.findAllByCategory(category);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		authenticate(null);
-		
-		System.out.println("ItemServiceTest - testFindAllByCategory3 - FinishPoint");
-	}
-	
-	@Test
-	public void testFindByKeyword7(){
-		System.out.println("ItemServiceTest - testFindByKeyword7 - StartPoint");
-		
-		Collection<Item> all;
-		String singleKeyword;
-		
-		authenticate("admin");
-		singleKeyword = "B-H6";
-		all = itemService.findByKeyword(singleKeyword);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		authenticate(null);
-		
-		System.out.println("ItemServiceTest - testFindByKeyword7 - FinishPoint");
-	}
-	
-	@Test
-	public void testFindByKeyword8(){
-		System.out.println("ItemServiceTest - testFindByKeyword8 - StartPoint");
-		
-		Collection<Item> all;
-		String singleKeyword;
-		
-		authenticate("admin");
-		singleKeyword = "cer";
-		all = itemService.findByKeyword(singleKeyword);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		authenticate(null);
-
-		System.out.println("ItemServiceTest - testFindByKeyword8 - FinishPoint");
-	}
-	
-	@Test
-	public void testFindByKeyword9(){
-		System.out.println("ItemServiceTest - testFindByKeyword9 - StartPoint");
-		
-		Collection<Item> all;
-		String singleKeyword;
-		
-		authenticate("admin");
-		singleKeyword = "jor";
-		all = itemService.findByKeyword(singleKeyword);
-		
-		for(Item i:all){
-			System.out.println(i.getName());
-		}
-		
-		authenticate(null);
-		
-		System.out.println("ItemServiceTest - testFindByKeyword9 - FinishPoint");
-	}
+//	// Requisito 10.3
+//	@Test
+//	public void testFindByKeyword1(){
+//		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
+//		System.out.println("ItemServiceTest - testFindByKeyword1 - StartPoint");
+//		
+//		Collection<Item> all;
+//		String singleKeyword;
+//		
+//		singleKeyword = "B-H6";
+//		all = itemService.findBySingleKeyword(singleKeyword);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		System.out.println("ItemServiceTest - testFindByKeyword1 - FinishPoint");
+//	}
+//	
+//	@Test
+//	public void testFindByKeyword2(){
+//		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
+//		System.out.println("ItemServiceTest - testFindByKeyword2 - StartPoint");
+//		
+//		Collection<Item> all;
+//		String singleKeyword;
+//		
+//		singleKeyword = "cer";
+//		all = itemService.findBySingleKeyword(singleKeyword);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		System.out.println("ItemServiceTest - testFindByKeyword2 - FinishPoint");
+//	}
+//	
+//	@Test
+//	public void testFindByKeyword3(){
+//		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
+//		System.out.println("ItemServiceTest - testFindByKeyword3 - StartPoint");
+//		
+//		Collection<Item> all;
+//		String singleKeyword;
+//		
+//		singleKeyword = "jor";
+//		all = itemService.findBySingleKeyword(singleKeyword);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		System.out.println("ItemServiceTest - testFindByKeyword3 - FinishPoint");
+//	}
+//	
+//	// Requisito 11.1
+//	@Test
+//	public void testFindAllByCategory2(){
+//		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
+//		System.out.println("ItemServiceTest - testFindAllByCategory2 - StartPoint");
+//		
+//		Collection<Item> all;
+//		Category category;
+//		
+//		authenticate("consumer1");
+//		
+//		category = categoryService.findAll().iterator().next();
+//		all = itemService.findAllByCategory(category);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		authenticate(null);
+//		
+//		System.out.println("ItemServiceTest - testFindAllByCategory2 - FinishPoint");
+//	}
+//	
+//	@Test
+//	public void testFindByKeyword4(){
+//		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
+//		System.out.println("ItemServiceTest - testFindByKeyword4 - StartPoint");
+//		
+//		Collection<Item> all;
+//		String singleKeyword;
+//		
+//		authenticate("consumer1");
+//		
+//		singleKeyword = "B-H6";
+//		all = itemService.findBySingleKeyword(singleKeyword);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		authenticate(null);
+//		
+//		System.out.println("ItemServiceTest - testFindByKeyword4 - FinishPoint");
+//	}
+//	
+//	@Test
+//	public void testFindByKeyword5(){
+//		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
+//		System.out.println("ItemServiceTest - testFindByKeyword5 - StartPoint");
+//		
+//		Collection<Item> all;
+//		String singleKeyword;
+//		
+//		authenticate("consumer1");
+//		
+//		singleKeyword = "cer";
+//		all = itemService.findBySingleKeyword(singleKeyword);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		authenticate(null);
+//
+//		System.out.println("ItemServiceTest - testFindByKeyword5 - FinishPoint");
+//	}
+//	
+//	@Test
+//	public void testFindByKeyword6(){
+//		System.out.println("Requisito 11.1 - Do the same as a user who is not authenticated, except for registering to the system.");
+//		System.out.println("ItemServiceTest - testFindByKeyword6 - StartPoint");
+//		
+//		Collection<Item> all;
+//		String singleKeyword;
+//		
+//		authenticate("consumer1");
+//		singleKeyword = "jor";
+//		all = itemService.findBySingleKeyword(singleKeyword);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		authenticate(null);
+//		
+//		System.out.println("ItemServiceTest - testFindByKeyword6 - FinishPoint");
+//	}
+//
+//	
+//	// Requisito 12.1
+//	@Test
+//	public void testFindAllByCategory3(){
+//		System.out.println("ItemServiceTest - testFindAllByCategory3 - StartPoint");
+//		
+//		Collection<Item> all;
+//		Category category;
+//		
+//		authenticate("admin");
+//		category = categoryService.findAll().iterator().next();
+//		all = itemService.findAllByCategory(category);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		authenticate(null);
+//		
+//		System.out.println("ItemServiceTest - testFindAllByCategory3 - FinishPoint");
+//	}
+//	
+//	@Test
+//	public void testFindByKeyword7(){
+//		System.out.println("ItemServiceTest - testFindByKeyword7 - StartPoint");
+//		
+//		Collection<Item> all;
+//		String singleKeyword;
+//		
+//		authenticate("admin");
+//		singleKeyword = "B-H6";
+//		all = itemService.findBySingleKeyword(singleKeyword);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		authenticate(null);
+//		
+//		System.out.println("ItemServiceTest - testFindByKeyword7 - FinishPoint");
+//	}
+//	
+//	@Test
+//	public void testFindByKeyword8(){
+//		System.out.println("ItemServiceTest - testFindByKeyword8 - StartPoint");
+//		
+//		Collection<Item> all;
+//		String singleKeyword;
+//		
+//		authenticate("admin");
+//		singleKeyword = "cer";
+//		all = itemService.findBySingleKeyword(singleKeyword);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		authenticate(null);
+//
+//		System.out.println("ItemServiceTest - testFindByKeyword8 - FinishPoint");
+//	}
+//	
+//	@Test
+//	public void testFindByKeyword9(){
+//		System.out.println("ItemServiceTest - testFindByKeyword9 - StartPoint");
+//		
+//		Collection<Item> all;
+//		String singleKeyword;
+//		
+//		authenticate("admin");
+//		singleKeyword = "jor";
+//		all = itemService.findBySingleKeyword(singleKeyword);
+//		
+//		for(Item i:all){
+//			System.out.println(i.getName());
+//		}
+//		
+//		authenticate(null);
+//		
+//		System.out.println("ItemServiceTest - testFindByKeyword9 - FinishPoint");
+//	}
 }

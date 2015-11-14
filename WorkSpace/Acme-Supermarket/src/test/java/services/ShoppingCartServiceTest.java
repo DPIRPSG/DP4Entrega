@@ -74,7 +74,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 			System.out.println(c.getItem() + ", " + c.getUnits());
 		}
 		
-		shoppingCartService.AddItemQuantity(shoppingCart, item);
+		shoppingCartService.addItem(shoppingCart, item);
 		
 		System.out.println("Lista de Items de ShoppingCart después de añadir el nuevo item:");
 		for(Content c: shoppingCart.getContents()){
@@ -111,7 +111,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 			System.out.println(c.getItem() + ", " + c.getUnits());
 		}
 		
-		shoppingCartService.ChangeItemQuantity(shoppingCart, item, 17);
+		shoppingCartService.changeItemQuantity(shoppingCart, item, 17);
 		
 		System.out.println("Lista de Items de ShoppingCart después de cambiar el número de unidades de un item:");
 		for(Content c: shoppingCart.getContents()){
@@ -150,7 +150,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 			System.out.println(c.getItem() + ", " + c.getUnits());
 		}
 		
-		shoppingCartService.DeleteItemQuantity(shoppingCart, item);
+		shoppingCartService.deleteItemQuantity(shoppingCart, item);
 		
 		System.out.println("Lista de Items de ShoppingCart después de borrar un item:");
 		for(Content c: shoppingCart.getContents()){
@@ -184,7 +184,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 			System.out.println(s);
 		}
 		
-		shoppingCartService.AddComment(shoppingCart, comment);
+		shoppingCartService.addComment(shoppingCart, comment);
 		
 		System.out.println("Comentarios del ShoppingCart después de añadir un comentario:");
 		for(String s: shoppingCart.getComments()){
@@ -253,7 +253,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		}
 		
 		shoppingCartService.deleteComment(shoppingCart, commentOld);
-		shoppingCartService.AddComment(shoppingCart, commentNew);
+		shoppingCartService.addComment(shoppingCart, commentNew);
 		
 		System.out.println("Comentarios del ShoppingCart después de modificar un comentario:");
 		for(String s: shoppingCart.getComments()){
@@ -289,7 +289,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 			System.out.println(o.getTicker());
 		}
 		
-		order = shoppingCartService.checkOut(consumer);
+		order = shoppingCartService.createCheckOut(consumer);
 		
 		System.out.println("Lista de las Order después del checkout:");
 		for(Order o: consumer.getOrders()){
