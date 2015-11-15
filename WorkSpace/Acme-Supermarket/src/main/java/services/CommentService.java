@@ -30,7 +30,11 @@ public class CommentService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 	
-	public Comment create(){
+	/**
+	 * Crea un comentario. Necesita ser guardado
+	 */
+	//ref: 23.2
+	private Comment create(){
 		Comment result;
 		
 		result = new Comment();
@@ -38,12 +42,21 @@ public class CommentService {
 		return result;
 	}
 	
+	/**
+	 * Guarda un comment creado o modificado
+	 */
+	//req: 23.2
 	public void save(Comment comment){
 		Assert.notNull(comment);
 
 		commentRepository.save(comment);
 	}
+
 	
+	/**
+	 * Elimina un comment
+	 */
+	//req: 25.1
 	public void delete(Comment comment){
 		Assert.notNull(comment);
 		Assert.isTrue(comment.getId() != 0);
@@ -53,8 +66,13 @@ public class CommentService {
 	
 	//Other business methods -------------------------------------------------
 
+	/**
+	 * Lista todos los comentarios de un Item
+	 */
+	//ref: 23.1
 	public Collection<Comment> findAllByItem(Item item){
 		Assert.notNull(item);
+		Assert.isTrue(item .getId() != 0);
 		
 		Collection<Comment> result;
 		
@@ -63,4 +81,16 @@ public class CommentService {
 		return result;
 	}
 	
+	/**
+	 * Crear un comentario en relación con un item. Debe de ser guardado con save.
+	 */
+	//ref: 23.2
+	public Comment createByItem(Item item){
+		Comment result;
+		
+		result = this.create();
+		result.setItem(item);
+		
+		return result;
+	}
 }
