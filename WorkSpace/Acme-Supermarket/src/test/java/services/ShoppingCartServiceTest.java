@@ -290,6 +290,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		}
 		
 		order = shoppingCartService.createCheckOut(consumer);
+		shoppingCartService.saveCheckOut(order, consumer);
 		
 		System.out.println("Lista de las Order después del checkout:");
 		for(Order o: consumer.getOrders()){
