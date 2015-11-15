@@ -21,7 +21,7 @@ public class FolderService {
 	private FolderRepository folderRepository;
 	
 	//Supporting services ----------------------------------------------------
-
+	
 	@Autowired
 	private ActorService actorService;
 	
@@ -33,6 +33,10 @@ public class FolderService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 
+	/** 
+	 * Devuelve Folder preparado para ser modificado. Necesita usar save para que persista en la base de datos
+	 */	
+	//req: 24.2
 	public Folder create(){
 		Folder result;
 		
@@ -41,29 +45,41 @@ public class FolderService {
 		return result;
 	}
 	
+	/**
+	 * Guarda un folder creado o modificado
+	 */
+	//req: 24.2
 	public void save(Folder folder){
 		Assert.notNull(folder);
 		
 		folderRepository.save(folder);
 	}
 	
+	/**
+	 * Elimina un folder. No elimina carpetas del sistema
+	 */
+	//req: 24.2	
 	public void delete(Folder folder){
 		Assert.notNull(folder);
 		Assert.isTrue(folder.getId() != 0);
 		
 		// Si es del sistema no debe poder borrarse
-		Assert.isTrue(!folder.getIsSystem());
+		Assert.isTrue(!folder.getIsSystem(), "It's a system Folder and couldn't be removed");
 		
 		folderRepository.delete(folder);
 	}
 	
 	//Other business methods -------------------------------------------------
 	
-	public Collection<Folder> findAllByActor(Actor actor){
-		Assert.notNull(actor);
-		
+	/**
+	 * Devuelve todas las carpetas del actor actual
+	 */
+	//req: 24.1
+	public Collection<Folder> findAllByActor(){
 		Collection<Folder> result;
+		Actor actor;
 		
+		actor = actorService.findByPrincipal();
 		result = folderRepository.findAllByActorId(actor.getId());
 		
 		return result;

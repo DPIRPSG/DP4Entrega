@@ -21,6 +21,6 @@ public interface ClerkRepository extends JpaRepository<Clerk, Integer> {
 	@Query("select o.clerk from Order o where o.id = ?1")
 	Clerk findByOrderId(int orderId);
 	
-	@Query("select c from Clerk c where c.userAccount = ?1")
+	@Query("select c from Clerk c where c.userAccount.id = ?1")
 	Clerk findByUserAccountId(int userAccountId);
 }

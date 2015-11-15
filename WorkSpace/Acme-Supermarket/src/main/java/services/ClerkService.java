@@ -51,6 +51,18 @@ public class ClerkService {
 		
 		clerkRepository.save(clerk);
 	}
+	
+	/**
+	 * Lista todos los clerks
+	 */
+	//req: test
+	public Collection<Clerk> findAll(){
+		Collection<Clerk> result;
+		
+		result = clerkRepository.findAll();
+		
+		return result;
+	}
 
 	//Other business methods -------------------------------------------------
 
