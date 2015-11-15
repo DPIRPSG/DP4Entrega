@@ -71,10 +71,10 @@ public class OrderService {
 		
 		Collection<OrderItem> orderItems;
 		
+		orderRepository.saveAndFlush(order);		
+		
 		orderItems = order.getOrderItems();
 		orderItemService.save(orderItems);
-		
-		orderRepository.save(order);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class OrderService {
 				'U','V','W','X','Y','Z'};
 		
 		for(int i=0;i<8;i++){
-			int el = (int)(Math.random()*37);
+			int el = (int)(Math.random()*36);
 			conjunto[i] = (char)elementos[el];
 		}
 		result = new String(conjunto);
