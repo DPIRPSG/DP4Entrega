@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import domain.Category;
 import domain.Item;
-import domain.Tax;
 
 import utilities.AbstractTest;
 
@@ -29,8 +28,6 @@ public class ItemServiceTest extends AbstractTest{
 	private ItemService itemService;
 	@Autowired
 	private CategoryService categoryService;
-	@Autowired
-	private TaxService taxService;
 	
 	// Test ---------------------------------------
 	
@@ -67,14 +64,14 @@ public class ItemServiceTest extends AbstractTest{
 		String singleKeyword;
 		
 		singleKeyword = "B-H6";
-		//Preguntar a Manolo si estoy está ya implementado.
-//		all = itemService.findBySingleKeyword(singleKeyword);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		System.out.println("ItemServiceTest - testFindByKeyword1 - FinishPoint");
+		
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		System.out.println("ItemServiceTest - testFindByKeyword1 - FinishPoint");
 	}
 	
 	@Test
@@ -86,13 +83,13 @@ public class ItemServiceTest extends AbstractTest{
 		String singleKeyword;
 		
 		singleKeyword = "cer";
-//		all = itemService.findBySingleKeyword(singleKeyword);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		System.out.println("ItemServiceTest - testFindByKeyword2 - FinishPoint");
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		System.out.println("ItemServiceTest - testFindByKeyword2 - FinishPoint");
 	}
 	
 	@Test
@@ -104,13 +101,13 @@ public class ItemServiceTest extends AbstractTest{
 		String singleKeyword;
 		
 		singleKeyword = "jor";
-//		all = itemService.findBySingleKeyword(singleKeyword);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		System.out.println("ItemServiceTest - testFindByKeyword3 - FinishPoint");
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		System.out.println("ItemServiceTest - testFindByKeyword3 - FinishPoint");
 	}
 	
 	// Requisito 11.1
@@ -144,18 +141,18 @@ public class ItemServiceTest extends AbstractTest{
 		Collection<Item> all;
 		String singleKeyword;
 		
-//		authenticate("consumer1");
-//		
-//		singleKeyword = "B-H6";
-//		all = itemService.findBySingleKeyword(singleKeyword);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ItemServiceTest - testFindByKeyword4 - FinishPoint");
+		authenticate("consumer1");
+		
+		singleKeyword = "B-H6";
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ItemServiceTest - testFindByKeyword4 - FinishPoint");
 	}
 	
 	@Test
@@ -166,18 +163,18 @@ public class ItemServiceTest extends AbstractTest{
 		Collection<Item> all;
 		String singleKeyword;
 		
-//		authenticate("consumer1");
-//		
-//		singleKeyword = "cer";
-//		all = itemService.findBySingleKeyword(singleKeyword);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		authenticate(null);
-//
-//		System.out.println("ItemServiceTest - testFindByKeyword5 - FinishPoint");
+		authenticate("consumer1");
+		
+		singleKeyword = "cer";
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+
+		System.out.println("ItemServiceTest - testFindByKeyword5 - FinishPoint");
 	}
 	
 	@Test
@@ -188,17 +185,17 @@ public class ItemServiceTest extends AbstractTest{
 		Collection<Item> all;
 		String singleKeyword;
 		
-//		authenticate("consumer1");
-//		singleKeyword = "jor";
-//		all = itemService.findBySingleKeyword(singleKeyword);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ItemServiceTest - testFindByKeyword6 - FinishPoint");
+		authenticate("consumer1");
+		singleKeyword = "jor";
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ItemServiceTest - testFindByKeyword6 - FinishPoint");
 	}
 	
 	// Requisito 12.1
@@ -229,17 +226,17 @@ public class ItemServiceTest extends AbstractTest{
 		Collection<Item> all;
 		String singleKeyword;
 		
-//		authenticate("admin");
-//		singleKeyword = "B-H6";
-//		all = itemService.findBySingleKeyword(singleKeyword);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ItemServiceTest - testFindByKeyword7 - FinishPoint");
+		authenticate("admin");
+		singleKeyword = "B-H6";
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ItemServiceTest - testFindByKeyword7 - FinishPoint");
 	}
 	
 	@Test
@@ -249,17 +246,17 @@ public class ItemServiceTest extends AbstractTest{
 		Collection<Item> all;
 		String singleKeyword;
 		
-//		authenticate("admin");
-//		singleKeyword = "cer";
-//		all = itemService.findBySingleKeyword(singleKeyword);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		authenticate(null);
-//
-//		System.out.println("ItemServiceTest - testFindByKeyword8 - FinishPoint");
+		authenticate("admin");
+		singleKeyword = "cer";
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+
+		System.out.println("ItemServiceTest - testFindByKeyword8 - FinishPoint");
 	}
 	
 	@Test
@@ -269,16 +266,16 @@ public class ItemServiceTest extends AbstractTest{
 		Collection<Item> all;
 		String singleKeyword;
 		
-//		authenticate("admin");
-//		singleKeyword = "jor";
-//		all = itemService.findBySingleKeyword(singleKeyword);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ItemServiceTest - testFindByKeyword9 - FinishPoint");
+		authenticate("admin");
+		singleKeyword = "jor";
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ItemServiceTest - testFindByKeyword9 - FinishPoint");
 	}
 }
