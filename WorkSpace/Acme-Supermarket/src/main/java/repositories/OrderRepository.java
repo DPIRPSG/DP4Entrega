@@ -17,4 +17,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	//deben estar ordenadas siendo la primera la más antigua
 	@Query("select o from Order o where o.clerk is null and o.cancelMoment is null order by o.placementMoment")
 	Collection<Order> findAllNotAssigned();
+	
+	@Query("select o from Order o where o.ticker = ?1")
+	Order findByTicker(String ticker);
 }

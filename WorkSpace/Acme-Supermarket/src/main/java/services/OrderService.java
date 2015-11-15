@@ -136,6 +136,10 @@ public class OrderService {
 		tickerAleatory = calculaTickerAleatory();
 		result = tickerNumber + "-" + tickerAleatory;
 		
+		if(!compareTicker(result)) {
+			result = tickerGenerate();
+		}
+		
 		return result;
 	}
 	
@@ -181,6 +185,16 @@ public class OrderService {
 			conjunto[i] = (char)elementos[el];
 		}
 		result = new String(conjunto);
+		
+		return result;
+	}
+	
+	private Boolean compareTicker(String ticker) {
+		Boolean result;
+		Order order;
+		
+		order = orderRepository.findByTicker(ticker);
+		result = (order == null);
 		
 		return result;
 	}
