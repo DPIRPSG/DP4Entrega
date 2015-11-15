@@ -81,7 +81,7 @@ public class WareHouseService {
 		
 		items = itemService.findAllByWareHouse(wareHouse);
 		
-		Assert.isNull(items, "The warehouse isn't empty");
+		Assert.isTrue(items.isEmpty(), "The warehouse isn't empty");
 		
 		wareHouseRepository.delete(wareHouse);
 	}
