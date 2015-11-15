@@ -207,7 +207,7 @@ public class OrderService {
 	 */
 	//req: 16.1
 	public void cancelOrder(Order order){
-		Assert.isNull(order);
+		Assert.notNull(order);
 		Assert.isTrue(order.getId() != 0);
 		
 		Clerk clerk;
