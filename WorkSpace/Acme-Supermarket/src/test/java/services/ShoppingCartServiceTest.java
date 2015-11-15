@@ -47,7 +47,10 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		consumer = consumerService.findAll().iterator().next();
 		shoppingCart = shoppingCartService.findByConsumer(consumer);
 		
-		System.out.println(shoppingCart);
+		System.out.println("Consumer al que hacemos referencia:");
+		System.out.println(consumer.getName());
+		System.out.println("Su ShoppingCart");
+		System.out.println(shoppingCart.getId());
 		
 		authenticate(null);
 		System.out.println("ShoppingCartServiceTest - testFindByConsumer1 - Finish Point");
@@ -127,6 +130,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 	// Requisito 11.5
 	@Test
 	public void testDeleteItem1(){
+		// Este método funciona mal. Pone la cantidad a cero pero no borra el item de la shoppingCart
 		System.out.println("Requisito 11.5 - Delete an item from his or her shopping cart.");
 		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - StartPoint");
 		
@@ -199,6 +203,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 
 	@Test
 	public void testRemoveComment1(){
+		// El método deleteComment no está implementado
 		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
 		System.out.println("ShoppingCartServiceTest - testRemoveComment1 - StartPoint");
 		
@@ -232,6 +237,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 
 	@Test
 	public void testModifyComment1(){
+		// Hasta que no esté el deleteComment, este no funcionará
 		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
 		System.out.println("ShoppingCartServiceTest - testModifyComment1 - StartPoint");
 		
@@ -269,6 +275,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 	// Requisito 11.7
 	@Test
 	public void testCheckOut1(){
+		//Peta
 		System.out.println("Requisito 11.7 - Check his or her shopping cart out and place the corresponding order.");
 		System.out.println("ShoppingCartServiceTest - testCheckOut1 - StartPoint");
 		
@@ -290,6 +297,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		}
 		
 		order = shoppingCartService.createCheckOut(consumer);
+		shoppingCartService.saveCheckOut(order, consumer);
 		
 		System.out.println("Lista de las Order después del checkout:");
 		for(Order o: consumer.getOrders()){
