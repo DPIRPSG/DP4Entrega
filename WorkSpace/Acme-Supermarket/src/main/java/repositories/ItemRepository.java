@@ -26,10 +26,13 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	@Query("select i from Item i where i.deleted = false and i.category.id = ?1")
 	Collection<Item> findAllByCategoryId(int categoryId);
 	
+	@Query("select i from Item i where i.category = ?1")
+	Collection<Item> findAllNotDeletedByCategoryId(int categoryId);
+	
 	@Query("select i from Item i join i.storages s where i.deleted = false and s.wareHouse.id = ?1")
 	Collection<Item> findAllByWareHouseId(int wareHouseId);
 	
-	@Query("select i from Item i where i.deleted = false and i.category.tax = ?1")
+	@Query("select i from Item i where i.category.tax = ?1")
 	Collection<Item> findByTaxId(int taxId);
 	
 //	@Query("select i from Item i where i.deleted = false and i.sku like '%?1%' or i.name like '%?1%' or i.description like '%?1%'")
