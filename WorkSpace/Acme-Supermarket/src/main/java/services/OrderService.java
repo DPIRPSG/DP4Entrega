@@ -44,7 +44,11 @@ public class OrderService {
 	
 	//Simple CRUD methods ----------------------------------------------------
 	
-	public Order create(){
+	/** Devuelve Order solo con ticker. Necesita añadir OrderItems y usar save para que persista en la base de datos.
+	 * 
+	 */	
+	//req: 11.7
+	private Order create(){
 		Order result;
 		String ticker;
 		
@@ -57,19 +61,25 @@ public class OrderService {
 		
 		return result;
 	}
-	
+	/**
+	 * Guarda o actualiza una order
+	 */
+	//req: 11.7
 	public void save(Order order){
 		Assert.notNull(order);
 		
 		Collection<OrderItem> orderItems;
 		
-		orderRepository.save(order);
-		
 		orderItems = order.getOrderItems();
 		orderItemService.save(orderItems);
+		
+		orderRepository.save(order);
 	}
 	
-	
+	/**
+	 * Lista todas las orders guardadas en el sistema.
+	 */
+	//req: 12.6
 	public Collection<Order> findAll(){
 		Collection<Order> result;
 		
@@ -81,9 +91,15 @@ public class OrderService {
 
 	//Other business methods -------------------------------------------------
 	
+	/**
+	 * Crea una Order desde ShoppingCart. NO USAR. Usar desde ShoppingCartService.createCheckOut.
+	 */
+	//req: 11.7
 	public Order createFromShoppingCart(ShoppingCart shoppingCart, Consumer consumer){
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCart.getId() != 0);
+		Assert.notNull(consumer);
+		Assert.isTrue(consumer.getId() != 0);
 		
 		Order result;
 		Collection<OrderItem> orderItems;
@@ -106,16 +122,41 @@ public class OrderService {
 		return result;
 	}
 	
+	/**
+	 * 	Genera un ticker cumpliendo el Pattern
+	 */
+	//req: 11.7
 	private String tickerGenerate(){
 		String result;
+		/*UUID codeUUID;
+		String code;
+		String[] ticker;
+		String definitedTicker;
+		UUIDGenerator generator;
+		Pattern pattern;
 		
+		pattern = Pattern.compile("regular expresion here");
+		
+		
+		
+		generator.
+		codeUUID = UUIDGenerator.randomUUID();
+		code = codeUUID.toString();
+		ticker = code.split("-");
+		definitedTicker = ticker[0]+"-"+ticker[1];*/
 		System.out.println("El método tickerGenerate en OrderService no está completado");
-		result = "unknown";
+		result = "000000-unkn";
 		
 		return result;
 	}
 	
+	/**
+	 * Calcula el precio de los orders
+	 */
+	// req: 11.7
 	private double amountCalculate(Collection<OrderItem> orderItems){
+		Assert.notEmpty(orderItems);
+		
 		double result;
 		
 		result = 0.0;
@@ -127,6 +168,10 @@ public class OrderService {
 		return result;
 	}
 	
+	/**
+	 * Marca como cancelada una order
+	 */
+	//req: 16.1
 	public void cancelOrder(Order order){
 		Assert.isNull(order);
 		Assert.isTrue(order.getId() != 0);
@@ -135,15 +180,16 @@ public class OrderService {
 		
 		clerk = clerkService.findByOrder(order);
 		
-		if(clerk == null){
-			order.setCancelMoment(new Date());
-			this.save(order);
-		}else{
-			// No puede borrarse una order que está asignada a un Clerk
-		}
-		System.out.println("El método cancelOrder en OrderService está incompleto");
+		Assert.notNull(clerk, "Can't remove a order when a clerk has assigned");
+		
+		order.setCancelMoment(new Date());
+		this.save(order);
 	}
 	
+	/**
+	 * Asigna la order mas antigua a un clerk
+	 */
+	//ref: 18.3
 	public Order assignToClerkAutomatically(Clerk clerk){
 		Assert.notNull(clerk);
 		
@@ -155,16 +201,26 @@ public class OrderService {
 		
 		return result;
 	}
-	
+
+	/**
+	 * Asigna la order a un clerk
+	 */
+	//ref: 18.3
 	public void assignToClerkManual(Clerk clerk, Order order){
 		Assert.notNull(clerk);
+		Assert.isTrue(clerk.getId() != 0);
 		Assert.notNull(order);
+		Assert.isTrue(order.getId() != 0);
 		
 		order.setClerk(clerk);
 		
 		this.save(order);
 	}
 	
+	/**
+	 * Devuelven las orders no asignadas a ningún clerk siendo la primera la más antigua
+	 */
+	//ref: 18.3
 	private Collection<Order> findAllNotAssigned(){
 		Collection<Order> result;
 		
@@ -174,6 +230,10 @@ public class OrderService {
 		return result;
 	}
 	
+	/**
+	 * El ratio de orders canceladas durante el mes actual
+	 */
+	//ref: 17.6.5
 	public double rateOrderCancelled(){
 		double result;
 		

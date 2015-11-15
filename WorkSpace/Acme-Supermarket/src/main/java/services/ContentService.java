@@ -64,6 +64,7 @@ public class ContentService {
 	
 	//Other business methods -------------------------------------------------
  
+	//req: x
 	private Content findByShoppingCartAndItem(ShoppingCart shoppingCart, Item item){
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCart.getId() != 0);
@@ -95,21 +96,35 @@ public class ContentService {
 		return result;
 	}
 	
-	public int contentByShoppingCartAndItem(ShoppingCart shoppingCart, Item item){
+	/**
+	 * NO USAR. Usar ShoppingCartService.consultItemQuantity
+	 */
+	//req: 11.2, 11.3
+	public int quantityByShoppingCartAndItem(ShoppingCart shoppingCart, Item item){
 		int result;
 		Content content;
 		
 		content = this.findByShoppingCartAndItem(shoppingCart, item);
-		result = content.getUnits();
+		
+		if(content == null){
+			result = 0;
+		}else{
+			result = content.getUnits();
+		}
 		
 		return result;
 	}
 	
+	/**
+	 * NO USAR. Usar ShoppingCartService.changeItemQuantity
+	 */
+	//req: 11.3, 11.4, 11.5	
 	public void updateQuantityByShoppingCartAndItem(ShoppingCart shoppingCart, Item item, int quantity){
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCart.getId() != 0);
 		Assert.notNull(item);
 		Assert.isTrue(item.getId() != 0);
+		Assert.isTrue(quantity >= 0);
 		
 		Content content;
 		
@@ -126,8 +141,17 @@ public class ContentService {
 		this.save(content);
 	}
 	
+	/**
+	 * NO USAR. Usar ShoppingCartService.addItem
+	 */
+	//req: 11.3	
 	public void createByShoppingCartAndItem(ShoppingCart shoppingCart, Item item){
-		this.updateQuantityByShoppingCartAndItem(shoppingCart, item, 1);
+		int quantity;
+		
+		quantity = this.quantityByShoppingCartAndItem(shoppingCart, item);
+		quantity++;
+		
+		this.updateQuantityByShoppingCartAndItem(shoppingCart, item, quantity);
 	}
 	
 	
