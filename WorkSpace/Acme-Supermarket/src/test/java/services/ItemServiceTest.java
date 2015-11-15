@@ -262,4 +262,66 @@ public class ItemServiceTest extends AbstractTest{
 		
 		System.out.println("ItemServiceTest - testFindByKeyword9 - FinishPoint");
 	}
+	
+	// Requisito 12.2
+	@Test
+	public void testCreate1(){
+		System.out.println("ItemServiceTest - testCreate1 - StartPoint");
+		
+		Item item;
+		
+		authenticate("admin");
+		
+		item = itemService.create();
+		System.out.println("El item ya ha sido Creado, pero no debe estar Guardado en la BBDD ¿Está guardado?:\n" + itemService.findOne(item.getId()));
+		itemService.save(item);
+	
+		authenticate(null);
+		
+		System.out.println("El item ya ha sido Creado y Guardado(persistido en la BBDD), ¿Es así?:\n" + itemService.findOne(item.getId()));
+		
+		System.out.println("ItemServiceTest - testCreate1 - FinishPoint");
+	}
+	
+	@Test
+	public void testUpdate1(){
+		System.out.println("ItemServiceTest - testUpdate1 - StartPoint");
+		
+		Item item;
+		int itemId;
+		
+		authenticate("admin");
+		
+		itemId = 54;
+		System.out.println("Pretendemos modificar el item con el id 54, ¿Existe?, ¿Cuál es?:\n" + itemService.findOne(itemId));
+		item = itemService.findOne(itemId);
+		item.setName("Colonia alternativa");
+		System.out.println("Se ha modificado el item SIN darle a Save, no debe estar persistido en la BBDD, ¿Es así?:\n" + itemService.findOne(itemId));
+		itemService.save(item);
+		System.out.println("Ya se ha pulsado en Save, el item debe estar persistido en la BBDD con las modificaciones, ¿Es así?:\n" + itemService.findOne(itemId));
+	
+		authenticate(null);
+		
+		System.out.println("ItemServiceTest - testUpdate1 - FinishPoint");
+	}
+	
+	@Test
+	public void testDelete1(){
+		System.out.println("ItemServiceTest - testDelete1 - StartPoint");
+		
+		Item item;
+		int itemId;
+		
+		authenticate("admin");
+		
+		itemId = 54;
+		System.out.println("Pretendemos eliminar el item con el id 54, ¿Existe?, ¿Tiene la propiedad deleted = false?:\n" + itemService.findOne(itemId));
+		item = itemService.findOne(itemId);
+		itemService.delete(item);
+		System.out.println("Ya se ha pulsado en Delete, el item debe estar en la BBDD con la propiedad deleted = true, ¿Es así?:\n" + itemService.findOne(itemId));
+	
+		authenticate(null);
+		
+		System.out.println("ItemServiceTest - testDelete1 - FinishPoint");
+	}
 }
