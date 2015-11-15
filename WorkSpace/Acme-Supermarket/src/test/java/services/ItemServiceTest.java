@@ -1,6 +1,9 @@
 package services;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,10 +13,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Category;
-import domain.Item;
-
 import utilities.AbstractTest;
+import domain.Category;
+import domain.Comment;
+import domain.Item;
+import domain.Storage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -28,6 +32,8 @@ public class ItemServiceTest extends AbstractTest{
 	private ItemService itemService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private CommentService commentService;
 	
 	// Test ---------------------------------------
 	
@@ -305,16 +311,42 @@ public class ItemServiceTest extends AbstractTest{
 		System.out.println("ItemServiceTest - testCreate1 - StartPoint");
 		
 		Item item;
+		Item itemCreated;
+		Collection<Item> all;
+		Comment comment;
+		Collection<Comment> comments;
+		Category category;
+		Set<Storage> storages;
 		
 		authenticate("admin");
 		
+		System.out.println("Vamos a crear el Item \"Tablet 7 pulgadas\"");
 		item = itemService.create();
-		System.out.println("El item ya ha sido Creado, pero no debe estar Guardado en la BBDD ¿Está guardado?:\n" + itemService.findOne(item.getId()));
+		item.setSku("AA-1234");
+		item.setName("Tablet 7 pulgadas");
+		item.setDescription("La tablet más versátil.");
+		item.setPrice(199.99);
+		comment = commentService.createByItem(item);
+		comments = new HashSet<>();
+		comments.add(comment);
+		item.setComments(comments);
+		category = categoryService.findAll().iterator().next();
+		item.setCategory(category);
+		storages = Collections.emptySet();
+		item.setStorages(storages);
 		itemService.save(item);
+		System.out.println("El item ya ha sido Creado y debe estar Guardado en la BBDD ¿Es así?:");
+		all = itemService.findAll();
+		for (Item i: all){
+			if(i.getSku()==item.getSku()){
+				itemCreated = i;
+				System.out.println("Nombre: " + itemCreated.getName());
+				System.out.println("Descripción: " + itemCreated.getDescription());
+				System.out.println("Id: " + itemCreated.getId());
+			}
+		}
 	
 		authenticate(null);
-		
-		System.out.println("El item ya ha sido Creado y Guardado(persistido en la BBDD), ¿Es así?:\n" + itemService.findOne(item.getId()));
 		
 		System.out.println("ItemServiceTest - testCreate1 - FinishPoint");
 	}
@@ -324,18 +356,56 @@ public class ItemServiceTest extends AbstractTest{
 		System.out.println("ItemServiceTest - testUpdate1 - StartPoint");
 		
 		Item item;
-		int itemId;
+		Item itemModified;
+		Item itemNotModified;
+		Collection<Item> all;
+		String sku;
 		
 		authenticate("admin");
 		
-		itemId = 54;
-		System.out.println("Pretendemos modificar el item con el id 54, ¿Existe?, ¿Cuál es?:\n" + itemService.findOne(itemId));
-		item = itemService.findOne(itemId);
-		item.setName("Colonia alternativa");
-		System.out.println("Se ha modificado el item SIN darle a Save, no debe estar persistido en la BBDD, ¿Es así?:\n" + itemService.findOne(itemId));
-		itemService.save(item);
-		System.out.println("Ya se ha pulsado en Save, el item debe estar persistido en la BBDD con las modificaciones, ¿Es así?:\n" + itemService.findOne(itemId));
-	
+		sku = "CJ-C8JW";
+		System.out.println("Pretendemos modificar el item con el sku CJ-C8JW, ¿Existe?, ¿Cuál es?:");
+		all = itemService.findAll();
+		item = null;
+		for (Item i: all){
+			if(i.getSku()==sku){
+				item = i;
+				System.out.println("Nombre: " + item.getName());
+				System.out.println("Descripción: " + item.getDescription());
+				System.out.println("Id: " + item.getSku() + "\n");
+			}else{
+				System.out.println("No hay ningún item con el sku: " + sku);
+			}
+		}
+		item.setName("TV Plasma");
+		System.out.println("Se ha modificado el item SIN darle a Save, no debe estar persistido en la BBDD, ¿Es así?:");
+		all = itemService.findAll();
+		itemNotModified = null;
+		for (Item i: all){
+			if(i.getSku().equals(sku)){
+				itemNotModified = i;
+				System.out.println("Nombre: " + itemNotModified.getName());
+				System.out.println("Descripción: " + itemNotModified.getDescription());
+				System.out.println("Id: " + itemNotModified.getId() + "\n");
+			}
+		}
+		//itemService.save(itemToModify);
+		System.out.println("Ya se ha pulsado en Save, el item debe estar persistido en la BBDD con las modificaciones, ¿Es así?:");
+//		itemModified = itemService.findOne(itemId);
+//		System.out.println("Nombre: " + itemModified.getName());
+//		System.out.println("Descripción: " + itemModified.getDescription());
+//		System.out.println("Id: " + itemModified.getId());
+		all = itemService.findAll();
+		itemModified = null;
+		for (Item i: all){
+			if(i.getSku()==sku){
+				itemModified = i;
+				System.out.println("Nombre: " + itemModified.getName());
+				System.out.println("Descripción: " + itemModified.getDescription());
+				System.out.println("Id: " + itemModified.getId());
+			}
+		}
+		
 		authenticate(null);
 		
 		System.out.println("ItemServiceTest - testUpdate1 - FinishPoint");
@@ -346,16 +416,24 @@ public class ItemServiceTest extends AbstractTest{
 		System.out.println("ItemServiceTest - testDelete1 - StartPoint");
 		
 		Item item;
+		Item itemDeleted;
 		int itemId;
 		
 		authenticate("admin");
 		
 		itemId = 54;
-		System.out.println("Pretendemos eliminar el item con el id 54, ¿Existe?, ¿Tiene la propiedad deleted = false?:\n" + itemService.findOne(itemId));
+		System.out.println("Pretendemos eliminar el item con el id 54, ¿Existe?, ¿Tiene la propiedad deleted = false?:");
 		item = itemService.findOne(itemId);
+		System.out.println("Nombre: " + item.getName());
+		System.out.println("Id: " + item.getId());
+		System.out.println("deleted: " + item.getDeleted() + "\n");
 		itemService.delete(item);
-		System.out.println("Ya se ha pulsado en Delete, el item debe estar en la BBDD con la propiedad deleted = true, ¿Es así?:\n" + itemService.findOne(itemId));
-	
+		System.out.println("Ya se ha pulsado en Delete, el item debe estar en la BBDD con la propiedad deleted = true, ¿Es así?:");
+		itemDeleted = itemService.findOne(itemId);
+		System.out.println("Nombre: " + itemDeleted.getName());
+		System.out.println("Id: " + itemDeleted.getId());
+		System.out.println("deleted: " + itemDeleted.getDeleted());
+		
 		authenticate(null);
 		
 		System.out.println("ItemServiceTest - testDelete1 - FinishPoint");
