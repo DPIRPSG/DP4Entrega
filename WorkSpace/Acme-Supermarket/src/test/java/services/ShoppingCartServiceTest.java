@@ -32,7 +32,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 	private ConsumerService consumerService;
 	
 	// Test ---------------------------------------
-	
+	/*
 	//Requisito 11.2
 	@Test
 	public void testFindByConsumer1(){
@@ -271,7 +271,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		System.out.println("ShoppingCartServiceTest - testModifyComment1 - FinishPoint");
 
 	}	
-	
+	*/
 	// Requisito 11.7
 	@Test
 	public void testCheckOut1(){
@@ -281,9 +281,9 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		
 		Consumer consumer;
 		Order order;
-		
-		authenticate("customer1");
-		
+
+		authenticate("consumer1");
+
 		consumer = consumerService.findAll().iterator().next();
 		
 		System.out.println("Lista de Items de ShoppingCart antes del checkout:");
@@ -295,9 +295,13 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		for(Order o: consumer.getOrders()){
 			System.out.println(o.getTicker());
 		}
+		System.out.println("Después de getOrders");
 		
 		order = shoppingCartService.createCheckOut(consumer);
+		System.out.println("Acaba de crear el checkOut sin persistirlo");
 		shoppingCartService.saveCheckOut(order, consumer);
+		System.out.println("Acaba de persistir el checkOut");
+
 		
 		System.out.println("Lista de las Order después del checkout:");
 		for(Order o: consumer.getOrders()){

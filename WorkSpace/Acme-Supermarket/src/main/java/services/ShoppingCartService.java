@@ -58,16 +58,17 @@ public class ShoppingCartService {
 	// req: 11.7
 	public Order createCheckOut(Consumer consumer){
 		Assert.notNull(consumer);
-		Assert.isTrue(consumer.getId() != 0);
+		Assert.isTrue(consumer.getId() != 0, "is true en createCheckOut");
 		
 		Order result;
 		ShoppingCart shoppingCart;
 		
 		shoppingCart = this.findByConsumer(consumer);		
 		
+		System.out.println("Encontró por consumer");
 			// Create a order with their orderItems (none is persist) 
 		result = orderService.createFromShoppingCart(shoppingCart, consumer);
-
+		System.out.println("Creo desde shoppingCarty");
 		return result;
 	}
 	

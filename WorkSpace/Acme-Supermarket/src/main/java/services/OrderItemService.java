@@ -2,6 +2,9 @@ package services;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,8 +74,11 @@ public class OrderItemService {
 	//req: 11.7
 	public void save(Collection<OrderItem> orderItems){
 		Assert.notNull(orderItems);
-
+		
 		orderItemRepository.save(orderItems);
+/*		for (OrderItem orderItem : orderItems) {
+			orderItemRepository.saveAndFlush(orderItem);
+		}*/
 	}
 
 	//Other business methods -------------------------------------------------
@@ -85,26 +91,26 @@ public class OrderItemService {
 		Assert.notNull(shoppingCart);
 		Assert.isTrue(shoppingCart.getId() != 0);
 		Assert.notNull(order);
-		Assert.isTrue(order.getId() != 0);
+		// -+- Assert.isTrue(order.getId() != 0);
 		
-		Collection<OrderItem> result;
+		Set<OrderItem> result;
 		Collection<Item> items;
 		OrderItem orderItem;
 		int units;
 		
-		result = Collections.emptySet();
+		result = new HashSet<OrderItem>();
 			// Debe devolver los items no borrados del sistema
 		items = itemService.findAllByShoppingCart(shoppingCart);
 		
 		Assert.notEmpty(items, "Can't create OrderItems if the shoppingCart is empty");
 		
 		for (Item item : items) {
-			units = shoppingCartService.consultItemQuantity(shoppingCart, item);			
+			units = shoppingCartService.consultItemQuantity(shoppingCart, item);
 			orderItem = this.createByShoppingCart(item, order, units);
 			result.add(orderItem);
 		}	
-		
-		return result;
+
+		return Collections.unmodifiableSet(result);
 	}
 	
 	/**

@@ -48,9 +48,11 @@ public class ConsumerService {
 	 */
 	// req: 10.1
 	public void save(Consumer consumer){
-		Assert.isNull(consumer);
-		
+		Assert.notNull(consumer);
+		System.out.println("ConsumerService.save comprobado que no sea null");
 		consumerRepository.save(consumer);
+		System.out.println("ConsumerService.save guardando en el repo");
+
 	}
 	
 	/**

@@ -54,11 +54,12 @@ public class OrderService {
 		String ticker;
 		
 		result = new Order();
-		
+		System.out.println("Creo la order");
 		ticker = this.tickerGenerate();
-		
+		System.out.println("Generó el ticker");
 		result.setPlacementMoment(new Date());
 		result.setTicker(ticker);
+		System.out.println("Cambio el ticker y la fecha");
 		
 		return result;
 	}
@@ -67,14 +68,18 @@ public class OrderService {
 	 */
 	//req: 11.7
 	public void save(Order order){
+		
+		
 		Assert.notNull(order);
 		
 		Collection<OrderItem> orderItems;
 		
 		orderItems = order.getOrderItems();
-		orderItemService.save(orderItems);
 		
-		orderRepository.save(order);
+		orderRepository.saveAndFlush(order);
+		System.out.println("ha guardado el order");
+		orderItemService.save(orderItems);
+		System.out.println("ha guardado los orderItems");
 	}
 	
 	/**
@@ -102,24 +107,31 @@ public class OrderService {
 		Assert.notNull(consumer);
 		Assert.isTrue(consumer.getId() != 0);
 		
+		System.out.println("Paso las restricciones en OrderService.createFromShoppingCart");
 		Order result;
 		Collection<OrderItem> orderItems;
 		double amount;
 		
 		result = this.create();
 		
+		System.out.println("Create en orderService llamado al crete");
 			// Adding OrderItems
 		orderItems = orderItemService.createByShoppingCart(shoppingCart, result);
 		result.setOrderItems(orderItems);
+		System.out.println("OrderItems en OrderService añadidos");
 		
 			// Calculate amount
 		amount = this.amountCalculate(orderItems);
 		result.setAmount(amount);
+		System.out.println("Amount calculaado correctamente en OrderService");
 		
 			// Adding Order to Consumer
 		consumer.addOrder(result);
 		
+		System.out.println("Añadidos los orders al consumer");
+		
 		consumerService.save(consumer);
+		System.out.println("saliendo de createFromShoppingCart en OrderService");
 		return result;
 	}
 	
@@ -181,7 +193,7 @@ public class OrderService {
 				'U','V','W','X','Y','Z'};
 		
 		for(int i=0;i<8;i++){
-			int el = (int)(Math.random()*37);
+			int el = (int)(Math.random()*36);
 			conjunto[i] = (char)elementos[el];
 		}
 		result = new String(conjunto);
