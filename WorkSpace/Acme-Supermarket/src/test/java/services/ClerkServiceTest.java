@@ -29,6 +29,7 @@ public class ClerkServiceTest extends AbstractTest{
 	// Test ---------------------------------------
 	@Test
 	public void testCreate1(){
+		//Peta. Hace falta modificar los valores con los set
 		System.out.println("Requisito 17.1 - Register a new clerk to the system.");
 		System.out.println("ClerkServiceTest - testClerk1 - StartPoint");
 		

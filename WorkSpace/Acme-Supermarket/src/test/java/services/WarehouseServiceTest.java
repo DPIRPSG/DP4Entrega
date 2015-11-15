@@ -125,20 +125,26 @@ public class WarehouseServiceTest extends AbstractTest{
 		
 		authenticate("admin");
 		
-		warehouse = warehouseService.findAll().iterator().next();
+		warehouse = null;
 		all = warehouseService.findAll();
+		for(WareHouse w:all){
+			if(w.getStorages().isEmpty()){
+				//Aquí cogemos el warehouse adecuado.
+				warehouse = w;
+			}
+		}
 		
 		System.out.println("Warehouse antes de borrar alguno");
-		for(WareHouse w:all){
-			System.out.println(w.getName());
+		for(WareHouse w2:all){
+			System.out.println(w2.getName());
 		}
 		
 		warehouseService.delete(warehouse);
 		all = warehouseService.findAll();
 		
 		System.out.println("Warehouse después de borra alguno");
-		for(WareHouse w2:all){
-			System.out.println(w2.getName());
+		for(WareHouse w3:all){
+			System.out.println(w3.getName());
 		}
 		
 		authenticate(null);

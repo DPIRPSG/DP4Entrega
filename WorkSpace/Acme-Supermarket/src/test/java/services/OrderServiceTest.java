@@ -35,7 +35,7 @@ public class OrderServiceTest extends AbstractTest{
 		Order order;
 		Collection<Order> all;
 		
-		authenticate("customer1");
+		authenticate("consumer1");
 		
 		order = null;
 		
@@ -50,7 +50,7 @@ public class OrderServiceTest extends AbstractTest{
 		
 		System.out.println("Fecha de cancelación de la order antes de cancelarla:");
 		System.out.println(order.getCancelMoment());
-		
+
 		orderService.cancelOrder(order);
 		
 		System.out.println("Fecha de cancelación de la order después de cancelarla:");

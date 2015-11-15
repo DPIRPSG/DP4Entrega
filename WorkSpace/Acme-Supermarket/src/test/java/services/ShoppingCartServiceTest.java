@@ -188,7 +188,10 @@ public class ShoppingCartServiceTest extends AbstractTest{
 			System.out.println(s);
 		}
 		
-		shoppingCartService.addComment(shoppingCart, comment);
+		shoppingCart.addComment(comment);
+		shoppingCartService.save(shoppingCart);
+		
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
 		
 		System.out.println("Comentarios del ShoppingCart después de añadir un comentario:");
 		for(String s: shoppingCart.getComments()){
