@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import repositories.ItemRepository;
+
 import domain.Category;
 import domain.Item;
 import domain.Tax;
@@ -21,7 +23,7 @@ import utilities.AbstractTest;
 	"classpath:spring/datasource.xml",
 	"classpath:spring/config/packages.xml"})
 @Transactional
-@TransactionConfiguration(defaultRollback = false)
+//@TransactionConfiguration(defaultRollback = false)
 public class ItemServiceTest extends AbstractTest{
 
 	// Service under test -------------------------
@@ -31,6 +33,8 @@ public class ItemServiceTest extends AbstractTest{
 	private CategoryService categoryService;
 	@Autowired
 	private TaxService taxService;
+	@Autowired
+	private ItemRepository itemRepository;
 	
 	// Test ---------------------------------------
 	
@@ -48,7 +52,8 @@ public class ItemServiceTest extends AbstractTest{
 		
 		category = categoryService.findAll().iterator().next();
 		//Peta aquí con algo de las Collections
-		all = itemService.findAllByCategory(category);
+		System.out.println(category.toString());
+		all = itemRepository.findAllByCategoryId(category.getId());
 //		
 //		for(Item i:all){
 //			System.out.println(i.getName());

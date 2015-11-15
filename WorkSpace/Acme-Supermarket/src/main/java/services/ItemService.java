@@ -74,7 +74,7 @@ public class ItemService {
 		Item result;
 		
 		result = itemRepository.findOne(itemId);
-		Assert.notNull(result, "Item " + itemId + " don't exist");
+		//Assert.notNull(result, "Item " + itemId + " don't exist");
 		
 		return result;
 	}
@@ -97,9 +97,10 @@ public class ItemService {
 		Assert.notNull(category);
 		
 		Collection<Item> result;
-		
 		result = itemRepository.findAllByCategoryId(category.getId());
-		
+		for (Item item : result) {
+			System.out.println(item.toString());
+		}
 		return result;
 	}
 	
