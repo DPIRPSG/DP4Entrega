@@ -48,7 +48,7 @@ public class ConsumerService {
 	 */
 	// req: 10.1
 	public void save(Consumer consumer){
-		Assert.isNull(consumer);
+		Assert.notNull(consumer);
 		
 		consumerRepository.save(consumer);
 	}
