@@ -210,6 +210,10 @@ public class ItemService {
 		return result;
 	}
 
+	/**
+	 * Devuelve el/los items con más comentarios
+	 */
+	//ref: 25.2.1
 	public Collection<Item> findItemMoreComments(){
 		Collection<Item> result;
 		

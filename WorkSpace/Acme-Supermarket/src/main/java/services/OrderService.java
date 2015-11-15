@@ -20,6 +20,7 @@ import repositories.OrderRepository;
 @Transactional
 public class OrderService {
 
+	private Integer ticker = 0;
 	//Managed repository -----------------------------------------------------
 
 	@Autowired
@@ -128,28 +129,61 @@ public class OrderService {
 	//req: 11.7
 	private String tickerGenerate(){
 		String result;
-		/*UUID codeUUID;
-		String code;
-		String[] ticker;
-		String definitedTicker;
-		UUIDGenerator generator;
-		Pattern pattern;
+		String tickerNumber;
+		String tickerAleatory;
 		
-		pattern = Pattern.compile("regular expresion here");
-		
-		
-		
-		generator.
-		codeUUID = UUIDGenerator.randomUUID();
-		code = codeUUID.toString();
-		ticker = code.split("-");
-		definitedTicker = ticker[0]+"-"+ticker[1];*/
-		System.out.println("El método tickerGenerate en OrderService no está completado");
-		result = "000000-unkn";
+		tickerNumber = calculaTickerNumber();
+		tickerAleatory = calculaTickerAleatory();
+		result = tickerNumber + "-" + tickerAleatory;
 		
 		return result;
 	}
 	
+	private String calculaTickerNumber() {
+		String result;
+		
+		if(ticker < 10) {
+			result = "00000" + ticker.toString();
+			ticker++;
+		} else if(ticker < 100) {
+			result = "0000" + ticker.toString();
+			ticker++;
+		} else if(ticker < 1000) {
+			result = "000" + ticker.toString();
+			ticker++;
+		} else if(ticker < 10000) {
+			result = "00" + ticker.toString();
+			ticker++;
+		} else if(ticker < 100000) {
+			result = "0" + ticker.toString();
+			ticker++;
+		} else if(ticker < 1000000) {
+			result = ticker.toString();
+			ticker++;
+		} else {
+			ticker = 0;
+			result = calculaTickerNumber();
+		}
+		
+		return result;
+	}
+	
+	private String calculaTickerAleatory() {
+		String result;
+		char[] conjunto = new char[8];
+
+		char[] elementos={'0','1','2','3','4','5','6','7','8','9' ,'A',
+				'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T',
+				'U','V','W','X','Y','Z'};
+		
+		for(int i=0;i<8;i++){
+			int el = (int)(Math.random()*37);
+			conjunto[i] = (char)elementos[el];
+		}
+		result = new String(conjunto);
+		
+		return result;
+	}
 	/**
 	 * Calcula el precio de los orders
 	 */
@@ -173,7 +207,7 @@ public class OrderService {
 	 */
 	//req: 16.1
 	public void cancelOrder(Order order){
-		Assert.isNull(order);
+		Assert.notNull(order);
 		Assert.isTrue(order.getId() != 0);
 		
 		Clerk clerk;
