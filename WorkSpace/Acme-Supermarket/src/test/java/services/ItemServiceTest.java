@@ -110,6 +110,26 @@ public class ItemServiceTest extends AbstractTest{
 		System.out.println("ItemServiceTest - testFindByKeyword3 - FinishPoint");
 	}
 	
+	@Test
+	public void testFindByKeyword10(){
+		System.out.println("Requisito 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.");
+		System.out.println("ItemServiceTest - testFindByKeyword3 - StartPoint");
+		
+		Collection<Item> all;
+		String singleKeyword;
+		
+		singleKeyword = "manolo";
+		all = itemService.findBySingleKeyword(singleKeyword);
+		
+		System.out.println(all);
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		System.out.println("ItemServiceTest - testFindByKeyword3 - FinishPoint");
+	}
+	
 	// Requisito 11.1
 	@Test
 	public void testFindAllByCategory2(){

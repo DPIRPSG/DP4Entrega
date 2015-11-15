@@ -167,145 +167,148 @@ public class ShoppingCartServiceTest extends AbstractTest{
 
 	}
 	
-//	// Requisito 11.6
-//	@Test
-//	public void testAddComment1(){
-//		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
-//		System.out.println("ShoppingCartServiceTest - testAddComment1 - StartPoint");
-//		
-//		ShoppingCart shoppingCart;
-//		Consumer consumer;
-//		String comment;
-//		
-//		authenticate("consumer1");
-//		
-//		consumer = consumerService.findAll().iterator().next();
-//		shoppingCart = shoppingCartService.findByConsumer(consumer);
-//		comment = "comentario de los test";
-//		
-//		System.out.println("Comentarios del ShoppingCart antes de añadir un comentario:");
-//		for(String s: shoppingCart.getComments()){
-//			System.out.println(s);
-//		}
-//		
-//		shoppingCartService.addComment(shoppingCart, comment);
-//		
-//		System.out.println("Comentarios del ShoppingCart después de añadir un comentario:");
-//		for(String s: shoppingCart.getComments()){
-//			System.out.println(s);
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ShoppingCartServiceTest - testAddComment1 - FinishPoint");
-//
-//	}
-//
-//	@Test
-//	public void testRemoveComment1(){
-//		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
-//		System.out.println("ShoppingCartServiceTest - testRemoveComment1 - StartPoint");
-//		
-//		ShoppingCart shoppingCart;
-//		Consumer consumer;
-//		String comment;
-//		
-//		authenticate("consumer1");
-//		
-//		consumer = consumerService.findAll().iterator().next();
-//		shoppingCart = shoppingCartService.findByConsumer(consumer);
-//		comment = shoppingCart.getComments().iterator().next();
-//		
-//		System.out.println("Comentarios del ShoppingCart antes de borrar un comentario:");
-//		for(String s: shoppingCart.getComments()){
-//			System.out.println(s);
-//		}
-//		
-//		shoppingCartService.deleteComment(shoppingCart, comment);
-//		
-//		System.out.println("Comentarios del ShoppingCart después de borrar un comentario:");
-//		for(String s: shoppingCart.getComments()){
-//			System.out.println(s);
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ShoppingCartServiceTest - testRemoveComment1 - FinishPoint");
-//
-//	}
-//
-//	@Test
-//	public void testModifyComment1(){
-//		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
-//		System.out.println("ShoppingCartServiceTest - testModifyComment1 - StartPoint");
-//		
-//		ShoppingCart shoppingCart;
-//		Consumer consumer;
-//		String commentOld;
-//		String commentNew;
-//		
-//		authenticate("consumer1");
-//		
-//		consumer = consumerService.findAll().iterator().next();
-//		shoppingCart = shoppingCartService.findByConsumer(consumer);
-//		commentOld = shoppingCart.getComments().iterator().next();
-//		commentNew = "Comentario modificado";
-//		
-//		System.out.println("Comentarios del ShoppingCart antes de modificar un comentario:");
-//		for(String s: shoppingCart.getComments()){
-//			System.out.println(s);
-//		}
-//		
-//		shoppingCartService.deleteComment(shoppingCart, commentOld);
-//		shoppingCartService.addComment(shoppingCart, commentNew);
-//		
-//		System.out.println("Comentarios del ShoppingCart después de modificar un comentario:");
-//		for(String s: shoppingCart.getComments()){
-//			System.out.println(s);
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ShoppingCartServiceTest - testModifyComment1 - FinishPoint");
-//
-//	}	
-//	
-//	// Requisito 11.7
-//	@Test
-//	public void testCheckOut1(){
-//		System.out.println("Requisito 11.7 - Check his or her shopping cart out and place the corresponding order.");
-//		System.out.println("ShoppingCartServiceTest - testCheckOut1 - StartPoint");
-//		
-//		Consumer consumer;
-//		Order order;
-//		
-//		authenticate("customer1");
-//		
-//		consumer = consumerService.findAll().iterator().next();
-//		
-//		System.out.println("Lista de Items de ShoppingCart antes del checkout:");
-//		
-//		for(Content c: consumer.getShoppingCart().getContents()){
-//			System.out.println(c.getItem() + ", " + c.getUnits());
-//		}
-//		
-//		for(Order o: consumer.getOrders()){
-//			System.out.println(o.getTicker());
-//		}
-//		
-//		order = shoppingCartService.createCheckOut(consumer);
-//		shoppingCartService.saveCheckOut(order, consumer);
-//		
-//		System.out.println("Lista de las Order después del checkout:");
-//		for(Order o: consumer.getOrders()){
-//			System.out.println(o.getTicker());
-//		}
-//		System.out.println("Ticker de la Order creada");
-//		System.out.println(order.getTicker());
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ShoppingCartServiceTest - testCheckOut1 - FinishPoint");
-//
-//	}
+	// Requisito 11.6
+	@Test
+	public void testAddComment1(){
+		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
+		System.out.println("ShoppingCartServiceTest - testAddComment1 - StartPoint");
+		
+		ShoppingCart shoppingCart;
+		Consumer consumer;
+		String comment;
+		
+		authenticate("consumer1");
+		
+		consumer = consumerService.findAll().iterator().next();
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
+		comment = "comentario de los test";
+		
+		System.out.println("Comentarios del ShoppingCart antes de añadir un comentario:");
+		for(String s: shoppingCart.getComments()){
+			System.out.println(s);
+		}
+		
+		shoppingCartService.addComment(shoppingCart, comment);
+		
+		System.out.println("Comentarios del ShoppingCart después de añadir un comentario:");
+		for(String s: shoppingCart.getComments()){
+			System.out.println(s);
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ShoppingCartServiceTest - testAddComment1 - FinishPoint");
+
+	}
+
+	@Test
+	public void testRemoveComment1(){
+		// El método deleteComment no está implementado
+		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
+		System.out.println("ShoppingCartServiceTest - testRemoveComment1 - StartPoint");
+		
+		ShoppingCart shoppingCart;
+		Consumer consumer;
+		String comment;
+		
+		authenticate("consumer1");
+		
+		consumer = consumerService.findAll().iterator().next();
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
+		comment = shoppingCart.getComments().iterator().next();
+		
+		System.out.println("Comentarios del ShoppingCart antes de borrar un comentario:");
+		for(String s: shoppingCart.getComments()){
+			System.out.println(s);
+		}
+		
+		shoppingCartService.deleteComment(shoppingCart, comment);
+		
+		System.out.println("Comentarios del ShoppingCart después de borrar un comentario:");
+		for(String s: shoppingCart.getComments()){
+			System.out.println(s);
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ShoppingCartServiceTest - testRemoveComment1 - FinishPoint");
+
+	}
+
+	@Test
+	public void testModifyComment1(){
+		// Hasta que no esté el deleteComment, este no funcionará
+		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
+		System.out.println("ShoppingCartServiceTest - testModifyComment1 - StartPoint");
+		
+		ShoppingCart shoppingCart;
+		Consumer consumer;
+		String commentOld;
+		String commentNew;
+		
+		authenticate("consumer1");
+		
+		consumer = consumerService.findAll().iterator().next();
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
+		commentOld = shoppingCart.getComments().iterator().next();
+		commentNew = "Comentario modificado";
+		
+		System.out.println("Comentarios del ShoppingCart antes de modificar un comentario:");
+		for(String s: shoppingCart.getComments()){
+			System.out.println(s);
+		}
+		
+		shoppingCartService.deleteComment(shoppingCart, commentOld);
+		shoppingCartService.addComment(shoppingCart, commentNew);
+		
+		System.out.println("Comentarios del ShoppingCart después de modificar un comentario:");
+		for(String s: shoppingCart.getComments()){
+			System.out.println(s);
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ShoppingCartServiceTest - testModifyComment1 - FinishPoint");
+
+	}	
+	
+	// Requisito 11.7
+	@Test
+	public void testCheckOut1(){
+		//Peta
+		System.out.println("Requisito 11.7 - Check his or her shopping cart out and place the corresponding order.");
+		System.out.println("ShoppingCartServiceTest - testCheckOut1 - StartPoint");
+		
+		Consumer consumer;
+		Order order;
+		
+		authenticate("customer1");
+		
+		consumer = consumerService.findAll().iterator().next();
+		
+		System.out.println("Lista de Items de ShoppingCart antes del checkout:");
+		
+		for(Content c: consumer.getShoppingCart().getContents()){
+			System.out.println(c.getItem() + ", " + c.getUnits());
+		}
+		
+		for(Order o: consumer.getOrders()){
+			System.out.println(o.getTicker());
+		}
+		
+		order = shoppingCartService.createCheckOut(consumer);
+		shoppingCartService.saveCheckOut(order, consumer);
+		
+		System.out.println("Lista de las Order después del checkout:");
+		for(Order o: consumer.getOrders()){
+			System.out.println(o.getTicker());
+		}
+		System.out.println("Ticker de la Order creada");
+		System.out.println(order.getTicker());
+		
+		authenticate(null);
+		
+		System.out.println("ShoppingCartServiceTest - testCheckOut1 - FinishPoint");
+
+	}
 }
