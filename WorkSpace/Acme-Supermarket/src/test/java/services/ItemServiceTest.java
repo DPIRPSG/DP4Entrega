@@ -47,14 +47,14 @@ public class ItemServiceTest extends AbstractTest{
 		category = null;
 		
 		category = categoryService.findAll().iterator().next();
-		//Peta aquí con algo de las Collections
+		//Peta aquí con algo de las Collections. Parece que el error nos lleva hasta el repo
 		all = itemService.findAllByCategory(category);
-//		
-//		for(Item i:all){
-//			System.out.println(i.getName());
-//		}
-//		
-//		System.out.println("ItemServiceTest - testFindAllByCategory1 - FinishPoint");
+		
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		System.out.println("ItemServiceTest - testFindAllByCategory1 - FinishPoint");
 	}
 	
 //	// Requisito 10.3
