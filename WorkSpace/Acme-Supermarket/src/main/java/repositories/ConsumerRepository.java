@@ -24,6 +24,6 @@ public interface ConsumerRepository extends JpaRepository<Consumer, Integer> {
 	@Query("select c1 from Order o1 join o1.consumer c1 where o1.cancelMoment is not null group by c1 having count(o1) <= all(select count(o2) from Consumer c2 join c2.orders o2 where o2.cancelMoment is not null group by c2)")
 	Collection<Consumer> findConsumerLessOrdersCancelled();
 	
-	@Query("select c from Consumer c where c.userAccount = ?1")
+	@Query("select c from Consumer c where c.userAccount.id = ?1")
 	Consumer findByUserAccountId(int userAccountId);
 	}
