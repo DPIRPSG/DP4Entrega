@@ -71,15 +71,6 @@ public class CategoryService {
 		categoryRepository.delete(category);
 	}
 	
-	public Category findOne(int categoryId) {
-		Category result;
-
-		result = categoryRepository.findOne(categoryId);
-		Assert.notNull(result, "Category " + categoryId + " don't exist");
-
-		return result;
-	}
-	
 	/**
 	 * Lista todas las categories
 	 */

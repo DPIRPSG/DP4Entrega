@@ -47,122 +47,126 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		consumer = consumerService.findAll().iterator().next();
 		shoppingCart = shoppingCartService.findByConsumer(consumer);
 		
-		System.out.println(shoppingCart);
+		System.out.println("Consumer al que hacemos referencia:");
+		System.out.println(consumer.getName());
+		System.out.println("Su ShoppingCart");
+		System.out.println(shoppingCart.getId());
 		
 		authenticate(null);
 		System.out.println("ShoppingCartServiceTest - testFindByConsumer1 - Finish Point");
 	}
 	
-//	// Requisito 11.3
-//	@Test
-//	public void testAddItem1(){
-//		System.out.println("Requisito 11.3 - Add an item to his or her shopping cart. If an item is added to a shopping cart that already contains that item, the quantity must be updated accordingly.");
-//		System.out.println("ShoppingCartServiceTest - testAddItem1 - StartPoint");
-//		
-//		ShoppingCart shoppingCart;
-//		Consumer consumer;
-//		Item item;
-//		
-//		authenticate("consumer1");
-//		
-//		consumer = consumerService.findAll().iterator().next();
-//		shoppingCart = shoppingCartService.findByConsumer(consumer);
-//		item = itemService.findAll().iterator().next();
-//		
-//		System.out.println("Lista de Items de ShoppingCart antes de añadir el nuevo item:");
-//		for(Content c: shoppingCart.getContents()){
-//			System.out.println(c.getItem() + ", " + c.getUnits());
-//		}
-//		
-//		shoppingCartService.addItem(shoppingCart, item);
-//		
-//		System.out.println("Lista de Items de ShoppingCart después de añadir el nuevo item:");
-//		for(Content c: shoppingCart.getContents()){
-//			System.out.println(c.getItem() + ", " + c.getUnits());
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ShoppingCartServiceTest - testAddItem1 - FinishPoint");
-//	}
-//	
-//	// Requisito 11.4
-//	@Test
-//	public void testChangeItemQuantity1(){
-//		System.out.println("Requisito 11.4 - Change the quantity of an item in his or her shopping cart.");
-//		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - StartPoint");
-//		
-//		ShoppingCart shoppingCart;
-//		Consumer consumer;
-//		Item item;
-//		
-//		authenticate("consumer1");
-//		
-//		consumer = consumerService.findAll().iterator().next();
-//		shoppingCart = shoppingCartService.findByConsumer(consumer);
-//		item = null;
-//		for(Content c:shoppingCart.getContents()){
-//			item = c.getItem();
-//			break;
-//		}
-//		
-//		System.out.println("Lista de Items de ShoppingCart antes de cambiar el número de unidades de un item:");
-//		for(Content c: shoppingCart.getContents()){
-//			System.out.println(c.getItem() + ", " + c.getUnits());
-//		}
-//		
-//		shoppingCartService.changeItemQuantity(shoppingCart, item, 17);
-//		
-//		System.out.println("Lista de Items de ShoppingCart después de cambiar el número de unidades de un item:");
-//		for(Content c: shoppingCart.getContents()){
-//			System.out.println(c.getItem() + ", " + c.getUnits());
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - FinishPoint");
-//
-//	}
-//	
-//	// Requisito 11.5
-//	@Test
-//	public void testDeleteItem1(){
-//		System.out.println("Requisito 11.5 - Delete an item from his or her shopping cart.");
-//		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - StartPoint");
-//		
-//		ShoppingCart shoppingCart;
-//		Consumer consumer;
-//		Item item;
-//		
-//		authenticate("consumer1");
-//		
-//		consumer = consumerService.findAll().iterator().next();
-//		shoppingCart = shoppingCartService.findByConsumer(consumer);
-//		item = null;
-//		
-//		for(Content c:shoppingCart.getContents()){
-//			item = c.getItem();
-//			break;
-//		}
-//		
-//		System.out.println("Lista de Items de ShoppingCart antes de borrar un item:");
-//		for(Content c: shoppingCart.getContents()){
-//			System.out.println(c.getItem() + ", " + c.getUnits());
-//		}
-//		
-//		shoppingCartService.deleteItemQuantity(shoppingCart, item);
-//		
-//		System.out.println("Lista de Items de ShoppingCart después de borrar un item:");
-//		for(Content c: shoppingCart.getContents()){
-//			System.out.println(c.getItem() + ", " + c.getUnits());
-//		}
-//		
-//		authenticate(null);
-//		
-//		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - FinishPoint");
-//
-//	}
-//	
+	// Requisito 11.3
+	@Test
+	public void testAddItem1(){
+		System.out.println("Requisito 11.3 - Add an item to his or her shopping cart. If an item is added to a shopping cart that already contains that item, the quantity must be updated accordingly.");
+		System.out.println("ShoppingCartServiceTest - testAddItem1 - StartPoint");
+		
+		ShoppingCart shoppingCart;
+		Consumer consumer;
+		Item item;
+		
+		authenticate("consumer1");
+		
+		consumer = consumerService.findAll().iterator().next();
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
+		item = itemService.findAll().iterator().next();
+		
+		System.out.println("Lista de Items de ShoppingCart antes de añadir el nuevo item:");
+		for(Content c: shoppingCart.getContents()){
+			System.out.println(c.getItem() + ", " + c.getUnits());
+		}
+		
+		shoppingCartService.addItem(shoppingCart, item);
+		
+		System.out.println("Lista de Items de ShoppingCart después de añadir el nuevo item:");
+		for(Content c: shoppingCart.getContents()){
+			System.out.println(c.getItem() + ", " + c.getUnits());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ShoppingCartServiceTest - testAddItem1 - FinishPoint");
+	}
+	
+	// Requisito 11.4
+	@Test
+	public void testChangeItemQuantity1(){
+		System.out.println("Requisito 11.4 - Change the quantity of an item in his or her shopping cart.");
+		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - StartPoint");
+		
+		ShoppingCart shoppingCart;
+		Consumer consumer;
+		Item item;
+		
+		authenticate("consumer1");
+		
+		consumer = consumerService.findAll().iterator().next();
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
+		item = null;
+		for(Content c:shoppingCart.getContents()){
+			item = c.getItem();
+			break;
+		}
+		
+		System.out.println("Lista de Items de ShoppingCart antes de cambiar el número de unidades de un item:");
+		for(Content c: shoppingCart.getContents()){
+			System.out.println(c.getItem() + ", " + c.getUnits());
+		}
+		
+		shoppingCartService.changeItemQuantity(shoppingCart, item, 17);
+		
+		System.out.println("Lista de Items de ShoppingCart después de cambiar el número de unidades de un item:");
+		for(Content c: shoppingCart.getContents()){
+			System.out.println(c.getItem() + ", " + c.getUnits());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - FinishPoint");
+
+	}
+	
+	// Requisito 11.5
+	@Test
+	public void testDeleteItem1(){
+		// Este método funciona mal. Pone la cantidad a cero pero no borra el item de la shoppingCart
+		System.out.println("Requisito 11.5 - Delete an item from his or her shopping cart.");
+		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - StartPoint");
+		
+		ShoppingCart shoppingCart;
+		Consumer consumer;
+		Item item;
+		
+		authenticate("consumer1");
+		
+		consumer = consumerService.findAll().iterator().next();
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
+		item = null;
+		
+		for(Content c:shoppingCart.getContents()){
+			item = c.getItem();
+			break;
+		}
+		
+		System.out.println("Lista de Items de ShoppingCart antes de borrar un item:");
+		for(Content c: shoppingCart.getContents()){
+			System.out.println(c.getItem() + ", " + c.getUnits());
+		}
+		
+		shoppingCartService.deleteItemQuantity(shoppingCart, item);
+		
+		System.out.println("Lista de Items de ShoppingCart después de borrar un item:");
+		for(Content c: shoppingCart.getContents()){
+			System.out.println(c.getItem() + ", " + c.getUnits());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - FinishPoint");
+
+	}
+	
 //	// Requisito 11.6
 //	@Test
 //	public void testAddComment1(){
