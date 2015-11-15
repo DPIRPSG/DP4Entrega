@@ -77,7 +77,7 @@ public class ConsumerService {
 		
 		userAccount = LoginService.getPrincipal();
 		Assert.notNull(userAccount);
-		result = consumerRepository.findByUserAccount(userAccount);
+		result = consumerRepository.findByUserAccountId(userAccount.getId());
 		Assert.notNull(result);
 		
 		return result;

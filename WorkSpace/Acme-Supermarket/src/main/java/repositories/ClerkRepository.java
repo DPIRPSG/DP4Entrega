@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import domain.Administrator;
 import domain.Clerk;
 
 @Repository
@@ -19,4 +20,7 @@ public interface ClerkRepository extends JpaRepository<Clerk, Integer> {
 	
 	@Query("select o.clerk from Order o where o.id = ?1")
 	Clerk findByOrderId(int orderId);
+	
+	@Query("select c from Clerk c where c.userAccount = ?1")
+	Clerk findByUserAccountId(int userAccountId);
 }
