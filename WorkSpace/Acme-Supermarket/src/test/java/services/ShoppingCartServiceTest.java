@@ -16,6 +16,7 @@ import domain.Content;
 import domain.CreditCard;
 import domain.Item;
 import domain.Order;
+import domain.OrderItem;
 import domain.ShoppingCart;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -304,7 +305,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		
 		System.out.println("Lista de Items de ShoppingCart antes del checkout:");
 		for(Content c: consumer.getShoppingCart().getContents()){
-			System.out.println(c.getItem() + ", " + c.getUnits());
+			System.out.println(c.getItem() + ", " +c.getItem().getName()+"(deleted="+ c.getItem().getDeleted()+") x "+ c.getUnits());
 		}
 		
 		System.out.println("Lista de Orders antes del checkout");
@@ -314,6 +315,10 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		
 		order = shoppingCartService.createCheckOut(consumer);
 		
+		System.out.println("OrderItems tras create");
+		for(OrderItem o:order.getOrderItems()){
+			System.out.println(o.toString()+ ": "+o.getName()+", "+o.getPrice()+"e x "+o.getUnits()+" units");
+		}
 		/* Peta justo aquí.
 		 * Sale un rollo de violación de constraint
 		 * Cuando se guarda la order, consumer y addres no deben ser nulos.
@@ -375,6 +380,11 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		System.out.println("Lista de las Order después del checkout:");
 		for(Order o: consumer.getOrders()){
 			System.out.println(o.getTicker());
+		}
+		
+		System.out.println("Lista de los OrderItems en la Order: " + order.toString());
+		for(OrderItem o:order.getOrderItems()){
+			System.out.println(o.toString()+ ": "+o.getName()+", "+o.getPrice()+"e x "+o.getUnits()+" units");
 		}
 		
 		System.out.println("Lista de Orders después del checkout");	

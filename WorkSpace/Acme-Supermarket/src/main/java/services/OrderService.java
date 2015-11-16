@@ -73,12 +73,14 @@ public class OrderService {
 		
 		Collection<OrderItem> orderItems;
 		System.out.println("Stop 3");
+		orderItems = order.getOrderItems();
+		System.out.println("Stop 5");
+		//orderItemService.save(orderItems);
+		
 		orderRepository.saveAndFlush(order);
 		System.out.println("Stop 4");
 		
-		orderItems = order.getOrderItems();
-		System.out.println("Stop 5");
-		orderItemService.save(orderItems);
+
 		System.out.println("Stop 6");
 	}
 	
@@ -115,6 +117,10 @@ public class OrderService {
 		
 			// Adding OrderItems
 		orderItems = orderItemService.createByShoppingCart(shoppingCart, result);
+		System.out.println("OrderService -> createFromShoppingCart -> listar orderItems.1");
+		for(OrderItem o: orderItems){
+			System.out.println(o.toString()+ ": "+o.getName()+", "+o.getPrice()+"e x "+o.getUnits()+" units");
+		}
 		result.setOrderItems(orderItems);
 		
 			// Calculate amount
@@ -125,6 +131,10 @@ public class OrderService {
 		consumer.addOrder(result);
 		
 		// consumerService.save(consumer);
+		System.out.println("OrderService -> createFromShoppingCart -> listar orderItems.2");
+		for(OrderItem o: result.getOrderItems()){
+			System.out.println(o.toString()+ ": "+o.getName()+", "+o.getPrice()+"e x "+o.getUnits()+" units");
+		}
 		return result;
 	}
 	

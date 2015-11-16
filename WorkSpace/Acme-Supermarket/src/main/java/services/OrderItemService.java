@@ -1,8 +1,11 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import javassist.expr.NewArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,23 +92,37 @@ public class OrderItemService {
 		// La order no está creada por lo que no se puede chequear el id
 		
 		Set<OrderItem> result;
+		Collection<OrderItem> result2 = null;
 		Collection<Item> items;
 		OrderItem orderItem;
-		int units;
 		
+		int units;
 		result = new HashSet<OrderItem>();
+		result2 = new ArrayList<OrderItem>();
 			// Debe devolver los items no borrados del sistema
 		items = itemService.findAllByShoppingCart(shoppingCart);
 		
 		Assert.notEmpty(items, "Can't create OrderItems if the shoppingCart is empty");
 		
+		System.out.println("OrderItemService -> createByShoppingCart -> orderItems creados");
 		for (Item item : items) {
 			units = shoppingCartService.consultItemQuantity(shoppingCart, item);			
 			orderItem = this.createByShoppingCart(item, order, units);
+			System.out.println(orderItem.toString()+": "+orderItem.getName()+" x "+orderItem.getUnits());
 			result.add(orderItem);
+			result2.add(orderItem);
 		}	
 		
-		return result;
+		//result2.addAll(result);
+		
+		System.out.println("Another");
+		for (OrderItem o: result2){
+			System.out.println(o.toString()+ ": "+o.getName()+", "+o.getPrice()+"e x "+o.getUnits()+" units");
+
+		}
+		
+		
+		return result2;
 	}
 	
 	/**
