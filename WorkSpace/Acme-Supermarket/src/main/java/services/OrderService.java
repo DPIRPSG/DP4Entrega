@@ -20,6 +20,7 @@ import repositories.OrderRepository;
 @Transactional
 public class OrderService {
 
+	private Integer ticker = 0;
 	//Managed repository -----------------------------------------------------
 
 	@Autowired
@@ -66,14 +67,19 @@ public class OrderService {
 	 */
 	//req: 11.7
 	public void save(Order order){
+		System.out.println("Stop 1");
 		Assert.notNull(order);
+		System.out.println("Stop 2");
 		
 		Collection<OrderItem> orderItems;
+		System.out.println("Stop 3");
+		orderRepository.saveAndFlush(order);
+		System.out.println("Stop 4");
 		
 		orderItems = order.getOrderItems();
+		System.out.println("Stop 5");
 		orderItemService.save(orderItems);
-		
-		orderRepository.save(order);
+		System.out.println("Stop 6");
 	}
 	
 	/**
@@ -128,28 +134,75 @@ public class OrderService {
 	//req: 11.7
 	private String tickerGenerate(){
 		String result;
-		/*UUID codeUUID;
-		String code;
-		String[] ticker;
-		String definitedTicker;
-		UUIDGenerator generator;
-		Pattern pattern;
+		String tickerNumber;
+		String tickerAleatory;
 		
-		pattern = Pattern.compile("regular expresion here");
+		tickerNumber = calculaTickerNumber();
+		tickerAleatory = calculaTickerAleatory();
+		result = tickerNumber + "-" + tickerAleatory;
 		
-		
-		
-		generator.
-		codeUUID = UUIDGenerator.randomUUID();
-		code = codeUUID.toString();
-		ticker = code.split("-");
-		definitedTicker = ticker[0]+"-"+ticker[1];*/
-		System.out.println("El método tickerGenerate en OrderService no está completado");
-		result = "000000-unkn";
+		if(!compareTicker(result)) {
+			result = tickerGenerate();
+		}
 		
 		return result;
 	}
 	
+	private String calculaTickerNumber() {
+		String result;
+		
+		if(ticker < 10) {
+			result = "00000" + ticker.toString();
+			ticker++;
+		} else if(ticker < 100) {
+			result = "0000" + ticker.toString();
+			ticker++;
+		} else if(ticker < 1000) {
+			result = "000" + ticker.toString();
+			ticker++;
+		} else if(ticker < 10000) {
+			result = "00" + ticker.toString();
+			ticker++;
+		} else if(ticker < 100000) {
+			result = "0" + ticker.toString();
+			ticker++;
+		} else if(ticker < 1000000) {
+			result = ticker.toString();
+			ticker++;
+		} else {
+			ticker = 0;
+			result = calculaTickerNumber();
+		}
+		
+		return result;
+	}
+	
+	private String calculaTickerAleatory() {
+		String result;
+		char[] conjunto = new char[4];
+
+		char[] elementos={'0','1','2','3','4','5','6','7','8','9' ,'A',
+				'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T',
+				'U','V','W','X','Y','Z'};
+		
+		for(int i=0;i<4;i++){
+			int el = (int)(Math.random()*36);
+			conjunto[i] = (char)elementos[el];
+		}
+		result = new String(conjunto);
+		
+		return result;
+	}
+	
+	private Boolean compareTicker(String ticker) {
+		Boolean result;
+		Order order;
+		
+		order = orderRepository.findByTicker(ticker);
+		result = (order == null);
+		
+		return result;
+	}
 	/**
 	 * Calcula el precio de los orders
 	 */
@@ -173,14 +226,14 @@ public class OrderService {
 	 */
 	//req: 16.1
 	public void cancelOrder(Order order){
-		Assert.isNull(order);
+		Assert.notNull(order);
 		Assert.isTrue(order.getId() != 0);
 		
 		Clerk clerk;
 		
 		clerk = clerkService.findByOrder(order);
 		
-		Assert.notNull(clerk, "Can't remove a order when a clerk has assigned");
+		Assert.isNull(clerk, "Can't remove a order when a clerk has assigned");
 		
 		order.setCancelMoment(new Date());
 		this.save(order);

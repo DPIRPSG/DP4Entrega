@@ -31,7 +31,7 @@ public class CommentService {
 	//Simple CRUD methods ----------------------------------------------------
 	
 	/**
-	 * Crea un comentario. Necesita ser guardado
+	 * Crea un comentario. Necesita ser guardado. Usar desde createByItem.
 	 */
 	//ref: 23.2
 	private Comment create(){

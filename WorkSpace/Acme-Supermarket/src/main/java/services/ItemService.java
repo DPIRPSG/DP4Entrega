@@ -149,7 +149,7 @@ public class ItemService {
 	 */
 	//req: 17.3
 	public Collection<Item> findAllByWareHouse(WareHouse wareHouse){
-		Assert.isNull(wareHouse);
+		Assert.notNull(wareHouse);
 		
 		Collection<Item> result;
 		
@@ -167,7 +167,7 @@ public class ItemService {
 		Assert.isTrue(!keyword.isEmpty());
 		
 		Collection<Item> result;
-		
+
 		result = itemRepository.findBySingleKeyword(keyword);
 		
 		return result;

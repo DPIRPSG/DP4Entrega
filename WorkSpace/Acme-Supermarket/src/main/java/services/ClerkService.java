@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Clerk;
+import domain.Folder;
 import domain.Order;
 
 import repositories.ClerkRepository;
@@ -22,6 +23,9 @@ public class ClerkService {
 	
 	//Supporting services ----------------------------------------------------
 
+	@Autowired
+	private FolderService folderService;
+	
 	//Constructors -----------------------------------------------------------
 
 	public ClerkService(){
@@ -36,8 +40,12 @@ public class ClerkService {
 	//req: 17.1
 	public Clerk create(){
 		Clerk result;
+		Collection<Folder> folders;
 		
 		result = new Clerk();
+		
+		folders = folderService.initializeSystemFolder(result);
+		result.setFolders(folders);
 		
 		return result;
 	}
@@ -50,6 +58,18 @@ public class ClerkService {
 		Assert.notNull(clerk);
 		
 		clerkRepository.save(clerk);
+	}
+	
+	/**
+	 * Lista todos los clerks
+	 */
+	//req: test
+	public Collection<Clerk> findAll(){
+		Collection<Clerk> result;
+		
+		result = clerkRepository.findAll();
+		
+		return result;
 	}
 
 	//Other business methods -------------------------------------------------
