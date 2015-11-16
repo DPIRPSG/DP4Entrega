@@ -320,7 +320,15 @@ public class ItemServiceTest extends AbstractTest{
 		
 		authenticate("admin");
 		
-		System.out.println("Vamos a crear el Item \"Tablet 7 pulgadas\"");
+		System.out.println("Vamos a crear el Item \"Tablet 7 pulgadas\", comprobemos que todavía no está en la BBDD:");
+		all = itemService.findAll();
+		System.out.println("----INICIO listaItems----");
+		for (Item i: all){
+			System.out.println("Nombre: " + i.getName());
+			System.out.println("Descripción: " + i.getDescription());
+			System.out.println("Id: " + i.getId() + "\n");
+		}
+		System.out.println("----FIN listaItems----");
 		item = itemService.create();
 		item.setSku("AA-1234");
 		item.setName("Tablet 7 pulgadas");
@@ -357,28 +365,39 @@ public class ItemServiceTest extends AbstractTest{
 		
 		Item item;
 		Item itemModified;
-		Item itemNotModified;
+		//Item itemNotModified;
 		Collection<Item> all;
-		String sku;
+		int itemId;
+		//String sku;
 		
 		authenticate("admin");
 		
-		sku = "CJ-C8JW";
-		System.out.println("Pretendemos modificar el item con el sku CJ-C8JW, ¿Existe?, ¿Cuál es?:");
+		itemId = 54;
+		//sku = "CJ-C8JW";
+		//System.out.println("Pretendemos modificar el item con el sku CJ-C8JW, ¿Existe?, ¿Cuál es?:");
+		System.out.println("Pretendemos modificar el item con el id 54, ¿Existe?, ¿Cuál es?:");
 		all = itemService.findAll();
 		item = null;
 		for (Item i: all){
-			if(i.getSku()==sku){
+			if(i.getId()==itemId){
 				item = i;
 				System.out.println("Nombre: " + item.getName());
 				System.out.println("Descripción: " + item.getDescription());
-				System.out.println("Id: " + item.getSku() + "\n");
-			}else{
-				System.out.println("No hay ningún item con el sku: " + sku);
+				System.out.println("Id: " + item.getId() + "\n");
 			}
 		}
-		item.setName("TV Plasma");
-		System.out.println("Se ha modificado el item SIN darle a Save, no debe estar persistido en la BBDD, ¿Es así?:");
+//		for (Item i: all){
+//			if(i.getSku()==sku){
+//				item = i;
+//				System.out.println("Nombre: " + item.getName());
+//				System.out.println("Descripción: " + item.getDescription());
+//				System.out.println("Id: " + item.getSku() + "\n");
+//			}else{
+//				System.out.println("No hay ningún item con el sku: " + sku);
+//			}
+//		}
+		item.setName("Colonia alternativa");
+		/* System.out.println("Se ha modificado el item SIN darle a Save, no debe estar persistido en la BBDD, ¿Es así?:");
 		all = itemService.findAll();
 		itemNotModified = null;
 		for (Item i: all){
@@ -388,8 +407,8 @@ public class ItemServiceTest extends AbstractTest{
 				System.out.println("Descripción: " + itemNotModified.getDescription());
 				System.out.println("Id: " + itemNotModified.getId() + "\n");
 			}
-		}
-		//itemService.save(itemToModify);
+		} */
+		itemService.save(item);
 		System.out.println("Ya se ha pulsado en Save, el item debe estar persistido en la BBDD con las modificaciones, ¿Es así?:");
 //		itemModified = itemService.findOne(itemId);
 //		System.out.println("Nombre: " + itemModified.getName());
@@ -398,7 +417,7 @@ public class ItemServiceTest extends AbstractTest{
 		all = itemService.findAll();
 		itemModified = null;
 		for (Item i: all){
-			if(i.getSku()==sku){
+			if(i.getId()==itemId){
 				itemModified = i;
 				System.out.println("Nombre: " + itemModified.getName());
 				System.out.println("Descripción: " + itemModified.getDescription());

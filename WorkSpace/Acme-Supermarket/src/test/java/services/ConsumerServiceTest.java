@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.Clerk;
 import domain.Consumer;
 
 import utilities.AbstractTest;
@@ -27,6 +28,41 @@ public class ConsumerServiceTest extends AbstractTest{
 	private ConsumerService consumerService;
 	
 	// Test ---------------------------------------
+	@Test
+	public void testConsumerCancelledMoreOrders1(){
+		System.out.println("ConsumerServiceTest - testConsumerCancelledMoreOrders1 - StartPoint");
+		
+		Collection<Consumer> all;
+		
+		authenticate("admin");
+		
+		all = consumerService.findConsumerMoreOrdersCancelled();
+		for(Consumer c:all){
+			System.out.println(c.getName() + " " + c.getSurname());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ConsumerServiceTest - testConsumerCancelledMoreOrders1 - FinishPoint");
+	}
+	
+	@Test
+	public void testConsumerCancelledLessOrders1(){
+		System.out.println("ConsumerServiceTest - testConsumerCancelledLessOrders1 - StartPoint");
+		
+		Collection<Consumer> all;
+		
+		authenticate("admin");
+		
+		all = consumerService.findConsumerLessOrdersCancelled();
+		for(Consumer c:all){
+			System.out.println(c.getName() + " " + c.getSurname());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ConsumerServiceTest - testConsumerCancelledLessOrders1 - FinishPoint");
+	}
 	@Test
 	public void testList1(){
 		System.out.println("Requisito 12.5 - List the consumers that are registered in the system.");
@@ -89,3 +125,4 @@ public class ConsumerServiceTest extends AbstractTest{
 		System.out.println("ConsumerServiceTest - testFindConsumerSpentMoreMoney1 - FinishPoint");
 	}
 }
+

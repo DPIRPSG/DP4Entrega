@@ -107,4 +107,40 @@ public class ClerkServiceTest extends AbstractTest{
 		authenticate(null);
 		System.out.println("ClerkServiceTest - testClerk1 - FinishPoint");
 	}
+
+	@Test
+	public void testClerkServedMoreOrders1(){
+		System.out.println("ClerkServiceTest - testClerkServedMoreOrders1 - StartPoint");
+		
+		Collection<Clerk> all;
+		
+		authenticate("admin");
+		
+		all = clerkService.findClerkServedMoreOrders();
+		for(Clerk c:all){
+			System.out.println(c.getName() + " " + c.getSurname());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ClerkServiceTest - testClerkServedMoreOrders1 - FinishPoint");
+	}
+	
+	@Test
+	public void testClerkServedLessOrders1(){
+		System.out.println("ClerkServiceTest - testClerkServedLessOrders1 - StartPoint");
+		
+		Collection<Clerk> all;
+		
+		authenticate("admin");
+		
+		all = clerkService.findClerkServedLessOrders();
+		for(Clerk c:all){
+			System.out.println(c.getName() + " " + c.getSurname());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ClerkServiceTest - testClerkServedLessOrders1 - FinishPoint");
+	}
 }

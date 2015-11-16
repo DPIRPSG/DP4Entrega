@@ -110,7 +110,6 @@ public class FolderService {
 			temp.setName(string);
 			temp.setActor(actor);
 			
-			//this.save(temp);
 			result.add(temp);
 		}
 		
