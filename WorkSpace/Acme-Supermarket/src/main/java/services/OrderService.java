@@ -69,12 +69,7 @@ public class OrderService {
 	public void save(Order order){
 		Assert.notNull(order);
 		
-		Collection<OrderItem> orderItems;
-		
 		orderRepository.saveAndFlush(order);		
-		
-		orderItems = order.getOrderItems();
-		orderItemService.save(orderItems);
 	}
 	
 	/**
