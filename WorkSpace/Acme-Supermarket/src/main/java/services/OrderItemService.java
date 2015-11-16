@@ -84,7 +84,7 @@ public class OrderItemService {
 	// req: 11.7
 	public Collection<OrderItem> createByShoppingCart(ShoppingCart shoppingCart, Order order){
 		Assert.notNull(shoppingCart);
-		Assert.isTrue(shoppingCart.getId() != 0);
+		// Assert.isTrue(shoppingCart.getId() != 0);
 		Assert.notNull(order);
 		// La order no está creada por lo que no se puede chequear el id
 		
