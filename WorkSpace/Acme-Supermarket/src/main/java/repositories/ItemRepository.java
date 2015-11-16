@@ -23,10 +23,10 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	@Query("select i from Item i where i.deleted = false")
 	Collection<Item> findAllNotDeleted();
 	
-	@Query("select i from Item i where i.deleted = false and i.category = ?1")
+	@Query("select i from Item i where i.deleted = false and i.category.id = ?1")
 	Collection<Item> findAllByCategoryId(int categoryId);
 	
-	@Query("select i from Item i where i.category = ?1")
+	@Query("select i from Item i where i.category.id = ?1")
 	Collection<Item> findAllNotDeletedByCategoryId(int categoryId);
 	
 	@Query("select i from Item i join i.storages s where i.deleted = false and s.wareHouse.id = ?1")
@@ -35,7 +35,10 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	@Query("select i from Item i where i.category.tax.id = ?1")
 	Collection<Item> findByTaxId(int taxId);
 	
-	@Query("select i from Item i where i.deleted = false and i.sku like '%?1%' or i.name like '%?1%' or i.description like '%?1%'")
+//	@Query("select i from Item i where i.deleted = false and i.sku like '%?1%' or i.name like '%?1%' or i.description like '%?1%'")
+//	Collection<Item> findBySingleKeyword(String keyword);
+	
+	@Query("select i from Item i where i.deleted = false and i.sku like concat('%',?1,'%') or i.name like concat('%',?1,'%') or i.description like concat('%',?1,'%')")
 	Collection<Item> findBySingleKeyword(String keyword);
 	
 	@Query("select c.item from ShoppingCart s join s.contents c where c.item.deleted = false and s.id = ?1")

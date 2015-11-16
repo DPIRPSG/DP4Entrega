@@ -166,7 +166,7 @@ public class ItemService {
 		Assert.isTrue(!keyword.isEmpty());
 		
 		Collection<Item> result;
-		
+
 		result = itemRepository.findBySingleKeyword(keyword);
 		
 		return result;
