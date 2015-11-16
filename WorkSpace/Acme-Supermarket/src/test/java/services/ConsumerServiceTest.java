@@ -135,7 +135,6 @@ public class ConsumerServiceTest extends AbstractTest{
 			System.out.println(c.getName());
 		}
 		
-		authenticate(null);
 		System.out.println("ConsumerServiceTest - testConsumer1 - FinishPoint");
 	}
 	

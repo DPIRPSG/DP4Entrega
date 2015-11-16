@@ -713,6 +713,7 @@
 		<property name="storages">
 			<list>
 				<ref bean="storage1"/>
+				<ref bean="storage5"/>
 			</list>
 		</property>
 		<property name="comments">
@@ -920,6 +921,16 @@
 		<property name="address" value="Dos Hermanas s/n"/>
 		<property name="storages">
 			<list>
+				<ref bean="storage5"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="warehouse3" class="domain.WareHouse">
+		<property name="name" value="Almacén Cádiz"/>
+		<property name="address" value="Cádiz s/n"/>
+		<property name="storages">
+			<list>
 			</list>
 		</property>
 	</bean>
@@ -948,6 +959,12 @@
 		<property name="units" value="10"/>
 		<property name="wareHouse" ref="warehouse1"/>
 		<property name="item" ref="item4"/>
+	</bean>
+	
+	<bean id="storage5" class="domain.Storage">
+		<property name="units" value="4"/>
+		<property name="wareHouse" ref="warehouse2"/>
+		<property name="item" ref="item1"/>
 	</bean>
 	
 	<!-- ShoppingCart -->
