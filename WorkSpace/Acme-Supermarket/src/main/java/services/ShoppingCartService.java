@@ -79,8 +79,11 @@ public class ShoppingCartService {
 		Assert.notNull(order);
 		Assert.notNull(consumer);
 		
+		System.out.println("Subparada 1");
 		orderService.save(order);
+		System.out.println("Subparada 2");
 		this.emptyShoppingCart(consumer);
+		System.out.println("Subparada 3");
 	}
 	
 	/**

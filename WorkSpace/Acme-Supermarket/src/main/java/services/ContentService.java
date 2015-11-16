@@ -24,8 +24,8 @@ public class ContentService {
 	
 	//Supporting services ----------------------------------------------------
 
-	/*@Autowired
-	private ShoppingCartService shoppingCartService;*/
+	@Autowired
+	private ShoppingCartService shoppingCartService;
 	
 	//Constructors -----------------------------------------------------------
 
@@ -49,17 +49,20 @@ public class ContentService {
 		Assert.notNull(content);
 	
 		if(content.getUnits() == 0){
-			this.delete(content);
+			this.deleteComplete(content);
 		}else{
 			contentRepository.save(content);
 		}
 	}
 	
-	public void delete(Content content){
+	/**
+	 * Los contents se borran desde COntentService.deleteComplete
+	 */
+	private void delete(Content content){
 		Assert.notNull(content);
 		Assert.isTrue(content.getId() != 0);
 		
-		contentRepository.delete(content.getId());
+		contentRepository.delete(content);
 	}
 	
 	//Other business methods -------------------------------------------------
@@ -153,6 +156,23 @@ public class ContentService {
 		
 		this.updateQuantityByShoppingCartAndItem(shoppingCart, item, quantity);
 	}
+	/**
+	 * Realiza el borrado completo del contenido
+	 */
+	//req: x
+	public void deleteComplete(Content content){
+		Collection<Content> contents;
+		ShoppingCart shoppingCart;
+		
+		shoppingCart = content.getShoppingCart();		
+		
+		this.delete(content);
+
+		contents = this.findByShoppingCart(shoppingCart);
+		shoppingCart.setContents(contents);
+		shoppingCartService.save(shoppingCart);
+	}
+	
 	
 	
 }

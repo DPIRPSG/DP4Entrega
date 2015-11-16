@@ -264,6 +264,7 @@
 		<list>
 			<ref bean="order8"/>
 			<ref bean="order9"/>
+			<ref bean="order10"/>
 		</list>
 		</property>
 		<property name="folders">
@@ -1233,6 +1234,21 @@
 		<property name="amount" value="9.95" />
 	</bean>
 	
+	<bean id="order10" class="domain.Order">
+		<property name="ticker" value="112348-KDL8"/>
+		<property name="placementMoment" value="2015/11/12 17:55"/>
+		<property name="address" value="calle Afrodita nº2"/>
+		<property name="deliveryMoment" value="2015/11/14 10:00"/>
+		<property name="creditCard" ref="creditCard4"/>
+		<property name="consumer" ref="consumer4"/>
+		<property name="orderItems">
+			<list>
+				<ref bean="orderItem10"/>
+			</list>
+		</property>
+		<property name="amount" value="9.95" />
+	</bean>
+	
 	<!-- OrderItem -->
 	
 	<bean id="orderItem1" class="domain.OrderItem">
@@ -1401,5 +1417,22 @@
 		<property name="units" value="5"/>
 		<property name="order" ref="order9"/>
 	</bean>
-	
+	<bean id="orderItem10" class="domain.OrderItem">
+		<property name="sku" value="AB-H6GH"/>
+		<property name="name" value="Turrón de chocolate"/>
+		<property name="description" value="se acerca la navidad, compra el mejor turron de chocolate"/>
+		<property name="price" value="1.99"/>
+		<property name="tags">
+			<list>
+				<value>Dulce</value>
+				<value>Turron</value>
+				<value>Chocolate</value>
+			</list>
+		</property>
+		<property name="deleted" value="false"/>
+		<property name="tax" value="4"/>
+		<property name="nameCategory" value="alimentos"/>
+		<property name="units" value="5"/>
+		<property name="order" ref="order10"/>
+	</bean>
 </beans>

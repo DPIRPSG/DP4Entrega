@@ -1,6 +1,11 @@
 package services;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,6 +86,32 @@ public class FolderService {
 		
 		actor = actorService.findByPrincipal();
 		result = folderRepository.findAllByActorId(actor.getId());
+		
+		return result;
+	}
+
+	/**
+	 * Crea y guarda las carpetas por defecto
+	 */
+	//req: x
+	public Collection<Folder> initializeSystemFolder(Actor actor){
+		Collection<Folder> result;
+		
+		result = new HashSet<Folder>();		
+		String names[] = {"Inbox", "Outbox", "TrashBox"};
+		
+		
+		for (String string : names) {
+			Folder temp;
+			
+			temp = this.create();
+			
+			temp.setIsSystem(true);
+			temp.setName(string);
+			temp.setActor(actor);
+			
+			result.add(temp);
+		}
 		
 		return result;
 	}

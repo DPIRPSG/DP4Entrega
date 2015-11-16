@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Clerk;
+import domain.Folder;
 import domain.Order;
 
 import repositories.ClerkRepository;
@@ -22,6 +23,9 @@ public class ClerkService {
 	
 	//Supporting services ----------------------------------------------------
 
+	@Autowired
+	private FolderService folderService;
+	
 	//Constructors -----------------------------------------------------------
 
 	public ClerkService(){
@@ -36,8 +40,12 @@ public class ClerkService {
 	//req: 17.1
 	public Clerk create(){
 		Clerk result;
+		Collection<Folder> folders;
 		
 		result = new Clerk();
+		
+		folders = folderService.initializeSystemFolder(result);
+		result.setFolders(folders);
 		
 		return result;
 	}
@@ -84,10 +92,10 @@ public class ClerkService {
 	 * Encuentra el/los clerk con más order
 	 */
 	//req: 17.6.1
-	public Collection<Clerk> findClerkServerMoreOrders(){
+	public Collection<Clerk> findClerkServedMoreOrders(){
 		Collection<Clerk> result;
 		
-		result = clerkRepository.findClerkServerMoreOrders();
+		result = clerkRepository.findClerkServedMoreOrders();
 		
 		return result;
 	}
@@ -96,10 +104,10 @@ public class ClerkService {
 	 * Encuentra el/los clerk con menos order
 	 */
 	//req: 17.6.2
-	public Collection<Clerk> findClerkServerLessOrders(){
+	public Collection<Clerk> findClerkServedLessOrders(){
 		Collection<Clerk> result;
 		
-		result = clerkRepository.findClerkServerLessOrders();
+		result = clerkRepository.findClerkServedLessOrders();
 		
 		return result;
 	}

@@ -67,14 +67,11 @@ public class OrderService {
 	 */
 	//req: 11.7
 	public void save(Order order){
+		System.out.println("Stop 1");
 		Assert.notNull(order);
+		System.out.println("Stop 2");
 		
-		Collection<OrderItem> orderItems;
-		
-		orderRepository.saveAndFlush(order);		
-		
-		orderItems = order.getOrderItems();
-		orderItemService.save(orderItems);
+		orderRepository.saveAndFlush(order);
 	}
 	
 	/**
@@ -119,7 +116,7 @@ public class OrderService {
 			// Adding Order to Consumer
 		consumer.addOrder(result);
 		
-		consumerService.save(consumer);
+		// consumerService.save(consumer);
 		return result;
 	}
 	
@@ -174,13 +171,13 @@ public class OrderService {
 	
 	private String calculaTickerAleatory() {
 		String result;
-		char[] conjunto = new char[8];
+		char[] conjunto = new char[4];
 
 		char[] elementos={'0','1','2','3','4','5','6','7','8','9' ,'A',
 				'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T',
 				'U','V','W','X','Y','Z'};
 		
-		for(int i=0;i<8;i++){
+		for(int i=0;i<4;i++){
 			int el = (int)(Math.random()*36);
 			conjunto[i] = (char)elementos[el];
 		}
@@ -228,7 +225,7 @@ public class OrderService {
 		
 		clerk = clerkService.findByOrder(order);
 		
-		Assert.notNull(clerk, "Can't remove a order when a clerk has assigned");
+		Assert.isNull(clerk, "Can't remove a order when a clerk has assigned");
 		
 		order.setCancelMoment(new Date());
 		this.save(order);
