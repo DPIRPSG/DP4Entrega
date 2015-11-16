@@ -107,7 +107,7 @@ public class OrderItemService {
 		OrderItem orderItem;
 		
 		result = new ArrayList<OrderItem>();
-			// Debe devolver los items no borrados del sistema
+		// Debe devolver los items no borrados del sistema
 		items = itemService.findAllByShoppingCart(shoppingCart);
 		
 		Assert.notEmpty(items, "Can't create OrderItems if the shoppingCart is empty");

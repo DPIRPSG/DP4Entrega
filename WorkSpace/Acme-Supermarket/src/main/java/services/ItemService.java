@@ -67,9 +67,7 @@ public class ItemService {
 		
 		itemRepository.save(item);
 	}
-	
-	// De aquí para abajo no ha sido necesario
-	
+		
  	public Item findOne(int itemId) {
 		Item result;
 		
@@ -171,10 +169,6 @@ public class ItemService {
 		
 		return result;
 	}
-	
-	
-	
-	// De aquí para abajo no ha sido necesario
 		
 	public Collection<Item> findAllDeleted(){
 			Collection<Item> result;

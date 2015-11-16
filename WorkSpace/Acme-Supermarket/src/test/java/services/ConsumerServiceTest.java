@@ -12,14 +12,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Clerk;
-import domain.Consumer;
-import domain.Message;
-import domain.Order;
-
 import security.UserAccount;
 import security.UserAccountService;
 import utilities.AbstractTest;
+import domain.Consumer;
+import domain.Message;
+import domain.Order;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -71,6 +69,7 @@ public class ConsumerServiceTest extends AbstractTest{
 		
 		System.out.println("ConsumerServiceTest - testConsumerCancelledLessOrders1 - FinishPoint");
 	}
+	
 	@Test
 	public void testList1(){
 		System.out.println("Requisito 12.5 - List the consumers that are registered in the system.");
@@ -137,9 +136,6 @@ public class ConsumerServiceTest extends AbstractTest{
 		
 		System.out.println("ConsumerServiceTest - testConsumer1 - FinishPoint");
 	}
-	
-		
-		
 	
 	@Test
 	public void testFindConsumerMoreOrders1(){

@@ -1,7 +1,5 @@
 package services;
 
-import java.util.Collection;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,7 +132,6 @@ public class ShoppingCartServiceTest extends AbstractTest{
 	// Requisito 11.5
 	@Test
 	public void testDeleteItem1(){
-		// Este método funciona mal. Pone la cantidad a cero pero no borra el item de la shoppingCart
 		System.out.println("Requisito 11.5 - Delete an item from his or her shopping cart.");
 		System.out.println("ShoppingCartServiceTest - testDeleteItem1 - StartPoint");
 		
@@ -210,7 +207,6 @@ public class ShoppingCartServiceTest extends AbstractTest{
 
 	@Test
 	public void testRemoveComment1(){
-		// El método deleteComment no está implementado
 		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
 		System.out.println("ShoppingCartServiceTest - testRemoveComment1 - StartPoint");
 		
@@ -247,7 +243,6 @@ public class ShoppingCartServiceTest extends AbstractTest{
 
 	@Test
 	public void testModifyComment1(){
-		// Hasta que no esté el deleteComment, este no funcionará
 		System.out.println("Requisito 11.6 - Add, modify, or delete a comment to his or her shopping cart.");
 		System.out.println("ShoppingCartServiceTest - testModifyComment1 - StartPoint");
 		
@@ -288,20 +283,16 @@ public class ShoppingCartServiceTest extends AbstractTest{
 	// Requisito 11.7
 	@Test
 	public void testCheckOut1(){
-		//Peta
 		System.out.println("Requisito 11.7 - Check his or her shopping cart out and place the corresponding order.");
 		System.out.println("ShoppingCartServiceTest - testCheckOut1 - StartPoint");
 
 		Consumer consumer;
-//		Consumer consumerUpdated;
-//		Collection<Consumer> all;
 		Order order;
 		CreditCard creditCard;
 
 		authenticate("consumer1");
 		
 		consumer = consumerService.findAll().iterator().next();
-//		consumerUpdated = null;
 		
 		System.out.println("Lista de Items de ShoppingCart antes del checkout:");
 		for(Content c: consumer.getShoppingCart().getContents()){
@@ -315,63 +306,26 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		
 		order = shoppingCartService.createCheckOut(consumer);
 		
-		/* Peta justo aquí.
-		 * Sale un rollo de violación de constraint
-		 * Cuando se guarda la order, consumer y addres no deben ser nulos.
-		 * Preguntar a Manolo si hay que hacer los set a pelo aquí también.
-		 * 
-		 * Peta en el Stop 3 en OrderService;
-		 * Sale un rollo de DataIntegrityViolationException
-		 * Se queda clavado en el saveAndFlush de OrderService
-		 * Posiblemente sea un fallo en Base de datos. Intentamos crear un order pero al consumer no le asignamos la propia order.
-		 * No se puede hacer la inserción en la BBDD porque cvvCode no puede ser null
-		 * */
-		System.out.println("Manolo mira");
 		order.setConsumer(consumer);
-		System.out.println("DP1");
 		
 		order.setAddress("Calle 1");
-		System.out.println("DP2");
 		
 		creditCard = new CreditCard();
-		System.out.println("DP3");
 
 		creditCard.setHolderName("HolderName de CC");
-		System.out.println("DP4");
 
 		creditCard.setBrandName("Maestro");
-		System.out.println("DP5");
 
 		creditCard.setNumber("869985684881412");
-		System.out.println("DP6");
 
 		creditCard.setExpirationMonth(12);
 		creditCard.setExpirationYear(2020);
-		System.out.println("DP7");
 
-		creditCard.setCvvCode(805 );
-		System.out.println("DP8");
+		creditCard.setCvvCode(805);
 
 		order.setCreditCard(creditCard);
-		System.out.println("DP9");
 
-		System.out.println("Migue también");
-		
-		
-//		consumer.addOrder(order);
-//		consumerService.save(consumer);
-//		
-//		all = consumerService.findAll();
-//		for(Consumer c:all){
-//			if(c.getId() == consumer.getId()){
-//				consumerUpdated = c;
-//			}
-//		}
-		
-		System.out.println("Parada 1");
 		shoppingCartService.saveCheckOut(order, consumer);
-//		shoppingCartService.saveCheckOut(order, consumerUpdated);
-		System.out.println("Parada 2");
 		
 		System.out.println("Lista de las Order después del checkout:");
 		for(Order o: consumer.getOrders()){

@@ -105,7 +105,6 @@ public class OrderServiceTest extends AbstractTest{
 		System.out.println("OrderServiceTest - testOrderRatio1 - FinishPoint");
 	}
 	
-
 	@Test
 	public void testOrderSelfAssignedByClerk1(){
 		System.out.println("OrderServiceTest - testOrderSelfAssignedByClerk1 - StartPoint");
@@ -135,7 +134,6 @@ public class OrderServiceTest extends AbstractTest{
 		orderService.assignToClerkManual(clerk, orderToAssign);
 		System.out.println("\nComprobamos el clerk que tiene ahora esa order:");
 		System.out.println(orderToAssign.getClerk().getName());
-		
 		
 		authenticate(null);
 		

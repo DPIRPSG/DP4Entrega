@@ -2,7 +2,6 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,18 +11,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Actor;
-import domain.Clerk;
-import domain.Consumer;
-
-import domain.Folder;
-
-import domain.Message;
-import domain.Order;
-
 import security.UserAccount;
 import security.UserAccountService;
 import utilities.AbstractTest;
+import domain.Clerk;
+import domain.Message;
+import domain.Order;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -38,19 +31,10 @@ public class ClerkServiceTest extends AbstractTest{
 	private ClerkService clerkService;
 	@Autowired
 	private UserAccountService userAccountService;
-	@Autowired
-	private MessageService messageService;
-	@Autowired
-	private FolderService folderService;
-	@Autowired
-	private ActorService actorService;
-	@Autowired
-	private ConsumerService consumerService;
 	
 	// Test ---------------------------------------
 	@Test
 	public void testCreate1(){
-		//Peta. Hace falta modificar los valores con los set
 		System.out.println("Requisito 17.1 - Register a new clerk to the system.");
 		System.out.println("ClerkServiceTest - testClerk1 - StartPoint");
 		
@@ -85,8 +69,6 @@ public class ClerkServiceTest extends AbstractTest{
 		result.setReceived(received);
 		result.setSent(sent);
 		result.setOrders(orders);
-
-
 
 		clerkService.save(result);
 		

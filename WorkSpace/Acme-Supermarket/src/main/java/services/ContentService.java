@@ -172,7 +172,4 @@ public class ContentService {
 		shoppingCart.setContents(contents);
 		shoppingCartService.save(shoppingCart);
 	}
-	
-	
-	
 }

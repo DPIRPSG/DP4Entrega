@@ -65,7 +65,7 @@ public class ShoppingCartService {
 		
 		shoppingCart = this.findByConsumer(consumer);		
 		
-			// Create a order with their orderItems (none is persist) 
+		// Create a order with their orderItems (none is persist)
 		result = orderService.createFromShoppingCart(shoppingCart, consumer);
 
 		return result;
@@ -79,11 +79,8 @@ public class ShoppingCartService {
 		Assert.notNull(order);
 		Assert.notNull(consumer);
 		
-		System.out.println("Subparada 1");
 		orderService.save(order);
-		System.out.println("Subparada 2");
 		this.emptyShoppingCart(consumer);
-		System.out.println("Subparada 3");
 	}
 	
 	/**
@@ -162,10 +159,5 @@ public class ShoppingCartService {
 		
 		shoppingCart.addComment(comment);
 		shoppingCartRepository.save(shoppingCart);
-	}
-	
-	public void deleteComment(ShoppingCart shoppingCart, String comment){
-		Assert.notNull(shoppingCart);
-		System.out.println("El método deleteComment en ShoppingCartService no está implementado");
 	}
 }

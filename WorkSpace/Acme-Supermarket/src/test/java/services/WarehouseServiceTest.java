@@ -12,14 +12,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Clerk;
+import utilities.AbstractTest;
 import domain.Item;
 import domain.Order;
 import domain.OrderItem;
 import domain.Storage;
 import domain.WareHouse;
-
-import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -141,7 +139,6 @@ public class WarehouseServiceTest extends AbstractTest{
 		all = warehouseService.findAll();
 		for(WareHouse w:all){
 			if(w.getStorages().isEmpty()){
-				//Aquí cogemos el warehouse adecuado.
 				warehouse = w;
 			}
 		}
@@ -210,7 +207,6 @@ public class WarehouseServiceTest extends AbstractTest{
 		Item item2;
 		int itemQuantity1;
 		int itemQuantity2;
-		Clerk clerk;
 		Order order;
 		OrderItem orderItem;
 		

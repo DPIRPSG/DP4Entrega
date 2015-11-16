@@ -34,9 +34,6 @@ public class OrderService {
 	@Autowired
 	private OrderItemService orderItemService;
 	
-	@Autowired
-	private ConsumerService consumerService;
-	
 	//Constructors -----------------------------------------------------------
 	
 	public OrderService(){
