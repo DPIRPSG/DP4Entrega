@@ -61,7 +61,7 @@ public class TaxService {
 	 */
 	//req: 12.3
 	public void delete(Tax tax){
-		Assert.isNull(tax);
+		Assert.notNull(tax);
 		Assert.isTrue(tax.getId() != 0);
 		
 		Collection<Item> itemsWithTax;
