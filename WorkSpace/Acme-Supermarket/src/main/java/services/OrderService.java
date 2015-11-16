@@ -71,15 +71,7 @@ public class OrderService {
 		Assert.notNull(order);
 		System.out.println("Stop 2");
 		
-		Collection<OrderItem> orderItems;
-		System.out.println("Stop 3");
 		orderRepository.saveAndFlush(order);
-		System.out.println("Stop 4");
-		
-		orderItems = order.getOrderItems();
-		System.out.println("Stop 5");
-		orderItemService.save(orderItems);
-		System.out.println("Stop 6");
 	}
 	
 	/**
