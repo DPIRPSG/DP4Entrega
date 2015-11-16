@@ -65,7 +65,7 @@ public class ClerkServiceTest extends AbstractTest{
 		
 		authenticate("admin");
 		
-		all = clerkService.findClerkServerMoreOrders();
+		all = clerkService.findClerkServedMoreOrders();
 		for(Clerk c:all){
 			System.out.println(c.getName() + " " + c.getSurname());
 		}
@@ -83,7 +83,7 @@ public class ClerkServiceTest extends AbstractTest{
 		
 		authenticate("admin");
 		
-		all = clerkService.findClerkServerLessOrders();
+		all = clerkService.findClerkServedLessOrders();
 		for(Clerk c:all){
 			System.out.println(c.getName() + " " + c.getSurname());
 		}

@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.Item;
 import domain.Storage;
 import domain.WareHouse;
 
@@ -27,6 +28,11 @@ public class WarehouseServiceTest extends AbstractTest{
 	// Service under test -------------------------
 	@Autowired
 	private WareHouseService warehouseService;
+	@Autowired
+	private ItemService itemService;
+	@Autowired
+	private StorageService storageService;
+	
 	
 	// Test ---------------------------------------
 	@Test
