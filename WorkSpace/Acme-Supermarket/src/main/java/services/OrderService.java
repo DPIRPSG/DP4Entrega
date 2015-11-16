@@ -71,9 +71,10 @@ public class OrderService {
 		
 		Collection<OrderItem> orderItems;
 		
-		orderRepository.saveAndFlush(order);		
-		
 		orderItems = order.getOrderItems();
+		
+		orderRepository.saveAndFlush(order);		
+			
 		orderItemService.save(orderItems);
 	}
 	
