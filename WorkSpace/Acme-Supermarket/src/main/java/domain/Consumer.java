@@ -41,6 +41,9 @@ public class Consumer extends Actor {
 	public void setOrders(Collection<Order> orders) {
 		this.orders = orders;
 	}
+	public void addOrder(Order order){
+		this.orders.add(order);
+	}
 	
 
 }

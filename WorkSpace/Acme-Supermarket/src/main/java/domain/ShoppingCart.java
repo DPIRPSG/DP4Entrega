@@ -33,6 +33,9 @@ public class ShoppingCart extends DomainEntity{
 	public boolean removeComment(Object o) {
 		return comments.remove(o);
 	}
+	public void emptyComments(){
+		comments.clear();
+	}
 	
 	// Relationships ----------------------------------------------------------
 	private Consumer consumer;
