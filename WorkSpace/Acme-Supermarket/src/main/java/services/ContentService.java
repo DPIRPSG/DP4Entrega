@@ -59,7 +59,7 @@ public class ContentService {
 		Assert.notNull(content);
 		Assert.isTrue(content.getId() != 0);
 		
-		contentRepository.delete(content.getId());
+		contentRepository.delete(content);
 	}
 	
 	//Other business methods -------------------------------------------------
@@ -136,9 +136,13 @@ public class ContentService {
 			content.setItem(item);
 		}
 		
-		content.setUnits(quantity);
+		if(quantity <= 0){
+			this.delete(content);
+		}else{
+			content.setUnits(quantity);
 		
-		this.save(content);
+			this.save(content);
+		}
 	}
 	
 	/**

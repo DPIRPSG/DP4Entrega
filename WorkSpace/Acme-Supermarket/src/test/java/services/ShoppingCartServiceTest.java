@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +134,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 	public void testDeleteItem1(){
 		// Este método funciona mal. Pone la cantidad a cero pero no borra el item de la shoppingCart
 		System.out.println("Requisito 11.5 - Delete an item from his or her shopping cart.");
-		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - StartPoint");
+		System.out.println("ShoppingCartServiceTest - testDeleteItem1 - StartPoint");
 		
 		ShoppingCart shoppingCart;
 		Consumer consumer;
@@ -163,7 +165,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		
 		authenticate(null);
 		
-		System.out.println("ShoppingCartServiceTest - testChangeItemQuantity1 - FinishPoint");
+		System.out.println("ShoppingCartServiceTest - testDeleteItem1 - FinishPoint");
 
 	}
 	
@@ -188,7 +190,10 @@ public class ShoppingCartServiceTest extends AbstractTest{
 			System.out.println(s);
 		}
 		
-		shoppingCartService.addComment(shoppingCart, comment);
+		shoppingCart.addComment(comment);
+		shoppingCartService.save(shoppingCart);
+		
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
 		
 		System.out.println("Comentarios del ShoppingCart después de añadir un comentario:");
 		for(String s: shoppingCart.getComments()){
@@ -222,7 +227,10 @@ public class ShoppingCartServiceTest extends AbstractTest{
 			System.out.println(s);
 		}
 		
-		shoppingCartService.deleteComment(shoppingCart, comment);
+		shoppingCart.removeComment(comment);
+		shoppingCartService.save(shoppingCart);
+		
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
 		
 		System.out.println("Comentarios del ShoppingCart después de borrar un comentario:");
 		for(String s: shoppingCart.getComments()){
@@ -258,8 +266,11 @@ public class ShoppingCartServiceTest extends AbstractTest{
 			System.out.println(s);
 		}
 		
-		shoppingCartService.deleteComment(shoppingCart, commentOld);
-		shoppingCartService.addComment(shoppingCart, commentNew);
+		shoppingCart.removeComment(commentOld);
+		shoppingCart.addComment(commentNew);
+		shoppingCartService.save(shoppingCart);
+		
+		shoppingCart = shoppingCartService.findByConsumer(consumer);
 		
 		System.out.println("Comentarios del ShoppingCart después de modificar un comentario:");
 		for(String s: shoppingCart.getComments()){
@@ -278,31 +289,68 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		//Peta
 		System.out.println("Requisito 11.7 - Check his or her shopping cart out and place the corresponding order.");
 		System.out.println("ShoppingCartServiceTest - testCheckOut1 - StartPoint");
-		
+
 		Consumer consumer;
+//		Consumer consumerUpdated;
+//		Collection<Consumer> all;
 		Order order;
-		
-		authenticate("customer1");
+
+		authenticate("consumer1");
 		
 		consumer = consumerService.findAll().iterator().next();
+//		consumerUpdated = null;
 		
 		System.out.println("Lista de Items de ShoppingCart antes del checkout:");
-		
 		for(Content c: consumer.getShoppingCart().getContents()){
 			System.out.println(c.getItem() + ", " + c.getUnits());
 		}
 		
+		System.out.println("Lista de Orders antes del checkout");
 		for(Order o: consumer.getOrders()){
 			System.out.println(o.getTicker());
 		}
-		
+
 		order = shoppingCartService.createCheckOut(consumer);
+		/* Peta justo aquí.
+		 * Sale un rollo de violación de constraint
+		 * Cuando se guarda la order, consumer y addres no deben ser nulos.
+		 * Preguntar a Manolo si hay que hacer los set a pelo aquí también.
+		 * 
+		 * Peta en el Stop 3 en OrderService;
+		 * Sale un rollo de DataIntegrityViolationException
+		 * Se queda clavado en el saveAndFlush de OrderService
+		 * Posiblemente sea un fallo en Base de datos. Intentamos crear un order pero al consumer no le asignamos la propia order.
+		 * No se puede hacer la inserción en la BBDD porque cvvCode no puede ser null
+		 * */
+		order.setConsumer(consumer);
+		order.setAddress("Calle 1");
+		
+		
+//		consumer.addOrder(order);
+//		consumerService.save(consumer);
+//		
+//		all = consumerService.findAll();
+//		for(Consumer c:all){
+//			if(c.getId() == consumer.getId()){
+//				consumerUpdated = c;
+//			}
+//		}
+		
+		System.out.println("Parada 1");
 		shoppingCartService.saveCheckOut(order, consumer);
+//		shoppingCartService.saveCheckOut(order, consumerUpdated);
+		System.out.println("Parada 2");
 		
 		System.out.println("Lista de las Order después del checkout:");
 		for(Order o: consumer.getOrders()){
 			System.out.println(o.getTicker());
 		}
+		
+		System.out.println("Lista de Orders después del checkout");	
+		for(Order o: consumer.getOrders()){
+			System.out.println(o.getTicker());
+		}
+		
 		System.out.println("Ticker de la Order creada");
 		System.out.println(order.getTicker());
 		

@@ -915,6 +915,15 @@
 		</property>
 	</bean>
 	
+	<bean id="warehouse2" class="domain.WareHouse">
+		<property name="name" value="Almacén Dos Hermanas"/>
+		<property name="address" value="Dos Hermanas s/n"/>
+		<property name="storages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Storage -->
 	
 	<bean id="storage1" class="domain.Storage">
@@ -1408,7 +1417,6 @@
 		<property name="units" value="5"/>
 		<property name="order" ref="order9"/>
 	</bean>
-	
 	<bean id="orderItem10" class="domain.OrderItem">
 		<property name="sku" value="AB-H6GH"/>
 		<property name="name" value="Turrón de chocolate"/>
@@ -1427,5 +1435,4 @@
 		<property name="units" value="5"/>
 		<property name="order" ref="order10"/>
 	</bean>
-	
 </beans>
