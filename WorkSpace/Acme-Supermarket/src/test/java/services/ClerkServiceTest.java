@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -14,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import domain.Actor;
 import domain.Clerk;
 import domain.Consumer;
+
+import domain.Folder;
+
 import domain.Message;
 import domain.Order;
 
@@ -52,13 +56,15 @@ public class ClerkServiceTest extends AbstractTest{
 		
 		Clerk result;
 		Collection<Clerk> all;
-		Actor actor;
-		Consumer consumer;
-		Collection<Order> orders;
 		UserAccount userAccount;
 		Collection<Message> received;
 		Collection<Message> sent;
+		Collection<Order> orders;
 		
+		received = new ArrayList<Message>();
+		sent = new ArrayList<Message>();
+		orders = new ArrayList<Order>();
+	
 		authenticate("admin");
 		
 		all = clerkService.findAll();
@@ -67,35 +73,21 @@ public class ClerkServiceTest extends AbstractTest{
 			System.out.println(c.getName());
 		}
 		
+		userAccount = userAccountService.createComplete("Clerk99", "91ec1f9322200048c9496d036a694f86", "CLERK");
+		
 		result = clerkService.create();
-//		actor = actorService.findByPrincipal();
-		userAccount = new UserAccount();
-		userAccount.setUsername("NuevoUser");
-		userAccount.setPassword("NuevaPassword");
-		
+	
+		result.setName("Manuel");
+		result.setEmail("manuel@mail.com");
+		result.setPhone("666123123");
+		result.setSurname("García");
 		result.setUserAccount(userAccount);
-		
-//		//NotNull en Clerk
-//		orders = Collections.emptyList();
-//		result.setOrders(orders);
-//		
-//		result.setSurname("Apellido nuevo");
-//		
-//		userAccount = result.getUserAccount();
-//		userAccount.setUsername("UsernameNuevo");
-//		userAccount.setPassword("PasswordNueva");
-//		result.setUserAccount(userAccount);
-//		
-//		result.setName("Nombre nuevo");
-//		
-//		received = Collections.emptyList();
-//		result.setReceived(received);
-//		
-//		sent = Collections.emptyList();
-//		result.setSent(sent);
-//		
-//		result.setEmail("manolo@gamil.com");
-		
+		result.setReceived(received);
+		result.setSent(sent);
+		result.setOrders(orders);
+
+
+
 		clerkService.save(result);
 		
 		all = clerkService.findAll();
