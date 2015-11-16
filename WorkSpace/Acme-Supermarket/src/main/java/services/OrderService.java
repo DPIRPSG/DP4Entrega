@@ -67,12 +67,16 @@ public class OrderService {
 	 */
 	//req: 11.7
 	public void save(Order order){
-		System.out.println("Stop 1");
 		Assert.notNull(order);
-		System.out.println("Stop 2");
+
+		Collection<OrderItem> orderItems;
+
+		orderItems = order.getOrderItems();
 		
 		orderRepository.saveAndFlush(order);
-	}
+		
+		orderItemService.save(orderItems);
+    }
 	
 	/**
 	 * Lista todas las orders guardadas en el sistema.
