@@ -16,6 +16,7 @@ import domain.Content;
 import domain.CreditCard;
 import domain.Item;
 import domain.Order;
+import domain.OrderItem;
 import domain.ShoppingCart;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -380,6 +381,12 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		System.out.println("Lista de Orders después del checkout");	
 		for(Order o: consumer.getOrders()){
 			System.out.println(o.getTicker());
+		}
+		
+		System.out.println("OrderItems dentro de la order");
+		
+		for(OrderItem o : order.getOrderItems()) {
+			System.out.println(o.getName());
 		}
 		
 		System.out.println("Ticker de la Order creada");
