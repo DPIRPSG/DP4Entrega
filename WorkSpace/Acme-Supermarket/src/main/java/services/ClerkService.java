@@ -92,10 +92,10 @@ public class ClerkService {
 	 * Encuentra el/los clerk con más order
 	 */
 	//req: 17.6.1
-	public Collection<Clerk> findClerkServerMoreOrders(){
+	public Collection<Clerk> findClerkServedMoreOrders(){
 		Collection<Clerk> result;
 		
-		result = clerkRepository.findClerkServerMoreOrders();
+		result = clerkRepository.findClerkServedMoreOrders();
 		
 		return result;
 	}
@@ -104,10 +104,10 @@ public class ClerkService {
 	 * Encuentra el/los clerk con menos order
 	 */
 	//req: 17.6.2
-	public Collection<Clerk> findClerkServerLessOrders(){
+	public Collection<Clerk> findClerkServedLessOrders(){
 		Collection<Clerk> result;
 		
-		result = clerkRepository.findClerkServerLessOrders();
+		result = clerkRepository.findClerkServedLessOrders();
 		
 		return result;
 	}

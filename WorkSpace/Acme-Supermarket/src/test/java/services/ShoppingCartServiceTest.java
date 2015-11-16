@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import utilities.AbstractTest;
 import domain.Consumer;
 import domain.Content;
+import domain.CreditCard;
 import domain.Item;
 import domain.Order;
+import domain.OrderItem;
 import domain.ShoppingCart;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -294,6 +296,7 @@ public class ShoppingCartServiceTest extends AbstractTest{
 //		Consumer consumerUpdated;
 //		Collection<Consumer> all;
 		Order order;
+		CreditCard creditCard;
 
 		authenticate("consumer1");
 		
@@ -309,8 +312,9 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		for(Order o: consumer.getOrders()){
 			System.out.println(o.getTicker());
 		}
-
+		
 		order = shoppingCartService.createCheckOut(consumer);
+		
 		/* Peta justo aquí.
 		 * Sale un rollo de violación de constraint
 		 * Cuando se guarda la order, consumer y addres no deben ser nulos.
@@ -322,8 +326,36 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		 * Posiblemente sea un fallo en Base de datos. Intentamos crear un order pero al consumer no le asignamos la propia order.
 		 * No se puede hacer la inserción en la BBDD porque cvvCode no puede ser null
 		 * */
+		System.out.println("Manolo mira");
 		order.setConsumer(consumer);
+		System.out.println("DP1");
+		
 		order.setAddress("Calle 1");
+		System.out.println("DP2");
+		
+		creditCard = new CreditCard();
+		System.out.println("DP3");
+
+		creditCard.setHolderName("HolderName de CC");
+		System.out.println("DP4");
+
+		creditCard.setBrandName("Maestro");
+		System.out.println("DP5");
+
+		creditCard.setNumber("869985684881412");
+		System.out.println("DP6");
+
+		creditCard.setExpirationMonth(12);
+		creditCard.setExpirationYear(2020);
+		System.out.println("DP7");
+
+		creditCard.setCvvCode(805 );
+		System.out.println("DP8");
+
+		order.setCreditCard(creditCard);
+		System.out.println("DP9");
+
+		System.out.println("Migue también");
 		
 		
 //		consumer.addOrder(order);
@@ -349,6 +381,12 @@ public class ShoppingCartServiceTest extends AbstractTest{
 		System.out.println("Lista de Orders después del checkout");	
 		for(Order o: consumer.getOrders()){
 			System.out.println(o.getTicker());
+		}
+		
+		System.out.println("OrderItems dentro de la order");
+		
+		for(OrderItem o : order.getOrderItems()) {
+			System.out.println(o.getName());
 		}
 		
 		System.out.println("Ticker de la Order creada");
