@@ -119,7 +119,7 @@ public class OrderService {
 			// Adding Order to Consumer
 		consumer.addOrder(result);
 		
-		consumerService.save(consumer);
+		// consumerService.save(consumer);
 		return result;
 	}
 	
