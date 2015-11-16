@@ -60,4 +60,20 @@ public class OrderServiceTest extends AbstractTest{
 		
 		System.out.println("OrderServiceTest - testCancelOrder1 - FinishPoint");
 	}
+	
+	@Test
+	public void testOrderRatio1(){
+		System.out.println("OrderServiceTest - testOrderRatio1 - StartPoint");
+		
+		double ratio;
+		
+		authenticate("admin");
+		
+		ratio = orderService.rateOrderCancelled();
+		System.out.println("Ratio: " + ratio);
+		
+		authenticate(null);
+		
+		System.out.println("OrderServiceTest - testOrderRatio1 - FinishPoint");
+	}
 }

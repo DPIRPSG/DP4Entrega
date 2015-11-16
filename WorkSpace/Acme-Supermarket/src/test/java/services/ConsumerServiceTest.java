@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import domain.Consumer;
 
 import utilities.AbstractTest;
 
@@ -24,7 +28,38 @@ public class ConsumerServiceTest extends AbstractTest{
 	
 	// Test ---------------------------------------
 	@Test
-	public void testConsumer1(){
+	public void testConsumerCancelledMoreOrders1(){
+		System.out.println("ConsumerServiceTest - testConsumerCancelledMoreOrders1 - StartPoint");
 		
+		Collection<Consumer> all;
+		
+		authenticate("admin");
+		
+		all = consumerService.findConsumerMoreOrdersCancelled();
+		for(Consumer c:all){
+			System.out.println(c.getName() + " " + c.getSurname());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ConsumerServiceTest - testConsumerCancelledMoreOrders1 - FinishPoint");
+	}
+	
+	@Test
+	public void testConsumerCancelledLessOrders1(){
+		System.out.println("ConsumerServiceTest - testConsumerCancelledLessOrders1 - StartPoint");
+		
+		Collection<Consumer> all;
+		
+		authenticate("admin");
+		
+		all = consumerService.findConsumerLessOrdersCancelled();
+		for(Consumer c:all){
+			System.out.println(c.getName() + " " + c.getSurname());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ConsumerServiceTest - testConsumerCancelledLessOrders1 - FinishPoint");
 	}
 }
