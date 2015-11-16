@@ -67,19 +67,16 @@ public class OrderService {
 	 */
 	//req: 11.7
 	public void save(Order order){
-		System.out.println("Stop 1");
 		Assert.notNull(order);
-		System.out.println("Stop 2");
-		
+
 		Collection<OrderItem> orderItems;
-		System.out.println("Stop 3");
-		orderRepository.saveAndFlush(order);
-		System.out.println("Stop 4");
-		
+
 		orderItems = order.getOrderItems();
-		System.out.println("Stop 5");
+		
+		orderRepository.saveAndFlush(order);
+		
 		orderItemService.save(orderItems);
-		System.out.println("Stop 6");
+		
 	}
 	
 	/**
@@ -124,7 +121,7 @@ public class OrderService {
 			// Adding Order to Consumer
 		consumer.addOrder(result);
 		
-		consumerService.save(consumer);
+		// consumerService.save(consumer);
 		return result;
 	}
 	

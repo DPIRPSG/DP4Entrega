@@ -87,9 +87,13 @@ public class CommentService {
 	//ref: 23.2
 	public Comment createByItem(Item item){
 		Comment result;
+		Collection<Comment> comments;
 		
 		result = this.create();
 		result.setItem(item);
+		comments = item.getComments();
+		comments.add(result);
+		item.setComments(comments);
 		
 		return result;
 	}

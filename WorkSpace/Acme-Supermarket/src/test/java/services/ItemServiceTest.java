@@ -480,4 +480,62 @@ public class ItemServiceTest extends AbstractTest{
 		
 		System.out.println("ConsumerServiceTest - testFindItemWorstSelling1 - FinishPoint");
 	}
+	
+	@Test
+	public void testListComment1(){
+		System.out.println("Requisito 23.1 - List the comments that are associated with an item.");
+		System.out.println("ItemServiceTest - testListComment1 - StartPoint");
+		
+		Collection<Comment> all;
+		Item item;
+		
+		item = itemService.findAll().iterator().next();
+		
+		all = item.getComments();
+		
+		System.out.println("Lista de los comentarios del item");
+		for(Comment c:all){
+			System.out.println(c.getTitle() + ": " + c.getText());
+		}
+		
+		System.out.println("ItemServiceTest - testListComment1 - FinishPoint");
+	}
+	
+	@Test
+	public void testCreateComment1(){
+		System.out.println("Requisito 23.1 - List the comments that are associated with an item.");
+		System.out.println("ItemServiceTest - testCreateComment1 - StartPoint");
+		
+		Comment comment;
+		Item item;
+		Collection<Item> all;
+		Collection<Comment> comments;
+		
+		item = itemService.findAll().iterator().next();
+		comments = item.getComments();
+		System.out.println(comments.size());
+		
+		System.out.println("Lista de los comment de un item");
+		for(Comment c:comments){
+			System.out.println(c.getTitle() + ", " + c.getText());
+		}
+		
+		comment = commentService.createByItem(item);
+		comment.setUserName("UsernameNuevo");
+		comment.setTitle("TítuloNuevo");
+		comment.setText("TextNuevo");
+		commentService.save(comment);
+		
+		all = itemService.findAll();
+		for(Item i:all){
+			if(i.getName().equals(item.getName())){
+				for(Comment c:i.getComments()){
+					System.out.println("Lista de los commment de un item actualizada");
+					System.out.println(c.getTitle() + ", " + c.getText());
+				}
+			}
+		}
+		
+		System.out.println("ItemServiceTest - testCreateComment1 - FinishPoint");
+	}
 }
