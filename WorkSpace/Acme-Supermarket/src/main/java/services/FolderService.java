@@ -95,7 +95,7 @@ public class FolderService {
 	 */
 	//req: x
 	public Collection<Folder> initializeSystemFolder(Actor actor){
-		Set<Folder> result;
+		Collection<Folder> result;
 		
 		result = new HashSet<Folder>();		
 		String names[] = {"Inbox", "Outbox", "TrashBox"};
@@ -110,7 +110,6 @@ public class FolderService {
 			temp.setName(string);
 			temp.setActor(actor);
 			
-			this.save(temp);
 			result.add(temp);
 		}
 		
