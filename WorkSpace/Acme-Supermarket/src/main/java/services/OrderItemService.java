@@ -2,7 +2,6 @@ package services;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,10 +87,9 @@ public class OrderItemService {
 		Assert.notNull(order);
 		// La order no está creada por lo que no se puede chequear el id
 		
-		Set<OrderItem> result;
+		Collection<OrderItem> result;
 		Collection<Item> items;
 		OrderItem orderItem;
-		int units;
 		
 		result = new HashSet<OrderItem>();
 			// Debe devolver los items no borrados del sistema
@@ -100,6 +98,8 @@ public class OrderItemService {
 		Assert.notEmpty(items, "Can't create OrderItems if the shoppingCart is empty");
 		
 		for (Item item : items) {
+			int units;
+			
 			units = shoppingCartService.consultItemQuantity(shoppingCart, item);			
 			orderItem = this.createByShoppingCart(item, order, units);
 			result.add(orderItem);
