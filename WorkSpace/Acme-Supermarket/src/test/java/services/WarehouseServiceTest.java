@@ -151,4 +151,38 @@ public class WarehouseServiceTest extends AbstractTest{
 		
 		System.out.println("WarehouseServiceTest - testDelete1 - FinishPoint");
 	}
+
+	@Test
+	public void testQuantityItemInWarehouse1(){
+		System.out.println("WarehouseServiceTest - testQuantityItemInWarehouse1 - StartPoint");
+		
+		WareHouse warehouse;
+		Item item;
+		int oldQuantity;
+		int setQuantity;
+		int newQuantity;
+		
+		authenticate("admin");
+		
+		System.out.println("Vamos a coger un item que ya exista en un warehouse existente:");
+		warehouse = warehouseService.findAll().iterator().next();
+		item = itemService.findAllByWareHouse(warehouse).iterator().next();
+		oldQuantity = storageService.quantityByWareHouseAndItem(warehouse, item);
+		System.out.println("Warehouse: " + warehouse.getName());
+		System.out.println("Item: " + item.getName());
+		System.out.println("ID del Item: " + item.getId());
+		System.out.println("Cantidad almacenada: " + oldQuantity);
+		System.out.println("Aumentemos en 5 la cantidad de items almacenados, ¿Surge efecto?:");
+		setQuantity = oldQuantity+5;
+		warehouseService.changeItemQuantity(warehouse, item, setQuantity);
+		newQuantity = storageService.quantityByWareHouseAndItem(warehouse, item);
+		System.out.println("Warehouse: " + warehouse.getName());
+		System.out.println("Item: " + item.getName());
+		System.out.println("ID del Item: " + item.getId());
+		System.out.println("Cantidad almacenada: " + newQuantity);
+		
+		authenticate(null);
+		
+		System.out.println("WarehouseServiceTest - testQuantityItemInWarehouse1 - FinishPoint");
+	}
 }
