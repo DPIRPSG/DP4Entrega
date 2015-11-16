@@ -1,11 +1,8 @@
 package services;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,11 +92,16 @@ public class FolderService {
 	 */
 	//req: x
 	public Collection<Folder> initializeSystemFolder(Actor actor){
-		Set<Folder> result;
+		Collection<Folder> result;
+		Collection<String> names;
 		
-		result = new HashSet<Folder>();		
-		String names[] = {"Inbox", "Outbox", "TrashBox"};
+		result = new ArrayList<Folder>();
+		names = new ArrayList<String>();
 		
+		names.add("Inbox");
+		names.add("Outbox");
+		names.add("Trashbox");
+				
 		
 		for (String string : names) {
 			Folder temp;
@@ -109,8 +111,7 @@ public class FolderService {
 			temp.setIsSystem(true);
 			temp.setName(string);
 			temp.setActor(actor);
-			
-			this.save(temp);
+						
 			result.add(temp);
 		}
 		
