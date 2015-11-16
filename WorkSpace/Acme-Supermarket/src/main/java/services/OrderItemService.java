@@ -1,7 +1,7 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,7 +91,7 @@ public class OrderItemService {
 		Collection<Item> items;
 		OrderItem orderItem;
 		
-		result = new HashSet<OrderItem>();
+		result = new ArrayList<OrderItem>();
 			// Debe devolver los items no borrados del sistema
 		items = itemService.findAllByShoppingCart(shoppingCart);
 		
