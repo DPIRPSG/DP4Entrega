@@ -111,6 +111,33 @@ public class StorageService {
 	}
 	
 	/**
+	 * Dado un wareHouse y un item, resta la cantidad
+	 */
+	public void subtractQuantityByWareHouseAndItem(WareHouse wareHouse, Item item, int units){
+		Assert.notNull(wareHouse);
+		Assert.isTrue(wareHouse.getId() != 0);
+		Assert.notNull(item);
+		Assert.isTrue(item.getId() != 0);
+		Assert.isTrue(units >= 0);
+		
+		Storage storage;
+		int unitsServed;
+		
+		storage = this.findByWareHouseAndItem(wareHouse, item);
+		
+		if(storage == null){
+			storage = this.create();
+			storage.setWareHouse(wareHouse);
+			storage.setItem(item);
+		}
+		
+		unitsServed = storage.getUnits() - units;
+		storage.setUnits(unitsServed);
+		
+		this.save(storage);
+	}
+	
+	/**
 	 * Cantidad de Item en un warehouse
 	 */
 	//ref: 18.4

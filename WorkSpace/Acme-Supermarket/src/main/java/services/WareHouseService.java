@@ -125,7 +125,7 @@ public class WareHouseService {
 		
 		Assert.isTrue(unitsServed <= orderItem.getUnits(), "Se intentan añadir mas unidades de las solicitadas por el OrderItem");
 		
-		storageService.updateQuantityByWareHouseAndItem(wareHouse, item, quantity);
+		storageService.subtractQuantityByWareHouseAndItem(wareHouse, item, quantity);
 		orderItem.setUnitsServed(unitsServed);
 		
 		orderItemService.save(orderItem);

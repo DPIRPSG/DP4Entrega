@@ -359,16 +359,12 @@ public class ItemServiceTest extends AbstractTest{
 		
 		Item item;
 		Item itemModified;
-		//Item itemNotModified;
 		Collection<Item> all;
 		int itemId;
-		//String sku;
 		
 		authenticate("admin");
 		
 		itemId = 54;
-		//sku = "CJ-C8JW";
-		//System.out.println("Pretendemos modificar el item con el sku CJ-C8JW, ¿Existe?, ¿Cuál es?:");
 		System.out.println("Pretendemos modificar el item con el id 54, ¿Existe?, ¿Cuál es?:");
 		all = itemService.findAll();
 		item = null;
@@ -380,34 +376,9 @@ public class ItemServiceTest extends AbstractTest{
 				System.out.println("Id: " + item.getId() + "\n");
 			}
 		}
-//		for (Item i: all){
-//			if(i.getSku()==sku){
-//				item = i;
-//				System.out.println("Nombre: " + item.getName());
-//				System.out.println("Descripción: " + item.getDescription());
-//				System.out.println("Id: " + item.getSku() + "\n");
-//			}else{
-//				System.out.println("No hay ningún item con el sku: " + sku);
-//			}
-//		}
 		item.setName("Colonia alternativa");
-		/* System.out.println("Se ha modificado el item SIN darle a Save, no debe estar persistido en la BBDD, ¿Es así?:");
-		all = itemService.findAll();
-		itemNotModified = null;
-		for (Item i: all){
-			if(i.getSku().equals(sku)){
-				itemNotModified = i;
-				System.out.println("Nombre: " + itemNotModified.getName());
-				System.out.println("Descripción: " + itemNotModified.getDescription());
-				System.out.println("Id: " + itemNotModified.getId() + "\n");
-			}
-		} */
 		itemService.save(item);
 		System.out.println("Ya se ha pulsado en Save, el item debe estar persistido en la BBDD con las modificaciones, ¿Es así?:");
-//		itemModified = itemService.findOne(itemId);
-//		System.out.println("Nombre: " + itemModified.getName());
-//		System.out.println("Descripción: " + itemModified.getDescription());
-//		System.out.println("Id: " + itemModified.getId());
 		all = itemService.findAll();
 		itemModified = null;
 		for (Item i: all){

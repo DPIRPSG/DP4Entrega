@@ -2,6 +2,7 @@ package services;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +12,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.Clerk;
 import domain.Item;
+import domain.Order;
+import domain.OrderItem;
 import domain.Storage;
 import domain.WareHouse;
 
@@ -32,6 +36,8 @@ public class WarehouseServiceTest extends AbstractTest{
 	private ItemService itemService;
 	@Autowired
 	private StorageService storageService;
+	@Autowired
+	private OrderService orderService;
 	
 	
 	// Test ---------------------------------------
@@ -190,5 +196,70 @@ public class WarehouseServiceTest extends AbstractTest{
 		authenticate(null);
 		
 		System.out.println("WarehouseServiceTest - testQuantityItemInWarehouse1 - FinishPoint");
+	}
+	
+	@Test
+	public void testRemoveAndServe1(){
+		System.out.println("WarehouseServiceTest - testRemoveAndServe1 - StartPoint");
+		
+		Collection<WareHouse> warehouses;
+		Iterator<WareHouse> warehousesIt;
+		WareHouse warehouse1;
+		WareHouse warehouse2;
+		Item item1;
+		Item item2;
+		int itemQuantity1;
+		int itemQuantity2;
+		Clerk clerk;
+		Order order;
+		OrderItem orderItem;
+		
+		authenticate("clerk1");
+		
+		System.out.println("Cogemos un par de Warehouses y un Item que contengan ambos:");
+		warehouses = warehouseService.findAll();
+		warehousesIt = warehouses.iterator();
+		warehouse1 = warehousesIt.next();
+		System.out.println("Warehouse: " + warehouse1.getName());
+		item1 = itemService.findAllByWareHouse(warehouse1).iterator().next();
+		System.out.println("Item: " + item1.getName());
+		itemQuantity1 = storageService.quantityByWareHouseAndItem(warehouse1, item1);
+		System.out.println("Unidades disponibles: " + itemQuantity1);
+		warehouse2 = warehousesIt.next();
+		System.out.println("\nWarehouse: " + warehouse2.getName());
+		item2 = itemService.findAllByWareHouse(warehouse2).iterator().next();
+		System.out.println("Item: " + item2.getName());
+		itemQuantity2 = storageService.quantityByWareHouseAndItem(warehouse2, item2);
+		System.out.println("Unidades disponibles: " + itemQuantity2);
+		
+		System.out.println("\nQuitamos un par de unidades cada Warehouse");
+		order = orderService.findAll().iterator().next();
+		warehouseService.addItemToOrderItem(warehouse1, item1, 1, order);
+		warehouseService.addItemToOrderItem(warehouse2, item2, 1, order);
+		
+		System.out.println("\nComprobamos ahora el número de unidades de cada item en su correspondiente Warehouse:");
+		warehouses = warehouseService.findAll();
+		warehousesIt = warehouses.iterator();
+		warehouse1 = warehousesIt.next();
+		System.out.println("Warehouse: " + warehouse1.getName());
+		item1 = itemService.findAllByWareHouse(warehouse1).iterator().next();
+		System.out.println("Item: " + item1.getName());
+		itemQuantity1 = storageService.quantityByWareHouseAndItem(warehouse1, item1);
+		System.out.println("Unidades disponibles: " + itemQuantity1);
+		warehouse2 = warehousesIt.next();
+		System.out.println("\nWarehouse: " + warehouse2.getName());
+		item2 = itemService.findAllByWareHouse(warehouse2).iterator().next();
+		System.out.println("Item: " + item2.getName());
+		itemQuantity2 = storageService.quantityByWareHouseAndItem(warehouse2, item2);
+		System.out.println("Unidades disponibles: " + itemQuantity2);
+		
+		System.out.println("\nComprobamos ahora el número de unidades servidas del orderItem:");
+		orderItem = order.getOrderItems().iterator().next();
+		System.out.println("OrderItem: " + orderItem.getName());
+		System.out.println("Unidades servidas: " + orderItem.getUnitsServed());
+		
+		authenticate(null);
+		
+		System.out.println("WarehouseServiceTest - testRemoveAndServe1 - FinishPoint");
 	}
 }

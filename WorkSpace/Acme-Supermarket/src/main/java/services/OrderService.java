@@ -254,6 +254,7 @@ public class OrderService {
 		Assert.isTrue(clerk.getId() != 0);
 		Assert.notNull(order);
 		Assert.isTrue(order.getId() != 0);
+		Assert.isNull(order.getClerk());
 		
 		order.setClerk(clerk);
 		
