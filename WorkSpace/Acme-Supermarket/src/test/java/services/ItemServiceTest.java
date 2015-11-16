@@ -2,7 +2,6 @@ package services;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
@@ -313,8 +312,6 @@ public class ItemServiceTest extends AbstractTest{
 		Item item;
 		Item itemCreated;
 		Collection<Item> all;
-		Comment comment;
-		Collection<Comment> comments;
 		Category category;
 		Set<Storage> storages;
 		
@@ -334,10 +331,7 @@ public class ItemServiceTest extends AbstractTest{
 		item.setName("Tablet 7 pulgadas");
 		item.setDescription("La tablet más versátil.");
 		item.setPrice(199.99);
-		comment = commentService.createByItem(item);
-		comments = new HashSet<>();
-		comments.add(comment);
-		item.setComments(comments);
+		commentService.createByItem(item);
 		category = categoryService.findAll().iterator().next();
 		item.setCategory(category);
 		storages = Collections.emptySet();

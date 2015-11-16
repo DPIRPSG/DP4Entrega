@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,9 @@ public class CommentService {
 		result = this.create();
 		result.setItem(item);
 		comments = item.getComments();
+		if(comments == null){
+			comments = new ArrayList<Comment>();
+		}
 		comments.add(result);
 		item.setComments(comments);
 		
