@@ -438,4 +438,46 @@ public class ItemServiceTest extends AbstractTest{
 		
 		System.out.println("ItemServiceTest - testDelete1 - FinishPoint");
 	}
+	
+	@Test
+	public void testFindItemBestSelling1(){
+		System.out.println("Requisito 12.7.3 - The best-selling item/s in the inventory.");
+		System.out.println("ConsumerServiceTest - testFindConsumerSpentMoreMoney1 - StartPoint");
+		
+		Collection<Item> all;
+		
+		authenticate("admin");
+		
+		all = itemService.findItemBestSelling();
+		
+		System.out.println("The best-selling item/s in the inventory.");
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ConsumerServiceTest - testFindConsumerSpentMoreMoney1 - FinishPoint");
+	}
+	
+	@Test
+	public void testFindItemWorstSelling1(){
+		System.out.println("Requisito 12.7.4 - The worst-selling item/s in the inventory.");
+		System.out.println("ConsumerServiceTest - testFindItemWorstSelling1 - StartPoint");
+		
+		Collection<Item> all;
+		
+		authenticate("admin");
+		
+		all = itemService.findItemWorstSelling();
+		
+		System.out.println("The worst-selling item/s in the inventory.");
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ConsumerServiceTest - testFindItemWorstSelling1 - FinishPoint");
+	}
 }
