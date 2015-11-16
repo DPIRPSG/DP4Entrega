@@ -68,14 +68,8 @@ public class OrderService {
 	//req: 11.7
 	public void save(Order order){
 		Assert.notNull(order);
-
-		Collection<OrderItem> orderItems;
-
-		orderItems = order.getOrderItems();
 		
 		orderRepository.saveAndFlush(order);
-		
-		orderItemService.save(orderItems);
     }
 	
 	/**
