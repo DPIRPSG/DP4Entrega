@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Consumer;
+import domain.Folder;
 
 import repositories.ConsumerRepository;
 import security.LoginService;
@@ -23,6 +24,9 @@ public class ConsumerService {
 	
 	//Supporting services ----------------------------------------------------
 
+	@Autowired
+	private FolderService folderService;
+	
 	//Constructors -----------------------------------------------------------
 
 	public ConsumerService(){
@@ -37,8 +41,12 @@ public class ConsumerService {
 	// req: 10.1
 	public Consumer create(){
 		Consumer result;
-		
+		Collection<Folder> folders;
+
 		result = new Consumer();
+		
+		folders = folderService.initializeSystemFolder(result);
+		result.setFolders(folders);
 
 		return result;
 	}
@@ -48,8 +56,8 @@ public class ConsumerService {
 	 */
 	// req: 10.1
 	public void save(Consumer consumer){
-		Assert.isNull(consumer);
-		
+		Assert.notNull(consumer);
+
 		consumerRepository.save(consumer);
 	}
 	
