@@ -1255,7 +1255,6 @@
 		<property name="ticker" value="112348-KDL8"/>
 		<property name="placementMoment" value="2015/11/12 17:55"/>
 		<property name="address" value="calle Afrodita nº2"/>
-		<property name="deliveryMoment" value="2015/11/14 10:00"/>
 		<property name="creditCard" ref="creditCard4"/>
 		<property name="consumer" ref="consumer4"/>
 		<property name="orderItems">
@@ -1303,6 +1302,7 @@
 		<property name="tax" value="21"/>
 		<property name="nameCategory" value="electronica"/>
 		<property name="units" value="1"/>
+		<property name="unitsServed" value="1"/>
 		<property name="order" ref="order2"/>
 	</bean>
 	
@@ -1377,6 +1377,7 @@
 		<property name="tax" value="4"/>
 		<property name="nameCategory" value="alimentos"/>
 		<property name="units" value="5"/>
+		<property name="unitsServed" value="5"/>
 		<property name="order" ref="order6"/>
 	</bean>
 	
@@ -1394,6 +1395,7 @@
 		<property name="tax" value="21"/>
 		<property name="nameCategory" value="cosmética"/>
 		<property name="units" value="2"/>
+		<property name="unitsServed" value="2"/>
 		<property name="order" ref="order7"/>
 	</bean>
 	
@@ -1413,6 +1415,7 @@
 		<property name="tax" value="4"/>
 		<property name="nameCategory" value="alimentos"/>
 		<property name="units" value="1"/>
+		<property name="unitsServed" value="1"/>
 		<property name="order" ref="order8"/>
 	</bean>
 	
@@ -1432,6 +1435,7 @@
 		<property name="tax" value="4"/>
 		<property name="nameCategory" value="alimentos"/>
 		<property name="units" value="5"/>
+		<property name="unitsServed" value="5"/>
 		<property name="order" ref="order9"/>
 	</bean>
 	<bean id="orderItem10" class="domain.OrderItem">

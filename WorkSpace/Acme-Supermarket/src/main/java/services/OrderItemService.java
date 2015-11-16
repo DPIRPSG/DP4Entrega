@@ -38,6 +38,9 @@ public class OrderItemService {
 	
 	@Autowired
 	private ShoppingCartService shoppingCartService;
+	
+	@Autowired
+	private OrderService orderService;
 
 	//Constructors -----------------------------------------------------------
 
@@ -61,6 +64,18 @@ public class OrderItemService {
 	
 	public void save(OrderItem orderItem){
 		Assert.notNull(orderItem);
+		Order order;
+		boolean orderComplete = true;
+		
+		if(orderItem.getUnitsServed() == orderItem.getUnits()) {
+			order = orderItem.getOrder();
+			for(OrderItem o : order.getOrderItems()) {
+				orderComplete = orderComplete && (o.getUnitsServed() == o.getUnits());
+			}
+			if(orderComplete) {
+				orderService.completedOrder(order);
+			}
+		}
 		
 		orderItemRepository.save(orderItem);
 	}

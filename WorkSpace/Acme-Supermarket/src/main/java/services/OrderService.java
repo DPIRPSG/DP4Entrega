@@ -284,6 +284,17 @@ public class OrderService {
 		
 		return result;
 	}
+	/**
+	 * Pone el deliveryMoment a la Order
+	 * @param order
+	 */
+	public void completedOrder(Order order) {
+		Assert.notNull(order);
+		
+		order.setDeliveryMoment(new Date());
+		
+		this.save(order);
+	}
 
 
 	

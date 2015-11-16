@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Item;
+import domain.Order;
+import domain.OrderItem;
 import domain.WareHouse;
 
 import repositories.WareHouseRepository;
@@ -27,6 +29,9 @@ public class WareHouseService {
 	
 	@Autowired
 	private StorageService storageService;
+	
+	@Autowired
+	private OrderItemService orderItemService;
 	
 	//Constructors -----------------------------------------------------------
 
@@ -94,6 +99,36 @@ public class WareHouseService {
 	//req: 17.5
 	public void changeItemQuantity(WareHouse wareHouse, Item item, int quantity){
 		storageService.updateQuantityByWareHouseAndItem(wareHouse, item, quantity);
+	}
+	/**
+	 * Actualiza la cantidad de item en un WareHouse y de orderItem en una order
+	 */
+	public void addItemToOrderItem(WareHouse wareHouse, Item item, int quantity, Order order){
+		Assert.isTrue(storageService.quantityByWareHouseAndItem(wareHouse, item) >= quantity, "No se pueden añadir a una order mas items de los que hay en el WareHouse");
+		
+		OrderItem orderItem;
+		Collection<OrderItem> orderItems;
+		int unitsServed;
+		
+		orderItem = null;
+		orderItems = order.getOrderItems();
+		for(OrderItem o : orderItems) {
+			if(item.getSku().equals(o.getSku())) {
+				orderItem = o;
+				break;
+			}
+		}
+		
+		Assert.notNull(orderItem, "No existe OrderItem del Item pasado");
+		
+		unitsServed = orderItem.getUnitsServed() + quantity;
+		
+		Assert.isTrue(unitsServed <= orderItem.getUnits(), "Se intentan añadir mas unidades de las solicitadas por el OrderItem");
+		
+		storageService.updateQuantityByWareHouseAndItem(wareHouse, item, quantity);
+		orderItem.setUnitsServed(unitsServed);
+		
+		orderItemService.save(orderItem);
 	}
 	
 	/**

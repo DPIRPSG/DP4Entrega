@@ -33,6 +33,7 @@ public class OrderItem extends DomainEntity{
 	private double tax;
 	private String nameCategory;
 	private int units;
+	private int unitsServed;
 	
 	@NotBlank
 	@Pattern(regexp="^\\w{2}\\-\\w{4}$")
@@ -133,6 +134,16 @@ public class OrderItem extends DomainEntity{
 	}
 	public void setUnits(int units) {
 		this.units = units;
+	}
+	
+	//NotNull
+	@Min(0)
+	@Valid
+	public int getUnitsServed() {
+		return unitsServed;
+	}
+	public void setUnitsServed(int unitsServed) {
+		this.unitsServed = unitsServed;
 	}
 	
 	// Relationships ----------------------------------------------------------
