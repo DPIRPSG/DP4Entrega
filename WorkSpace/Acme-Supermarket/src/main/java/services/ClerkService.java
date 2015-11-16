@@ -12,6 +12,8 @@ import domain.Folder;
 import domain.Order;
 
 import repositories.ClerkRepository;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -112,6 +114,20 @@ public class ClerkService {
 		return result;
 	}
 	
-
+	/**
+	 * Devuelve el clerk que está realizando la operación
+	 */
+	//req: x
+	public Clerk findByprincipal(){
+		Clerk result;
+		UserAccount userAccount;
+		
+		userAccount = LoginService.getPrincipal();
+		Assert.notNull(userAccount);
+		result = clerkRepository.findByUserAccountId(userAccount.getId());
+		Assert.notNull(result);
+		
+		return result;
+	}
 
 }
