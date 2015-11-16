@@ -105,7 +105,7 @@ public class TaxServiceTest extends AbstractTest{
 		
 		System.out.println("Lista de taxes antes de la creación de otro");
 		for(Tax x:all){
-			System.out.println(x.getName() + ", " + x.getValue());
+			System.out.println(x.getName() + ", " + x.getValue() + ", " + x.getId());
 		}
 		
 		System.out.println("Creamos una tax nueva para que no tenga nada asociado y se pueda borrar");
@@ -119,7 +119,13 @@ public class TaxServiceTest extends AbstractTest{
 		
 		System.out.println("Lista de taxes después de la creación de otro");
 		for(Tax x:all){
-			System.out.println(x.getName() + ", " + x.getValue());
+			System.out.println(x.getName() + ", " + x.getValue() + ", " + x.getId());
+		}
+		
+		for(Tax x:all){
+			if(x.getName().equals(tax.getName())){
+				tax = x;
+			}
 		}
 		
 		taxService.delete(tax);
@@ -127,7 +133,7 @@ public class TaxServiceTest extends AbstractTest{
 		all = taxService.findAll();
 		System.out.println("Lista de taxes después de la eliminación de la última");
 		for(Tax x:all){
-			System.out.println(x.getName() + ", " + x.getValue());
+			System.out.println(x.getName() + ", " + x.getValue() + ", " + x.getId());
 		}
 		
 		authenticate(null);

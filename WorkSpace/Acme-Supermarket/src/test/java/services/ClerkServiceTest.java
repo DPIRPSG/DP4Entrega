@@ -1,6 +1,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +11,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.Actor;
 import domain.Clerk;
+import domain.Consumer;
+import domain.Message;
+import domain.Order;
 
+import security.UserAccount;
+import security.UserAccountService;
 import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,6 +32,16 @@ public class ClerkServiceTest extends AbstractTest{
 	// Service under test -------------------------
 	@Autowired
 	private ClerkService clerkService;
+	@Autowired
+	private UserAccountService userAccountService;
+	@Autowired
+	private MessageService messageService;
+	@Autowired
+	private FolderService folderService;
+	@Autowired
+	private ActorService actorService;
+	@Autowired
+	private ConsumerService consumerService;
 	
 	// Test ---------------------------------------
 	@Test
@@ -35,6 +52,12 @@ public class ClerkServiceTest extends AbstractTest{
 		
 		Clerk result;
 		Collection<Clerk> all;
+		Actor actor;
+		Consumer consumer;
+		Collection<Order> orders;
+		UserAccount userAccount;
+		Collection<Message> received;
+		Collection<Message> sent;
 		
 		authenticate("admin");
 		
@@ -45,6 +68,34 @@ public class ClerkServiceTest extends AbstractTest{
 		}
 		
 		result = clerkService.create();
+//		actor = actorService.findByPrincipal();
+		userAccount = new UserAccount();
+		userAccount.setUsername("NuevoUser");
+		userAccount.setPassword("NuevaPassword");
+		
+		result.setUserAccount(userAccount);
+		
+//		//NotNull en Clerk
+//		orders = Collections.emptyList();
+//		result.setOrders(orders);
+//		
+//		result.setSurname("Apellido nuevo");
+//		
+//		userAccount = result.getUserAccount();
+//		userAccount.setUsername("UsernameNuevo");
+//		userAccount.setPassword("PasswordNueva");
+//		result.setUserAccount(userAccount);
+//		
+//		result.setName("Nombre nuevo");
+//		
+//		received = Collections.emptyList();
+//		result.setReceived(received);
+//		
+//		sent = Collections.emptyList();
+//		result.setSent(sent);
+//		
+//		result.setEmail("manolo@gamil.com");
+		
 		clerkService.save(result);
 		
 		all = clerkService.findAll();
