@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +12,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.Actor;
 import domain.Clerk;
+import domain.Consumer;
+
 import domain.Folder;
+
 import domain.Message;
 import domain.Order;
 
@@ -33,6 +38,14 @@ public class ClerkServiceTest extends AbstractTest{
 	private ClerkService clerkService;
 	@Autowired
 	private UserAccountService userAccountService;
+	@Autowired
+	private MessageService messageService;
+	@Autowired
+	private FolderService folderService;
+	@Autowired
+	private ActorService actorService;
+	@Autowired
+	private ConsumerService consumerService;
 	
 	// Test ---------------------------------------
 	@Test
@@ -51,7 +64,7 @@ public class ClerkServiceTest extends AbstractTest{
 		received = new ArrayList<Message>();
 		sent = new ArrayList<Message>();
 		orders = new ArrayList<Order>();
-		
+	
 		authenticate("admin");
 		
 		all = clerkService.findAll();
@@ -63,7 +76,7 @@ public class ClerkServiceTest extends AbstractTest{
 		userAccount = userAccountService.createComplete("Clerk99", "91ec1f9322200048c9496d036a694f86", "CLERK");
 		
 		result = clerkService.create();
-		
+	
 		result.setName("Manuel");
 		result.setEmail("manuel@mail.com");
 		result.setPhone("666123123");
@@ -72,6 +85,7 @@ public class ClerkServiceTest extends AbstractTest{
 		result.setReceived(received);
 		result.setSent(sent);
 		result.setOrders(orders);
+
 
 
 		clerkService.save(result);
@@ -84,5 +98,41 @@ public class ClerkServiceTest extends AbstractTest{
 		
 		authenticate(null);
 		System.out.println("ClerkServiceTest - testClerk1 - FinishPoint");
+	}
+
+	@Test
+	public void testClerkServedMoreOrders1(){
+		System.out.println("ClerkServiceTest - testClerkServedMoreOrders1 - StartPoint");
+		
+		Collection<Clerk> all;
+		
+		authenticate("admin");
+		
+		all = clerkService.findClerkServedMoreOrders();
+		for(Clerk c:all){
+			System.out.println(c.getName() + " " + c.getSurname());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ClerkServiceTest - testClerkServedMoreOrders1 - FinishPoint");
+	}
+	
+	@Test
+	public void testClerkServedLessOrders1(){
+		System.out.println("ClerkServiceTest - testClerkServedLessOrders1 - StartPoint");
+		
+		Collection<Clerk> all;
+		
+		authenticate("admin");
+		
+		all = clerkService.findClerkServedLessOrders();
+		for(Clerk c:all){
+			System.out.println(c.getName() + " " + c.getSurname());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ClerkServiceTest - testClerkServedLessOrders1 - FinishPoint");
 	}
 }

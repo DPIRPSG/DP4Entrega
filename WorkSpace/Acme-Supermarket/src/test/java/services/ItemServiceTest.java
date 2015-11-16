@@ -2,7 +2,6 @@ package services;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
@@ -313,23 +312,26 @@ public class ItemServiceTest extends AbstractTest{
 		Item item;
 		Item itemCreated;
 		Collection<Item> all;
-		Comment comment;
-		Collection<Comment> comments;
 		Category category;
 		Set<Storage> storages;
 		
 		authenticate("admin");
 		
-		System.out.println("Vamos a crear el Item \"Tablet 7 pulgadas\"");
+		System.out.println("Vamos a crear el Item \"Tablet 7 pulgadas\", comprobemos que todavía no está en la BBDD:");
+		all = itemService.findAll();
+		System.out.println("----INICIO listaItems----");
+		for (Item i: all){
+			System.out.println("Nombre: " + i.getName());
+			System.out.println("Descripción: " + i.getDescription());
+			System.out.println("Id: " + i.getId() + "\n");
+		}
+		System.out.println("----FIN listaItems----");
 		item = itemService.create();
 		item.setSku("AA-1234");
 		item.setName("Tablet 7 pulgadas");
 		item.setDescription("La tablet más versátil.");
 		item.setPrice(199.99);
-		comment = commentService.createByItem(item);
-		comments = new HashSet<>();
-		comments.add(comment);
-		item.setComments(comments);
+		commentService.createByItem(item);
 		category = categoryService.findAll().iterator().next();
 		item.setCategory(category);
 		storages = Collections.emptySet();
@@ -357,28 +359,39 @@ public class ItemServiceTest extends AbstractTest{
 		
 		Item item;
 		Item itemModified;
-		Item itemNotModified;
+		//Item itemNotModified;
 		Collection<Item> all;
-		String sku;
+		int itemId;
+		//String sku;
 		
 		authenticate("admin");
 		
-		sku = "CJ-C8JW";
-		System.out.println("Pretendemos modificar el item con el sku CJ-C8JW, ¿Existe?, ¿Cuál es?:");
+		itemId = 54;
+		//sku = "CJ-C8JW";
+		//System.out.println("Pretendemos modificar el item con el sku CJ-C8JW, ¿Existe?, ¿Cuál es?:");
+		System.out.println("Pretendemos modificar el item con el id 54, ¿Existe?, ¿Cuál es?:");
 		all = itemService.findAll();
 		item = null;
 		for (Item i: all){
-			if(i.getSku()==sku){
+			if(i.getId()==itemId){
 				item = i;
 				System.out.println("Nombre: " + item.getName());
 				System.out.println("Descripción: " + item.getDescription());
-				System.out.println("Id: " + item.getSku() + "\n");
-			}else{
-				System.out.println("No hay ningún item con el sku: " + sku);
+				System.out.println("Id: " + item.getId() + "\n");
 			}
 		}
-		item.setName("TV Plasma");
-		System.out.println("Se ha modificado el item SIN darle a Save, no debe estar persistido en la BBDD, ¿Es así?:");
+//		for (Item i: all){
+//			if(i.getSku()==sku){
+//				item = i;
+//				System.out.println("Nombre: " + item.getName());
+//				System.out.println("Descripción: " + item.getDescription());
+//				System.out.println("Id: " + item.getSku() + "\n");
+//			}else{
+//				System.out.println("No hay ningún item con el sku: " + sku);
+//			}
+//		}
+		item.setName("Colonia alternativa");
+		/* System.out.println("Se ha modificado el item SIN darle a Save, no debe estar persistido en la BBDD, ¿Es así?:");
 		all = itemService.findAll();
 		itemNotModified = null;
 		for (Item i: all){
@@ -388,8 +401,8 @@ public class ItemServiceTest extends AbstractTest{
 				System.out.println("Descripción: " + itemNotModified.getDescription());
 				System.out.println("Id: " + itemNotModified.getId() + "\n");
 			}
-		}
-		//itemService.save(itemToModify);
+		} */
+		itemService.save(item);
 		System.out.println("Ya se ha pulsado en Save, el item debe estar persistido en la BBDD con las modificaciones, ¿Es así?:");
 //		itemModified = itemService.findOne(itemId);
 //		System.out.println("Nombre: " + itemModified.getName());
@@ -398,7 +411,7 @@ public class ItemServiceTest extends AbstractTest{
 		all = itemService.findAll();
 		itemModified = null;
 		for (Item i: all){
-			if(i.getSku()==sku){
+			if(i.getId()==itemId){
 				itemModified = i;
 				System.out.println("Nombre: " + itemModified.getName());
 				System.out.println("Descripción: " + itemModified.getDescription());
@@ -437,5 +450,105 @@ public class ItemServiceTest extends AbstractTest{
 		authenticate(null);
 		
 		System.out.println("ItemServiceTest - testDelete1 - FinishPoint");
+	}
+	
+	@Test
+	public void testFindItemBestSelling1(){
+		System.out.println("Requisito 12.7.3 - The best-selling item/s in the inventory.");
+		System.out.println("ConsumerServiceTest - testFindConsumerSpentMoreMoney1 - StartPoint");
+		
+		Collection<Item> all;
+		
+		authenticate("admin");
+		
+		all = itemService.findItemBestSelling();
+		
+		System.out.println("The best-selling item/s in the inventory.");
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ConsumerServiceTest - testFindConsumerSpentMoreMoney1 - FinishPoint");
+	}
+	
+	@Test
+	public void testFindItemWorstSelling1(){
+		System.out.println("Requisito 12.7.4 - The worst-selling item/s in the inventory.");
+		System.out.println("ConsumerServiceTest - testFindItemWorstSelling1 - StartPoint");
+		
+		Collection<Item> all;
+		
+		authenticate("admin");
+		
+		all = itemService.findItemWorstSelling();
+		
+		System.out.println("The worst-selling item/s in the inventory.");
+		for(Item i:all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("ConsumerServiceTest - testFindItemWorstSelling1 - FinishPoint");
+	}
+	
+	@Test
+	public void testListComment1(){
+		System.out.println("Requisito 23.1 - List the comments that are associated with an item.");
+		System.out.println("ItemServiceTest - testListComment1 - StartPoint");
+		
+		Collection<Comment> all;
+		Item item;
+		
+		item = itemService.findAll().iterator().next();
+		
+		all = item.getComments();
+		
+		System.out.println("Lista de los comentarios del item");
+		for(Comment c:all){
+			System.out.println(c.getTitle() + ": " + c.getText());
+		}
+		
+		System.out.println("ItemServiceTest - testListComment1 - FinishPoint");
+	}
+	
+	@Test
+	public void testCreateComment1(){
+		System.out.println("Requisito 23.1 - List the comments that are associated with an item.");
+		System.out.println("ItemServiceTest - testCreateComment1 - StartPoint");
+		
+		Comment comment;
+		Item item;
+		Collection<Item> all;
+		Collection<Comment> comments;
+		
+		item = itemService.findAll().iterator().next();
+		comments = item.getComments();
+		System.out.println(comments.size());
+		
+		System.out.println("Lista de los comment de un item");
+		for(Comment c:comments){
+			System.out.println(c.getTitle() + ", " + c.getText());
+		}
+		
+		comment = commentService.createByItem(item);
+		comment.setUserName("UsernameNuevo");
+		comment.setTitle("TítuloNuevo");
+		comment.setText("TextNuevo");
+		commentService.save(comment);
+		
+		all = itemService.findAll();
+		for(Item i:all){
+			if(i.getName().equals(item.getName())){
+				for(Comment c:i.getComments()){
+					System.out.println("Lista de los commment de un item actualizada");
+					System.out.println(c.getTitle() + ", " + c.getText());
+				}
+			}
+		}
+		
+		System.out.println("ItemServiceTest - testCreateComment1 - FinishPoint");
 	}
 }

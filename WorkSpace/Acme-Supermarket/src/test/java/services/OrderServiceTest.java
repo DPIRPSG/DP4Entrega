@@ -28,6 +28,24 @@ public class OrderServiceTest extends AbstractTest{
 	
 	// Test ---------------------------------------
 	@Test
+	public void testList1(){
+		System.out.println("Requisito 12.6 - List the consumers that are registered in the system.");
+		System.out.println("ConsumerServiceTest - testList1 - StartPoint");
+		
+		Collection<Order> all;
+		
+		all = orderService.findAll();
+		
+		System.out.println("Lista de order placed en el sistema");
+		
+		for(Order o:all){
+			System.out.println(o.getTicker() + ", " + o.getPlacementMoment());
+		}
+		
+		System.out.println("ConsumerServiceTest - testList1 - FinishPoint");
+	}
+	
+	@Test
 	public void testCancelOrder1(){
 		System.out.println("Requisito 16.1 - Cancel an order, as long a no clerk has self-assigned it.");
 		System.out.println("OrderServiceTest - testCancelOrder1 - StartPoint");
@@ -59,5 +77,21 @@ public class OrderServiceTest extends AbstractTest{
 		authenticate(null);
 		
 		System.out.println("OrderServiceTest - testCancelOrder1 - FinishPoint");
+	}
+	
+	@Test
+	public void testOrderRatio1(){
+		System.out.println("OrderServiceTest - testOrderRatio1 - StartPoint");
+		
+		double ratio;
+		
+		authenticate("admin");
+		
+		ratio = orderService.rateOrderCancelled();
+		System.out.println("Ratio: " + ratio);
+		
+		authenticate(null);
+		
+		System.out.println("OrderServiceTest - testOrderRatio1 - FinishPoint");
 	}
 }

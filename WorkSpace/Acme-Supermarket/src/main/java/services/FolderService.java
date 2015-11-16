@@ -115,6 +115,8 @@ public class FolderService {
 			result.add(temp);
 		}
 		
+		actor.setFolders(result);
+		
 		return result;
 	}
 }
