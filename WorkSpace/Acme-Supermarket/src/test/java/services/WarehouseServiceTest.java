@@ -13,6 +13,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import utilities.AbstractTest;
+import domain.Clerk;
 import domain.Item;
 import domain.Order;
 import domain.OrderItem;
@@ -36,13 +37,15 @@ public class WarehouseServiceTest extends AbstractTest{
 	private StorageService storageService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private ClerkService clerkService;
 	
 	
 	// Test ---------------------------------------
 	@Test
-	public void testFindAll1(){
+	public void testFindAllAdmin1(){
 		System.out.println("Requisito 17.2 - List the warehouses and navigate to the items that they store.");
-		System.out.println("WarehouseServiceTest - testFindAll1 - StartPoint");
+		System.out.println("WarehouseServiceTest - testFindAllAdmin1 - StartPoint");
 		
 		Collection<WareHouse> all;
 		
@@ -64,7 +67,109 @@ public class WarehouseServiceTest extends AbstractTest{
 		}
 		
 		authenticate(null);
-		System.out.println("WarehouseServiceTest - testFindAll1 - FinishPoint");
+		System.out.println("WarehouseServiceTest - testFindAllAdmin1 - FinishPoint");
+	}
+	
+	@Test
+	public void testListWarehouse1(){
+		System.out.println("WarehouseServiceTest - testListWarehouse1 - StartPoint");
+		
+		Collection<WareHouse> all;
+		
+		authenticate("clerk1");
+		
+		all = warehouseService.findAll();
+		for(WareHouse w: all){
+			System.out.println(w.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("WarehouseServiceTest - testListWarehouse1 - FinishPoint");
+	}
+	
+	@Test
+	public void testNavigateWarehouseItems1(){
+		System.out.println("WarehouseServiceTest - testNavigateWarehouseItems1 - StartPoint");
+		
+		Collection<Item> all;
+		WareHouse warehouse;
+		
+		authenticate("clerk1");
+		
+		warehouse = warehouseService.findAll().iterator().next();
+		all = itemService.findAllByWareHouse(warehouse);
+		for(Item i: all){
+			System.out.println(i.getName());
+		}
+		
+		authenticate(null);
+		
+		System.out.println("WarehouseServiceTest - testNavigateWarehouseItems1 - FinishPoint");
+	}
+	
+	@Test
+	public void testWarehouseAtLeastOneOfItem1(){
+		System.out.println("WarehouseServiceTest - testWarehouseAtLeastOneOfItem1 - StartPoint");
+		
+		Collection<WareHouse> all;
+		Collection<Item> allItems;
+		Item item;
+		int itemId;
+		
+		authenticate("clerk1");
+		
+		System.out.println("Veamos el/los WareHouse que tienen el item con id 54:");
+		itemId = 54;
+		item = itemService.findOne(itemId);
+		all = warehouseService.findAllByItem(item);
+		for(WareHouse w: all){
+			System.out.println(w.getName());
+		}
+		System.out.println("Comprobemos los items que contienen dichos Warehouse para ver que es correcto:");
+		
+		for(WareHouse w: all){
+			System.out.println("Items del Warehouse " + w.getName() + ":");
+			allItems = itemService.findAllByWareHouse(w);
+			for(Item i: allItems){
+				System.out.println("Nombre: " + i.getName() + " | ID: " + i.getId());
+			}
+		}
+		
+		authenticate(null);
+		
+		System.out.println("WarehouseServiceTest - testWarehouseAtLeastOneOfItem1 - FinishPoint");
+	}
+	
+	@Test
+	public void testSelfAssignAndServe1(){
+		System.out.println("WarehouseServiceTest - testSelfAssignAndServe1 - StartPoint");
+		
+		Collection<Order> orders;
+		Order order;
+		Clerk clerk;
+		
+		authenticate("clerk1");
+		
+		orders = orderService.findAll();
+		clerk = clerkService.findAll().iterator().next();
+		
+		order = null;
+		for(Order o: orders){
+			if(o.getTicker().equals("112348-KDL8")){
+				order = o;
+			}
+		}
+		System.out.println("El order no debe tener ningún clerk asignado:");
+		System.out.println(order.getId());
+		System.out.println(order.getClerk());
+		orderService.assignToClerkManual(clerk, order);
+		System.out.println("El order no debe tener el clerk asignado:");
+		System.out.println(order.getId());
+		System.out.println(order.getClerk());
+		
+		authenticate(null);
+		System.out.println("WarehouseServiceTest - testSelfAssignAndServe1 - FinishPoint");
 	}
 	
 	@Test
