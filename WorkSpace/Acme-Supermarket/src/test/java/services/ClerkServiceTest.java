@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Test;
@@ -11,7 +12,12 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import domain.Clerk;
+import domain.Folder;
+import domain.Message;
+import domain.Order;
 
+import security.UserAccount;
+import security.UserAccountService;
 import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,6 +31,8 @@ public class ClerkServiceTest extends AbstractTest{
 	// Service under test -------------------------
 	@Autowired
 	private ClerkService clerkService;
+	@Autowired
+	private UserAccountService userAccountService;
 	
 	// Test ---------------------------------------
 	@Test
@@ -35,6 +43,14 @@ public class ClerkServiceTest extends AbstractTest{
 		
 		Clerk result;
 		Collection<Clerk> all;
+		UserAccount userAccount;
+		Collection<Message> received;
+		Collection<Message> sent;
+		Collection<Order> orders;
+		
+		received = new ArrayList<Message>();
+		sent = new ArrayList<Message>();
+		orders = new ArrayList<Order>();
 		
 		authenticate("admin");
 		
@@ -44,7 +60,20 @@ public class ClerkServiceTest extends AbstractTest{
 			System.out.println(c.getName());
 		}
 		
+		userAccount = userAccountService.createComplete("Clerk99", "91ec1f9322200048c9496d036a694f86", "CLERK");
+		
 		result = clerkService.create();
+		
+		result.setName("Manuel");
+		result.setEmail("manuel@mail.com");
+		result.setPhone("666123123");
+		result.setSurname("García");
+		result.setUserAccount(userAccount);
+		result.setReceived(received);
+		result.setSent(sent);
+		result.setOrders(orders);
+
+
 		clerkService.save(result);
 		
 		all = clerkService.findAll();
